@@ -8,8 +8,6 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.Color;
-
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.Command;
 import me.nerdoron.himyb.modules.Database;

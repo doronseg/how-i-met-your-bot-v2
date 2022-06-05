@@ -80,8 +80,19 @@ public class Main {
                         .addOption(OptionType.STRING, "type", "Select the type of suggestion", true, true)
                         .addOption(OptionType.STRING, "suggestion", "Describe your suggestion", true),
                 Commands.slash("afk", "Go AFK")
-                        .addOption(OptionType.STRING, "reason", "Why are you away?", true))
-                .queue();
+                        .addOption(OptionType.STRING, "reason", "Why are you away?", true),
+                Commands.slash("say", "Make the bot say something")
+                        .addOption(OptionType.CHANNEL, "channel", "Which channel would you like to say it in?", true)
+                        .addOption(OptionType.STRING, "message", "What would you like to say?", true)
+                        .setDefaultPermissions(Permission.MESSAGE_MANAGE),
+                Commands.slash("reply", "Make the bot reply to a message")
+                        .addOption(OptionType.STRING, "replyto",
+                                "What message would you like to reply to? (ID ONLY, MAKE SURE YOU ARE IN THE SAME CHANNEL)",
+                                true)
+                        .addOption(OptionType.STRING, "message", "What would you like to say?", true)
+                        .setDefaultPermissions(Permission.MESSAGE_MANAGE)
+
+        ).queue();
 
         // event registration
         jda.addEventListener(new FriendsCringe());
