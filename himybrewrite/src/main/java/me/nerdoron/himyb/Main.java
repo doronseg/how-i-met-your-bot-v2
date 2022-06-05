@@ -11,9 +11,11 @@ import me.nerdoron.himyb.commands.BotCommandsHandler;
 import me.nerdoron.himyb.commands.usefulcommands.SuggestCommandAutoComplete;
 import me.nerdoron.himyb.modules.FriendsCringe;
 import me.nerdoron.himyb.modules.LeaveJoin;
+import me.nerdoron.himyb.modules.NotifyOfChange;
 import me.nerdoron.himyb.modules.StatusTimer;
 import me.nerdoron.himyb.modules.Sweden;
 import me.nerdoron.himyb.modules.YoutubeNotifications;
+import me.nerdoron.himyb.modules.afk.AFKMessageEvent;
 import me.nerdoron.himyb.modules.chainchannel.ChainChannelHandler;
 import me.nerdoron.himyb.modules.chainchannel.ChainEditing;
 import me.nerdoron.himyb.modules.counting.CountingChannelHandler;
@@ -76,7 +78,9 @@ public class Main {
                         .setDefaultPermissions(Permission.MESSAGE_MANAGE),
                 Commands.slash("suggest", "Send a suggestion")
                         .addOption(OptionType.STRING, "type", "Select the type of suggestion", true, true)
-                        .addOption(OptionType.STRING, "suggestion", "Describe your suggestion", true))
+                        .addOption(OptionType.STRING, "suggestion", "Describe your suggestion", true),
+                Commands.slash("afk", "Go AFK")
+                        .addOption(OptionType.STRING, "reason", "Why are you away?", true))
                 .queue();
 
         // event registration
@@ -89,6 +93,8 @@ public class Main {
         jda.addEventListener(new ChainChannelHandler());
         jda.addEventListener(new ChainEditing());
         jda.addEventListener(new SuggestCommandAutoComplete());
+        jda.addEventListener(new NotifyOfChange());
+        jda.addEventListener(new AFKMessageEvent());
 
     }
 }
