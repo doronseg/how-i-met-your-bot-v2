@@ -3,12 +3,12 @@ package me.nerdoron.himyb.commands.usefulcommands;
 import java.lang.management.ManagementFactory;
 
 import me.nerdoron.himyb.Global;
-import me.nerdoron.himyb.commands.Command;
+import me.nerdoron.himyb.commands.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-public class UptimeCommand extends Command {
+public class UptimeCommand extends SlashCommand {
     public static String getUptime() {
         long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
         long uptimeSec = uptime / 1000;

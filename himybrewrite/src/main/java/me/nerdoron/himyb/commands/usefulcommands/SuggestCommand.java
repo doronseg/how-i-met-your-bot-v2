@@ -1,14 +1,14 @@
 package me.nerdoron.himyb.commands.usefulcommands;
 
 import me.nerdoron.himyb.Global;
-import me.nerdoron.himyb.commands.Command;
+import me.nerdoron.himyb.commands.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-public class SuggestCommand extends Command {
+public class SuggestCommand extends SlashCommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {

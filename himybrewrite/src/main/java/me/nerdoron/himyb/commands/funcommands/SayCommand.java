@@ -1,13 +1,13 @@
 package me.nerdoron.himyb.commands.funcommands;
 
-import me.nerdoron.himyb.commands.Command;
+import me.nerdoron.himyb.commands.SlashCommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Channel;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-public class SayCommand extends Command {
+public class SayCommand extends SlashCommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {

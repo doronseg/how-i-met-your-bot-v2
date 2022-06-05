@@ -9,15 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import me.nerdoron.himyb.Global;
-import me.nerdoron.himyb.commands.Command;
+import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules.Database;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-public class AFKCommand extends Command {
+public class AFKCommand extends SlashCommand {
 
-    final Logger logger = LoggerFactory.getLogger(Command.class);
+    final Logger logger = LoggerFactory.getLogger(SlashCommand.class);
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {

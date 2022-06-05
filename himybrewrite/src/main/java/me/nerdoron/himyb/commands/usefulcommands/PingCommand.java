@@ -1,12 +1,12 @@
 package me.nerdoron.himyb.commands.usefulcommands;
 
 import me.nerdoron.himyb.Global;
-import me.nerdoron.himyb.commands.Command;
+import me.nerdoron.himyb.commands.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-public class PingCommand extends Command {
+public class PingCommand extends SlashCommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {

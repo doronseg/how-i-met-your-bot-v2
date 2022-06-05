@@ -1,11 +1,11 @@
 package me.nerdoron.himyb.commands.funcommands;
 
-import me.nerdoron.himyb.commands.Command;
+import me.nerdoron.himyb.commands.SlashCommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-public class ReplyCommand extends Command {
+public class ReplyCommand extends SlashCommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {

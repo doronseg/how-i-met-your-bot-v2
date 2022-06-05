@@ -1,10 +1,10 @@
 package me.nerdoron.himyb.commands.usefulcommands;
 
-import me.nerdoron.himyb.commands.Command;
+import me.nerdoron.himyb.commands.SlashCommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-public class ReviveCommand extends Command {
+public class ReviveCommand extends SlashCommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {

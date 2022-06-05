@@ -11,10 +11,10 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-public abstract class Command {
+public abstract class SlashCommand {
 
     public void executeGlobal(SlashCommandInteractionEvent event) {
-        final Logger logger = LoggerFactory.getLogger(Command.class);
+        final Logger logger = LoggerFactory.getLogger(SlashCommand.class);
         try {
             execute(event);
         } catch (Exception ex) {
