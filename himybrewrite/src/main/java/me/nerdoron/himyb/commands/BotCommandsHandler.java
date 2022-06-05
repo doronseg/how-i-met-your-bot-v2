@@ -1,10 +1,10 @@
 package me.nerdoron.himyb.commands;
 
+import me.nerdoron.himyb.commands.funcommands.ReplyCommand;
+import me.nerdoron.himyb.commands.funcommands.SayCommand;
 import me.nerdoron.himyb.commands.usefulcommands.AFKCommand;
 import me.nerdoron.himyb.commands.usefulcommands.PingCommand;
-import me.nerdoron.himyb.commands.usefulcommands.ReplyCommand;
 import me.nerdoron.himyb.commands.usefulcommands.ReviveCommand;
-import me.nerdoron.himyb.commands.usefulcommands.SayCommand;
 import me.nerdoron.himyb.commands.usefulcommands.SuggestCommand;
 import me.nerdoron.himyb.commands.usefulcommands.UptimeCommand;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;

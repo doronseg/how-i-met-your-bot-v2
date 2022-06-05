@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.usefulcommands;
+package me.nerdoron.himyb.commands.funcommands;
 
 import me.nerdoron.himyb.commands.Command;
 import net.dv8tion.jda.api.Permission;
@@ -22,6 +22,8 @@ public class SayCommand extends Command {
         TextChannel textChannel = event.getGuild().getTextChannelById(channel.getId());
         textChannel.sendMessage(message).queue();
         event.deferReply().setEphemeral(true).setContent("Sent your message.").queue();
+        event.getGuild().getTextChannelById("850447694673739816").sendMessage(event.getUser().getName() + "#"
+                + event.getUser().getDiscriminator() + " used say command in " + textChannel.getAsMention()).queue();
 
     }
 
