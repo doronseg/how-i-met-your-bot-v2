@@ -1,5 +1,6 @@
 package me.nerdoron.himyb.commands;
 
+import me.nerdoron.himyb.commands.usefulcommands.AFKCommand;
 import me.nerdoron.himyb.commands.usefulcommands.PingCommand;
 import me.nerdoron.himyb.commands.usefulcommands.ReviveCommand;
 import me.nerdoron.himyb.commands.usefulcommands.SuggestCommand;
@@ -12,6 +13,7 @@ public class BotCommandsHandler extends ListenerAdapter {
     UptimeCommand uptimeCommand = new UptimeCommand();
     ReviveCommand reviveCommand = new ReviveCommand();
     SuggestCommand suggestCommand = new SuggestCommand();
+    AFKCommand afkCommand = new AFKCommand();
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
@@ -28,7 +30,9 @@ public class BotCommandsHandler extends ListenerAdapter {
             case "suggest":
                 suggestCommand.execute(event);
                 break;
-
+            case "afk":
+                afkCommand.execute(event);
+                break;
         }
     }
 

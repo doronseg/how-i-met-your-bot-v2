@@ -73,7 +73,7 @@ public class Main {
         jda.addEventListener(new BotCommandsHandler());
         jda.updateCommands().addCommands(
                 Commands.slash("ping", "Calculate te ping of the bot."),
-                Commands.slash("uptime", "Show the bot's uptime1."),
+                Commands.slash("uptime", "Show the bot's uptime."),
                 Commands.slash("revive", "Send the chat revive message")
                         .setDefaultPermissions(Permission.MESSAGE_MANAGE),
                 Commands.slash("suggest", "Send a suggestion")

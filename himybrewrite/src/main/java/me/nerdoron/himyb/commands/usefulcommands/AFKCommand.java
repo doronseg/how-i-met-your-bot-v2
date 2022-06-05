@@ -1,0 +1,55 @@
+package me.nerdoron.himyb.commands.usefulcommands;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.awt.Color;
+
+import me.nerdoron.himyb.Global;
+import me.nerdoron.himyb.commands.Command;
+import me.nerdoron.himyb.modules.Database;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+
+public class AFKCommand extends Command {
+
+    final Logger logger = LoggerFactory.getLogger(Command.class);
+
+    @Override
+    public void execute(SlashCommandInteractionEvent event) {
+        String reason = " ";
+        reason = event.getOption("reason").getAsString();
+        String uid = event.getMember().getId();
+
+        try {
+            addAfk(uid, reason);
+            MessageEmbed afk = new EmbedBuilder().setTitle(":wave: Goodbye, " + event.getUser().getAsTag())
+                    .setDescription("I've sucessfully set your AFK status!").addField("Reason", reason, false)
+                    .setColor(Global.embedColor).setFooter(Global.footertext, Global.footerpfp)
+                    .build();
+            event.replyEmbeds(afk).queue();
+
+        } catch (SQLException ex) {
+            event.deferReply().setEphemeral(true).setContent(
+                    "There has been an error while executing this command.")
+                    .queue();
+            logger.error(ExceptionUtils.getStackTrace(ex));
+        }
+    }
+
+    public void addAfk(String uid, String reason) throws SQLException {
+        Connection con = Database.connect();
+        String statement = "insert into afk (UID, REASON) values(?,?)";
+        PreparedStatement ps = con.prepareStatement(statement);
+        ps.setString(1, uid);
+        ps.setString(2, reason);
+        ps.execute();
+    }
+
+}

@@ -19,7 +19,7 @@ public abstract class Command {
             execute(event);
         } catch (Exception ex) {
             event.deferReply().setEphemeral(true).setContent(
-                    "There has been an error while executing this command. I have already informed the develooper of it.")
+                    "There has been an error while executing this command. I have already informed the developer of it.")
                     .queue();
             TextChannel errors = event.getJDA().getGuildById("850396197646106624")
                     .getTextChannelById("850396197646106624");
