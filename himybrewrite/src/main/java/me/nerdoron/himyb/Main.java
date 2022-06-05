@@ -11,6 +11,15 @@ import com.jagrosh.jdautilities.examples.command.PingCommand;
 import io.github.cdimascio.dotenv.DotEnvException;
 import io.github.cdimascio.dotenv.Dotenv;
 import me.nerdoron.himyb.commands.BotCommandsHandler;
+import me.nerdoron.himyb.modules.FriendsCringe;
+import me.nerdoron.himyb.modules.LeaveJoin;
+import me.nerdoron.himyb.modules.StatusTimer;
+import me.nerdoron.himyb.modules.Sweden;
+import me.nerdoron.himyb.modules.YoutubeNotifications;
+import me.nerdoron.himyb.modules.chainchannel.ChainChannelHandler;
+import me.nerdoron.himyb.modules.chainchannel.ChainEditing;
+import me.nerdoron.himyb.modules.counting.CountingChannelHandler;
+import me.nerdoron.himyb.modules.counting.CountingEditing;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
@@ -55,6 +64,7 @@ public class Main {
                 .build();
         logger.info("Logged in!");
         api.getPresence().setActivity(Activity.playing("Loading..."));
+        StatusTimer.changeActivity(api);
         registration(api);
     }
 
@@ -67,6 +77,16 @@ public class Main {
                 Commands.slash("revive", "Send the chat revive message")
                         .setDefaultPermissions(Permission.MESSAGE_MANAGE))
                 .queue();
+
+        // event registration
+        jda.addEventListener(new FriendsCringe());
+        jda.addEventListener(new LeaveJoin());
+        jda.addEventListener(new Sweden());
+        jda.addEventListener(new YoutubeNotifications());
+        jda.addEventListener(new CountingChannelHandler());
+        jda.addEventListener(new CountingEditing());
+        jda.addEventListener(new ChainChannelHandler());
+        jda.addEventListener(new ChainEditing());
 
     }
 }
