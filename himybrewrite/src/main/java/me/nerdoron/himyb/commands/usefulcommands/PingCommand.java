@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.usefulhandlers;
+package me.nerdoron.himyb.commands.usefulcommands;
 
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.Command;

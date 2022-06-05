@@ -1,8 +1,9 @@
 package me.nerdoron.himyb.commands;
 
-import me.nerdoron.himyb.commands.usefulhandlers.PingCommand;
-import me.nerdoron.himyb.commands.usefulhandlers.ReviveCommand;
-import me.nerdoron.himyb.commands.usefulhandlers.UptimeCommand;
+import me.nerdoron.himyb.commands.usefulcommands.PingCommand;
+import me.nerdoron.himyb.commands.usefulcommands.ReviveCommand;
+import me.nerdoron.himyb.commands.usefulcommands.SuggestCommand;
+import me.nerdoron.himyb.commands.usefulcommands.UptimeCommand;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -10,6 +11,7 @@ public class BotCommandsHandler extends ListenerAdapter {
     PingCommand pingCommand = new PingCommand();
     UptimeCommand uptimeCommand = new UptimeCommand();
     ReviveCommand reviveCommand = new ReviveCommand();
+    SuggestCommand suggestCommand = new SuggestCommand();
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
@@ -23,9 +25,11 @@ public class BotCommandsHandler extends ListenerAdapter {
             case "revive":
                 reviveCommand.execute(event);
                 break;
+            case "suggest":
+                suggestCommand.execute(event);
+                break;
 
         }
-
     }
 
 }

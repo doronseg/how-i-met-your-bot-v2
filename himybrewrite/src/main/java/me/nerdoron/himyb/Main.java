@@ -1,16 +1,14 @@
 package me.nerdoron.himyb;
 
-import javax.management.Query;
 import javax.security.auth.login.LoginException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jagrosh.jdautilities.examples.command.PingCommand;
-
 import io.github.cdimascio.dotenv.DotEnvException;
 import io.github.cdimascio.dotenv.Dotenv;
 import me.nerdoron.himyb.commands.BotCommandsHandler;
+import me.nerdoron.himyb.commands.usefulcommands.SuggestCommandAutoComplete;
 import me.nerdoron.himyb.modules.FriendsCringe;
 import me.nerdoron.himyb.modules.LeaveJoin;
 import me.nerdoron.himyb.modules.StatusTimer;
@@ -73,9 +71,12 @@ public class Main {
         jda.addEventListener(new BotCommandsHandler());
         jda.updateCommands().addCommands(
                 Commands.slash("ping", "Calculate te ping of the bot."),
-                Commands.slash("uptime", "Show the bot's uptime."),
+                Commands.slash("uptime", "Show the bot's uptime1."),
                 Commands.slash("revive", "Send the chat revive message")
-                        .setDefaultPermissions(Permission.MESSAGE_MANAGE))
+                        .setDefaultPermissions(Permission.MESSAGE_MANAGE),
+                Commands.slash("suggest", "Send a suggestion")
+                        .addOption(OptionType.STRING, "type", "Select the type of suggestion", true, true)
+                        .addOption(OptionType.STRING, "suggestion", "Describe your suggestion", true))
                 .queue();
 
         // event registration
@@ -87,6 +88,7 @@ public class Main {
         jda.addEventListener(new CountingEditing());
         jda.addEventListener(new ChainChannelHandler());
         jda.addEventListener(new ChainEditing());
+        jda.addEventListener(new SuggestCommandAutoComplete());
 
     }
 }

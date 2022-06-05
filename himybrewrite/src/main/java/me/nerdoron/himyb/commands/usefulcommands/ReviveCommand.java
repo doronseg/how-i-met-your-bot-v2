@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.usefulhandlers;
+package me.nerdoron.himyb.commands.usefulcommands;
 
 import me.nerdoron.himyb.commands.Command;
 import net.dv8tion.jda.api.Permission;
@@ -8,8 +8,11 @@ public class ReviveCommand extends Command {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        if (!(event.getChannel().getType().isGuild()))
+        if (!(event.isFromGuild())) {
+            event.deferReply().setEphemeral(true).setContent("This command can only be executed in the server.")
+                    .queue();
             return;
+        }
         if (!(event.getMember().hasPermission(Permission.MESSAGE_MANAGE)))
             return;
         event.deferReply().setEphemeral(true).setContent("Revived chat!").queue();

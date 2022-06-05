@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.usefulhandlers;
+package me.nerdoron.himyb.commands.usefulcommands;
 
 import java.lang.management.ManagementFactory;
 
