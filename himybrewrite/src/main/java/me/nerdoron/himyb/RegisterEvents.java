@@ -12,6 +12,7 @@ import me.nerdoron.himyb.modules.chainchannel.ChainChannelHandler;
 import me.nerdoron.himyb.modules.chainchannel.ChainEditing;
 import me.nerdoron.himyb.modules.counting.CountingChannelHandler;
 import me.nerdoron.himyb.modules.counting.CountingEditing;
+import me.nerdoron.himyb.modules.help.HelpButtonHandler;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -46,7 +47,8 @@ public class RegisterEvents {
                                                                 true)
                                                 .addOption(OptionType.STRING, "message", "What would you like to say?",
                                                                 true)
-                                                .setDefaultPermissions(Permission.MESSAGE_MANAGE)
+                                                .setDefaultPermissions(Permission.MESSAGE_MANAGE),
+                                Commands.slash("help", "Displays the help menu.")
 
                 ).queue();
 
@@ -62,6 +64,7 @@ public class RegisterEvents {
                 jda.addEventListener(new SuggestCommandAutoComplete());
                 jda.addEventListener(new NotifyOfChange());
                 jda.addEventListener(new AFKMessageEvent());
+                jda.addEventListener(new HelpButtonHandler());
 
         }
 

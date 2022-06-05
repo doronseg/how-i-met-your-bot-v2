@@ -3,6 +3,7 @@ package me.nerdoron.himyb.commands;
 import me.nerdoron.himyb.commands.funcommands.ReplyCommand;
 import me.nerdoron.himyb.commands.funcommands.SayCommand;
 import me.nerdoron.himyb.commands.usefulcommands.AFKCommand;
+import me.nerdoron.himyb.commands.usefulcommands.HelpCommand;
 import me.nerdoron.himyb.commands.usefulcommands.PingCommand;
 import me.nerdoron.himyb.commands.usefulcommands.ReviveCommand;
 import me.nerdoron.himyb.commands.usefulcommands.SuggestCommand;
@@ -18,6 +19,7 @@ public class BotCommandsHandler extends ListenerAdapter {
     AFKCommand afkCommand = new AFKCommand();
     SayCommand sayCommand = new SayCommand();
     ReplyCommand replyCommand = new ReplyCommand();
+    HelpCommand helpCommand = new HelpCommand();
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
@@ -42,6 +44,9 @@ public class BotCommandsHandler extends ListenerAdapter {
                 break;
             case "reply":
                 replyCommand.execute(event);
+                break;
+            case "help":
+                helpCommand.execute(event);
                 break;
         }
     }
