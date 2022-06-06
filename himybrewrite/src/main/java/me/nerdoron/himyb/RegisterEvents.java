@@ -1,13 +1,16 @@
 package me.nerdoron.himyb;
 
 import me.nerdoron.himyb.commands.BotCommandsHandler;
-import me.nerdoron.himyb.commands.usefulcommands.SuggestCommandAutoComplete;
 import me.nerdoron.himyb.modules.FriendsCringe;
 import me.nerdoron.himyb.modules.LeaveJoin;
 import me.nerdoron.himyb.modules.NotifyOfChange;
+import me.nerdoron.himyb.modules.SuggestCommandAutoComplete;
 import me.nerdoron.himyb.modules.Sweden;
 import me.nerdoron.himyb.modules.YoutubeNotifications;
 import me.nerdoron.himyb.modules.afk.AFKMessageEvent;
+import me.nerdoron.himyb.modules.applications.ApplyAutoComplete;
+import me.nerdoron.himyb.modules.applications.EventManagerApplicationHandler;
+import me.nerdoron.himyb.modules.birthday.BirthdayAutoComplete;
 import me.nerdoron.himyb.modules.chainchannel.ChainChannelHandler;
 import me.nerdoron.himyb.modules.chainchannel.ChainEditing;
 import me.nerdoron.himyb.modules.counting.CountingChannelHandler;
@@ -48,7 +51,16 @@ public class RegisterEvents {
                                                 .addOption(OptionType.STRING, "message", "What would you like to say?",
                                                                 true)
                                                 .setDefaultPermissions(Permission.MESSAGE_MANAGE),
-                                Commands.slash("help", "Displays the help menu.")
+                                Commands.slash("help", "Displays the help menu."),
+                                Commands.slash("apply", "Apply for an open staff position.")
+                                                .addOption(OptionType.STRING, "position",
+                                                                "What position would you like to apply to?", true,
+                                                                true),
+                                Commands.slash("birthday", "Sets your birthday.")
+                                                .addOption(OptionType.STRING, "month",
+                                                                "Select the month in which you were born.", true, true)
+                                                .addOption(OptionType.STRING, "day",
+                                                                "Select the day in which you were born.", true, true)
 
                 ).queue();
 
@@ -65,6 +77,9 @@ public class RegisterEvents {
                 jda.addEventListener(new NotifyOfChange());
                 jda.addEventListener(new AFKMessageEvent());
                 jda.addEventListener(new HelpButtonHandler());
+                jda.addEventListener(new ApplyAutoComplete());
+                jda.addEventListener(new EventManagerApplicationHandler());
+                jda.addEventListener(new BirthdayAutoComplete());
 
         }
 

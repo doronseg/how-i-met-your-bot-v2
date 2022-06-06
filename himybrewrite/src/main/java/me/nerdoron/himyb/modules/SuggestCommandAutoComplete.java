@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.usefulcommands;
+package me.nerdoron.himyb.modules;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -11,6 +11,10 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
+/*
+ * TODO: Timezone command, Ticket handler, Birthday features
+ */
+
 public class Main {
 
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
