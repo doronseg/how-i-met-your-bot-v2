@@ -18,9 +18,11 @@ import me.nerdoron.himyb.modules.counting.CountingEditing;
 import me.nerdoron.himyb.modules.help.HelpButtonHandler;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 import java.util.ArrayList;
@@ -43,12 +45,18 @@ public class RegisterEvents {
                                 true));
                 slashCommands.add(Commands.slash("afk", "Go AFK")
                         .addOption(OptionType.STRING, "reason", "Why are you away?", true));
-                slashCommands.add(Commands.slash("say", "Make the bot say something")
+
+                SlashCommandData say_command = Commands.slash("say", "Make the bot say something");
+                OptionData channel = new OptionData(OptionType.CHANNEL, "channel", "Which channel would you like to say it in?",true);
+                channel.setChannelTypes(ChannelType.TEXT); // Limit this option to TextChannels
+                say_command
                         .addOption(OptionType.CHANNEL, "channel",
-                                "Which channel would you like to say it in?", true)
+                                "", true)
                         .addOption(OptionType.STRING, "message", "What would you like to say?",
                                 true)
-                        .setDefaultPermissions(Permission.MESSAGE_MANAGE));
+                        .setDefaultPermissions(Permission.MESSAGE_MANAGE);
+                slashCommands.add(say_command);
+
                 slashCommands.add(Commands.slash("reply", "Make the bot reply to a message")
                         .addOption(OptionType.STRING, "replyto",
                                 "What message would you like to reply to? (ID ONLY, MAKE SURE YOU ARE IN THE SAME CHANNEL)",
