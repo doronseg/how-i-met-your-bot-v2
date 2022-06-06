@@ -60,7 +60,7 @@ public class RegisterEvents {
                                                 .addOption(OptionType.STRING, "month",
                                                                 "Select the month in which you were born.", true, true)
                                                 .addOption(OptionType.STRING, "day",
-                                                                "Select the day in which you were born.", true, true)
+                                                                "Select the day in which you were born.", true, false) // Discord limits autocompletes to 25 options
 
                 ).queue();
 
