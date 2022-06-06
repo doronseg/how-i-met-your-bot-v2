@@ -13,6 +13,8 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 
 /*
  * TODO: Timezone command, Ticket handler, Birthday features
+ * Ticket system revamp - use selection instead of buttons
+ * Ticket system revamp - get rid of self promo, and turn it into a modal.
  */
 
 public class Main {

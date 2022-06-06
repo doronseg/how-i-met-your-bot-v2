@@ -1,5 +1,6 @@
 package me.nerdoron.himyb.modules.birthday;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,6 +24,15 @@ public class BirthdayAutoComplete extends ListenerAdapter {
                     .collect(Collectors.toList());
             event.replyChoices(options).queue();
         }
+
+        // days
+        if (event.getName().equals("birthday") && event.getFocusedOption().getName().equals("day")) {
+            List<String> days = new ArrayList<String>();
+            for (int i = 0; i > 32; i++)
+                days.add(i + "");
+
+        }
+
         // days
         // if (event.getName().equals("birthday") &&
         // event.getFocusedOption().getName().equals("day")) {
