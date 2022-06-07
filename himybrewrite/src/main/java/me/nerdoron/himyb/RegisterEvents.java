@@ -11,6 +11,7 @@ import me.nerdoron.himyb.modules.afk.AFKMessageEvent;
 import me.nerdoron.himyb.modules.applications.ApplyAutoComplete;
 import me.nerdoron.himyb.modules.applications.EventManagerApplicationHandler;
 import me.nerdoron.himyb.modules.birthday.BirthdayAutoComplete;
+import me.nerdoron.himyb.modules.birthday.BirthdayFunction;
 import me.nerdoron.himyb.modules.chainchannel.ChainChannelHandler;
 import me.nerdoron.himyb.modules.chainchannel.ChainEditing;
 import me.nerdoron.himyb.modules.counting.CountingChannelHandler;
@@ -93,6 +94,7 @@ public class RegisterEvents {
                 jda.addEventListener(new ApplyAutoComplete());
                 jda.addEventListener(new EventManagerApplicationHandler());
                 jda.addEventListener(new BirthdayAutoComplete());
+                jda.addEventListener(new BirthdayFunction());
 
         }
 
