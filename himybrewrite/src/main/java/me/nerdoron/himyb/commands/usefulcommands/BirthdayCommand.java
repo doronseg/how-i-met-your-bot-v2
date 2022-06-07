@@ -38,8 +38,8 @@ public class BirthdayCommand extends SlashCommand {
         try {
             PreparedStatement ps = con.prepareStatement(statement);
             ps.setString(1, event.getUser().getId());
-            ps.setInt(2, day);
-            ps.setInt(3, month + 1);
+            ps.setInt(2, c.get(Calendar.DAY_OF_MONTH));
+            ps.setInt(3, (c.get(Calendar.MONTH)));
             ps.execute();
         } catch (SQLException ex) {
             event.deferReply().setEphemeral(true).setContent("Error!").queue();
