@@ -17,9 +17,7 @@ public class BirthdayAutoComplete extends ListenerAdapter {
     @Override
     public void onCommandAutoCompleteInteraction(CommandAutoCompleteInteractionEvent event) {
         // months
-        ArrayList<String> months = new ArrayList<>(List.of("January", "February", "March", "April", "May", "June", "July",
-                "August",
-                "September", "October", "November", "December"));
+        ArrayList<String> months = new ArrayList<>(List.of("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"));
 
         if (event.getName().equals("birthday") && event.getFocusedOption().getName().equals("month")) {
             ArrayList<Command.Choice> choices = new ArrayList<>();
@@ -30,29 +28,14 @@ public class BirthdayAutoComplete extends ListenerAdapter {
         }
 
         // days
-        if (event.getName().equals("birthday") && event.getFocusedOption().getName().equals("day")) {
-            ArrayList<Command.Choice> days = new ArrayList<Command.Choice>();
-            for (int i = 0; i > 32; i++) {
-                days.add(new Command.Choice(days+"", days+""));
-            }
-            event.replyChoices(days).queue();
-        }
-
-        // days
-        // if (event.getName().equals("birthday") &&
-        // event.getFocusedOption().getName().equals("day")) {
-        // List<Integer> days = new ArrayList<Integer>();
-        // for (int i = 0; i > 32; i++)
-        // days.add(i);
-
-        // List<Command.Choice> options = Stream.of(days)
-        // .filter(day ->
-        // day.toString().startsWith(event.getFocusedOption().getValue()))
-        // .map(day -> new Command.Choice(day, day))
-        // .collect(Collectors.toList());
-        // event.replyChoices(options).queue();
-
-        // }
+//        if (event.getName().equals("birthday") && event.getFocusedOption().getName().equals("day")) {
+//            ArrayList<Command.Choice> days = new ArrayList<Command.Choice>();
+//            for (int i = 0; i < 32; i++) {
+//                days.add(new Command.Choice(i+"", i+""));
+//            }
+//            event.replyChoices(days).queue();
+//        }
+// Refer to: https://discord.com/channels/850396197646106624/915357412276461620/983492519415410688
     }
 
 }
