@@ -14,10 +14,11 @@ public class SayCommand extends SlashCommand {
         if (!(event.getMember().hasPermission(Permission.MESSAGE_MANAGE)))
             return;
         Channel channel = event.getOption("channel").getAsGuildChannel();
-        if (!(channel.getType().equals(ChannelType.TEXT))) {
-            event.deferReply().setEphemeral(true).setContent("I can only say things in text channels.").queue();
-            return;
-        }
+//  Removed redoundant check since discord will not allow other types to be selected.
+//        if (!(channel.getType().equals(ChannelType.TEXT))) {
+//            event.deferReply().setEphemeral(true).setContent("I can only say things in text channels.").queue();
+//            return;
+//        }
         String message = event.getOption("message").getAsString();
         TextChannel textChannel = event.getGuild().getTextChannelById(channel.getId());
         textChannel.sendMessage(message).queue();

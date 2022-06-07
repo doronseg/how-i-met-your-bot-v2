@@ -4,10 +4,13 @@ import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules.birthday.BirthdayChecks;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class BirthdayCommand extends SlashCommand {
     BirthdayChecks birthdayChecks = new BirthdayChecks();
+    ArrayList<String> months = new ArrayList<>(List.of("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"));
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
@@ -20,9 +23,9 @@ public class BirthdayCommand extends SlashCommand {
         int day = event.getOption("day").getAsInt();
 
         Calendar c = Calendar.getInstance();
-        c.set(c.get(Calendar.YEAR), month-1, day);
+        c.set(c.get(Calendar.YEAR), month, day);
 
-        event.reply("Your birthday has been set to the "+dayNumber(c.get(Calendar.DAY_OF_MONTH))+ " of "+c.get(Calendar.MONTH)).setEphemeral(true).queue();
+        event.reply("Your birthday has been set to the "+dayNumber(c.get(Calendar.DAY_OF_MONTH))+ " of "+months.get(c.get(Calendar.MONTH))).setEphemeral(true).queue();
 
         //Set to DB stuff
     }
