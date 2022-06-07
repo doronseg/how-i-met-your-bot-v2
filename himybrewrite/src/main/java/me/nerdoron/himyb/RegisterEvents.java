@@ -36,44 +36,38 @@ public class RegisterEvents {
 
                 slashCommands.add(Commands.slash("ping", "Calculate te ping of the bot."));
                 slashCommands.add(Commands.slash("uptime", "Show the bot's uptime."));
-                slashCommands.add(Commands.slash("revive", "Send the chat revive message")
-                        .setDefaultPermissions(Permission.MESSAGE_MANAGE));
+                slashCommands.add(Commands.slash("revive", "Send the chat revive message").setDefaultPermissions(Permission.MESSAGE_MANAGE));
                 slashCommands.add(Commands.slash("suggest", "Send a suggestion")
-                        .addOption(OptionType.STRING, "type", "Select the type of suggestion",
-                                true, true)
-                        .addOption(OptionType.STRING, "suggestion", "Describe your suggestion",
-                                true));
+                        .addOption(OptionType.STRING, "type", "Select the type of suggestion", true, true)
+                        .addOption(OptionType.STRING, "suggestion", "Describe your suggestion", true));
                 slashCommands.add(Commands.slash("afk", "Go AFK")
                         .addOption(OptionType.STRING, "reason", "Why are you away?", true));
 
-                SlashCommandData say_command = Commands.slash("say", "Make the bot say something");
+                SlashCommandData say = Commands.slash("say", "Make the bot say something");
                 OptionData channel = new OptionData(OptionType.CHANNEL, "channel", "Which channel would you like to say it in?",true);
                 channel.setChannelTypes(ChannelType.TEXT); // Limit this option to TextChannels
-                say_command
-                        .addOption(OptionType.CHANNEL, "channel",
-                                "", true)
-                        .addOption(OptionType.STRING, "message", "What would you like to say?",
-                                true)
+                say
+                        .addOption(OptionType.CHANNEL, "channel", "", true)
+                        .addOption(OptionType.STRING, "message", "What would you like to say?", true)
                         .setDefaultPermissions(Permission.MESSAGE_MANAGE);
-                slashCommands.add(say_command);
+                slashCommands.add(say);
 
                 slashCommands.add(Commands.slash("reply", "Make the bot reply to a message")
-                        .addOption(OptionType.STRING, "replyto",
-                                "What message would you like to reply to? (ID ONLY, MAKE SURE YOU ARE IN THE SAME CHANNEL)",
-                                true)
-                        .addOption(OptionType.STRING, "message", "What would you like to say?",
-                                true)
+                        .addOption(OptionType.STRING, "replyto", "What message would you like to reply to? (ID ONLY, MAKE SURE YOU ARE IN THE SAME CHANNEL)", true)
+                        .addOption(OptionType.STRING, "message", "What would you like to say?", true)
                         .setDefaultPermissions(Permission.MESSAGE_MANAGE));
                 slashCommands.add(Commands.slash("help", "Displays the help menu."));
                 slashCommands.add(Commands.slash("apply", "Apply for an open staff position.")
-                        .addOption(OptionType.STRING, "position",
-                                "What position would you like to apply to?", true,
-                                true));
-                slashCommands.add(Commands.slash("birthday", "Sets your birthday.")
-                        .addOption(OptionType.STRING, "month",
-                                "Select the month in which you were born.", true, true)
-                        .addOption(OptionType.STRING, "day",
-                                "Select the day in which you were born.", true, false)); // Discord limits autocompletes to 25 options
+                        .addOption(OptionType.STRING, "position", "What position would you like to apply to?", true, true));
+
+                SlashCommandData birthday = Commands.slash("birthday", "Sets your birthday.");
+                birthday.addOption(OptionType.STRING, "month", "Select the month in which you were born.", true, true);
+                OptionData day = new OptionData(OptionType.INTEGER, "day", "Select the day in which you were born.", true);// Discord limits autocompletes to 25 options
+                day.setMinValue(1);
+                day.setMaxValue(31);
+                birthday.addOptions(day);
+                slashCommands.add(birthday);
+
 
                 jda.updateCommands().addCommands(slashCommands).queue();
 
