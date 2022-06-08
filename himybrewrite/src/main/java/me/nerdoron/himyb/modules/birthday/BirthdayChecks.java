@@ -2,7 +2,6 @@ package me.nerdoron.himyb.modules.birthday;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,11 +36,10 @@ public class BirthdayChecks {
     public ArrayList<String> getBirthdays(int day, int month) {
         ArrayList<String> users = new ArrayList<>();
         try {
-            Calendar calendar = Calendar.getInstance();
             String SQL = "select uid FROM birthday WHERE month=? AND day=?";
             PreparedStatement ps = con.prepareStatement(SQL);
-            ps.setString(1,month+"");
-            ps.setString(2,day+"");
+            ps.setString(1, month + "");
+            ps.setString(2, day + "");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 users.add(rs.getString(1));
