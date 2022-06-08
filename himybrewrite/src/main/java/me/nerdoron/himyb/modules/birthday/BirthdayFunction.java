@@ -23,35 +23,38 @@ public class BirthdayFunction extends ListenerAdapter {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         // Values from my testing server. Chance once everything is fine
-        Guild guild = api.getGuildById("869621827406815232");
-        Role role = guild.getRoleById("983853487291002942");
-        TextChannel channel = guild.getTextChannelById("983831571209519174");
+        Guild guild = api.getGuildById("850396197646106624");
+        Role role = guild.getRoleById("982972013687754753");
+        TextChannel channel = guild.getTextChannelById("901497362160169010");
 
         ArrayList<String> birthdaysUserIDs = birthdayChecks.getBirthdays(day, month);
 
-        guild.findMembersWithRoles(role).onSuccess(members -> { //Find members with the BDay role and remove the role from them
+        guild.findMembersWithRoles(role).onSuccess(members -> { // Find members with the BDay role and remove the role
+                                                                // from them
             for (Member member : members) {
                 if (!birthdaysUserIDs.contains(member.getId())) {
-                    guild.removeRoleFromMember(member,role).queue();
+                    guild.removeRoleFromMember(member, role).queue();
                 }
             }
         });
 
-        if (birthdaysUserIDs.size() == 0) return; // If its no-one's birthday don't continue
+        if (birthdaysUserIDs.size() == 0)
+            return; // If its no-one's birthday don't continue
 
         String mentionUsers = "";
-        for (String birthdayUserID : birthdaysUserIDs) { //Iterate over the IDs adding them the BDay role
+        for (String birthdayUserID : birthdaysUserIDs) { // Iterate over the IDs adding them the BDay role
             guild.retrieveMemberById(birthdayUserID).queue(
                     member -> {
                         if (!member.getRoles().contains(role)) {
                             guild.addRoleToMember(member, role).queue();
+                        } else {
+                            birthdaysUserIDs.remove(member.getId());
                         }
-                    }
-            );
-            mentionUsers+="<@"+birthdayUserID+"> ";
+                    });
+            mentionUsers += "<@" + birthdayUserID + "> ";
         }
 
-        channel.sendMessage(role.getAsMention()+" **to the folowing members:**\n"+mentionUsers).queue();
+        channel.sendMessage(role.getAsMention() + " **to the folowing members:**\n" + mentionUsers).queue();
     }
 
 }
