@@ -31,30 +31,35 @@ public class BirthdayFunction extends ListenerAdapter {
 
         guild.findMembersWithRoles(role).onSuccess(members -> { // Find members with the BDay role and remove the role
                                                                 // from them
+            boolean someoneHasBDayRole = false;
             for (Member member : members) {
                 if (!birthdaysUserIDs.contains(member.getId())) {
                     guild.removeRoleFromMember(member, role).queue();
+                } else {
+                    someoneHasBDayRole = true;
                 }
             }
+
+            if (someoneHasBDayRole)
+                return; // People already have the role
+
+            if (birthdaysUserIDs.size() == 0)
+                return; // If its no-one's birthday don't continue
+            String mentionUsers = "";
+            for (String birthdayUserID : birthdaysUserIDs) { // Iterate over the IDs adding them the BDay role
+                guild.retrieveMemberById(birthdayUserID).queue(
+                        member -> {
+                            if (!member.getRoles().contains(role)) {
+                                guild.addRoleToMember(member, role).queue();
+                            }
+                        });
+                mentionUsers += "<@" + birthdayUserID + "> ";
+            }
+
+            channel.sendMessage(role.getAsMention() + " **to the folowing members:**\n" + mentionUsers).queue();
         });
 
-        if (birthdaysUserIDs.size() == 0)
-            return; // If its no-one's birthday don't continue
 
-        String mentionUsers = "";
-        for (String birthdayUserID : birthdaysUserIDs) { // Iterate over the IDs adding them the BDay role
-            guild.retrieveMemberById(birthdayUserID).queue(
-                    member -> {
-                        if (!member.getRoles().contains(role)) {
-                            guild.addRoleToMember(member, role).queue();
-                        } else {
-                            birthdaysUserIDs.remove(member.getId());
-                        }
-                    });
-            mentionUsers += "<@" + birthdayUserID + "> ";
-        }
-
-        channel.sendMessage(role.getAsMention() + " **to the folowing members:**\n" + mentionUsers).queue();
     }
 
 }
