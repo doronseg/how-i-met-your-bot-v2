@@ -2,14 +2,7 @@ package me.nerdoron.himyb.commands;
 
 import me.nerdoron.himyb.commands.funcommands.ReplyCommand;
 import me.nerdoron.himyb.commands.funcommands.SayCommand;
-import me.nerdoron.himyb.commands.usefulcommands.AFKCommand;
-import me.nerdoron.himyb.commands.usefulcommands.ApplyCommand;
-import me.nerdoron.himyb.commands.usefulcommands.BirthdayCommand;
-import me.nerdoron.himyb.commands.usefulcommands.HelpCommand;
-import me.nerdoron.himyb.commands.usefulcommands.PingCommand;
-import me.nerdoron.himyb.commands.usefulcommands.ReviveCommand;
-import me.nerdoron.himyb.commands.usefulcommands.SuggestCommand;
-import me.nerdoron.himyb.commands.usefulcommands.UptimeCommand;
+import me.nerdoron.himyb.commands.usefulcommands.*;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -24,6 +17,9 @@ public class BotCommandsHandler extends ListenerAdapter {
     HelpCommand helpCommand = new HelpCommand();
     ApplyCommand applyCommand = new ApplyCommand();
     BirthdayCommand birthdayCommand = new BirthdayCommand();
+    TimezoneCommand timezoneCommand = new TimezoneCommand();
+    MytimeCommand mytimeCommand = new MytimeCommand();
+    WhatTimeCommand whatTimeCommand = new WhatTimeCommand();
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
@@ -57,6 +53,15 @@ public class BotCommandsHandler extends ListenerAdapter {
                 break;
             case "apply":
                 applyCommand.execute(event);
+                break;
+            case "timezone":
+                timezoneCommand.execute(event);
+                break;
+            case "mytime":
+                mytimeCommand.execute(event);
+                break;
+            case "whattime":
+                whatTimeCommand.execute(event);
                 break;
 
         }

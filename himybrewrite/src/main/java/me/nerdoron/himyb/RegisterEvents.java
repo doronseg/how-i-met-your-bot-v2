@@ -21,10 +21,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.interactions.commands.build.*;
 
 import java.util.ArrayList;
 
@@ -75,6 +72,19 @@ public class RegisterEvents {
                 day.setMaxValue(31);
                 birthday.addOptions(day);
                 slashCommands.add(birthday);
+
+                SlashCommandData timezone = Commands.slash("timezone", "Confused about time?");
+                SubcommandData tz_set = new SubcommandData("set", "Set your timezone so you can share it with everyone!");
+                tz_set.addOption(OptionType.STRING, "time", "Just type what time is it for you (12:34) and i will figure your timezone", true);
+                timezone.addSubcommands(tz_set);
+                slashCommands.add(timezone);
+
+                SlashCommandData mytime = Commands.slash("mytime", "Show your time in the server");
+                slashCommands.add(mytime);
+
+                SlashCommandData whatTime = Commands.slash("whattime", "Show a selected user's time in the server")
+                        .addOption(OptionType.USER,"member", "Who to get the time from", true);
+                slashCommands.add(whatTime);
 
                 jda.updateCommands().addCommands(slashCommands).queue();
 
