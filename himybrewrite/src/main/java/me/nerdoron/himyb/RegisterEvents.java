@@ -21,6 +21,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.Command.Subcommand;
 import net.dv8tion.jda.api.interactions.commands.build.*;
 
 import java.util.ArrayList;
@@ -74,16 +75,21 @@ public class RegisterEvents {
                 slashCommands.add(birthday);
 
                 SlashCommandData timezone = Commands.slash("timezone", "Confused about time?");
-                SubcommandData tz_set = new SubcommandData("set", "Set your timezone so you can share it with everyone!");
-                tz_set.addOption(OptionType.STRING, "time", "Just type what time is it for you (12:34) and i will figure your timezone", true);
+                SubcommandData tz_remove = new SubcommandData("remove", "Removes your timezone from the database.");
+                SubcommandData tz_set = new SubcommandData("set",
+                                "Set your timezone so you can share it with everyone!");
+                tz_set.addOption(OptionType.STRING, "time",
+                                "Type what time it is for you in 24-hour format (14:24), and I will figure out your timezone.",
+                                true);
                 timezone.addSubcommands(tz_set);
+                timezone.addSubcommands(tz_remove);
                 slashCommands.add(timezone);
 
                 SlashCommandData mytime = Commands.slash("mytime", "Show your time in the server");
                 slashCommands.add(mytime);
 
                 SlashCommandData whatTime = Commands.slash("whattime", "Show a selected user's time in the server")
-                        .addOption(OptionType.USER,"member", "Who to get the time from", true);
+                                .addOption(OptionType.USER, "member", "Who to get the time from", true);
                 slashCommands.add(whatTime);
 
                 jda.updateCommands().addCommands(slashCommands).queue();

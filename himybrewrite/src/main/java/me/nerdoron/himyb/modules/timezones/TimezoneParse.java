@@ -1,7 +1,6 @@
 package me.nerdoron.himyb.modules.timezones;
 
 import me.nerdoron.himyb.modules.Database;
-import me.nerdoron.himyb.modules.birthday.BirthdayChecks;
 import net.dv8tion.jda.api.entities.Member;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
 
 public class TimezoneParse {
 
