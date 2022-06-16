@@ -26,6 +26,6 @@ public class WhatTimeCommand extends SlashCommand {
         int mns = Integer.parseInt(tz[1]);
 
         ZonedDateTime time = ZonedDateTime.now(ZoneOffset.UTC).plusHours(hrs).plusMinutes(mns);
-        event.reply("Hey, "+member.getUser().getName()+"'s time is **"+time.getHour()+":"+time.getMinute()+(time.getMinute()<10?"0":"")+"**").queue();
+        event.reply("Hey, "+member.getUser().getName()+"'s time is **"+time.getHour()+":"+(time.getMinute()<10?"0":"")+time.getMinute()+"**").queue();
     }
 }
