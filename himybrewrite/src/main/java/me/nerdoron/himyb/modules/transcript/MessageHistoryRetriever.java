@@ -4,12 +4,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-import java.awt.*;
-import java.time.OffsetDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class MessageHistoryRetriever {
     Boolean isReady = false;
@@ -25,7 +20,7 @@ public class MessageHistoryRetriever {
         channel.getIterableHistory()
                 .takeAsync(msgs)
                 .thenApplyAsync((messages) -> {
-                    ArrayList<Message> msgList= new ArrayList<>(messages);
+                    ArrayList<Message> msgList = new ArrayList<>(messages);
                     for (Message message : msgList) {
                         if (!message.getAuthor().isBot()) {
                             output.add(message);

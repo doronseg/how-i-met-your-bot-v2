@@ -1,5 +1,6 @@
 package me.nerdoron.himyb.commands;
 
+import me.nerdoron.himyb.commands.funcommands.EightBall;
 import me.nerdoron.himyb.commands.funcommands.ReplyCommand;
 import me.nerdoron.himyb.commands.funcommands.SayCommand;
 import me.nerdoron.himyb.commands.usefulcommands.*;
@@ -20,6 +21,7 @@ public class BotCommandsHandler extends ListenerAdapter {
     TimezoneCommand timezoneCommand = new TimezoneCommand();
     MytimeCommand mytimeCommand = new MytimeCommand();
     WhatTimeCommand whatTimeCommand = new WhatTimeCommand();
+    EightBall eightBall = new EightBall();
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
@@ -63,7 +65,9 @@ public class BotCommandsHandler extends ListenerAdapter {
             case "whattime":
                 whatTimeCommand.execute(event);
                 break;
-
+            case "8ball":
+                eightBall.execute(event);
+                break;
         }
     }
 

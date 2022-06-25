@@ -22,7 +22,6 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.Command.Subcommand;
 import net.dv8tion.jda.api.interactions.commands.build.*;
 
 import java.util.ArrayList;
@@ -92,6 +91,10 @@ public class RegisterEvents {
                 SlashCommandData whatTime = Commands.slash("whattime", "Show a selected user's time in the server")
                                 .addOption(OptionType.USER, "member", "Who to get the time from", true);
                 slashCommands.add(whatTime);
+
+                slashCommands.add(Commands.slash("8ball", "Ask the magic 8ball a question..")
+                                .addOption(OptionType.STRING, "question", "What's the question?",
+                                                true));
 
                 jda.updateCommands().addCommands(slashCommands).queue();
 
