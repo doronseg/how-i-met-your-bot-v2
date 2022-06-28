@@ -23,9 +23,11 @@ public class BirthdayFunction extends ListenerAdapter {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         Guild guild = api.getGuildById("850396197646106624");
-        if (guild == null) {return;}
+        if (guild == null) {
+            return;
+        }
         Role role = guild.getRoleById("982972013687754753");
-        TextChannel channel = guild.getTextChannelById("901497362160169010");
+        TextChannel channel = guild.getTextChannelById("850437485687078932");
 
         ArrayList<String> birthdaysUserIDs = birthdayChecks.getBirthdays(day, month);
 
@@ -58,7 +60,6 @@ public class BirthdayFunction extends ListenerAdapter {
 
             channel.sendMessage(role.getAsMention() + " **to the folowing members:**\n" + mentionUsers).queue();
         });
-
 
     }
 

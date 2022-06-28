@@ -12,7 +12,7 @@ public class SelfPromoHandler extends ListenerAdapter {
     @Override
     public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
         String send = "__**Self Promotion Channel**__\n" +
-                "In this channel, any person who is above level 10 with <@339254240012664832> (`=rank`), can submit a self promotion link using /selfpromo. \n"
+                "In this channel, any person who is above level 10 with <@339254240012664832> (`=rank`), can submit a self promotion link using `/selfpromo`. \n"
                 +
                 "\n" +
                 "Due to past incidents, all messages will require Moderator Approval before being posted. ";
