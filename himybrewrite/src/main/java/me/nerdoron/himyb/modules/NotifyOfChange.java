@@ -12,7 +12,7 @@ public class NotifyOfChange extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         if (stringContainsItemFromList(event.getMessage().getContentDisplay(), oldCommands)) {
-            event.getMessage().reply("Be advised, we moved to slash commands. Use /help for more information").queue();
+            event.getMessage().reply("FYI, we moved to slash commands. Use /help for more information").queue();
         }
     }
 
