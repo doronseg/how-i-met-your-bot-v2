@@ -109,6 +109,10 @@ public class RegisterEvents {
 
                 slashCommands.add(Commands.slash("selfpromo", "Submit a self promotion link"));
 
+                slashCommands.add(Commands.slash("removebirthday", "Removes a birthday of a user")
+                        .addOption(OptionType.MENTIONABLE, "member", "Who to remove the birthday from",true)
+                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.KICK_MEMBERS)));
+
                 jda.updateCommands().addCommands(slashCommands).queue();
 
                 // event registration
