@@ -3,9 +3,9 @@ package me.nerdoron.himyb.modules.tickets;
 import me.nerdoron.himyb.modules.tickets.transcript.GenerateTranscript;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +16,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
-import java.util.List;
 
 public class CloseTicketButton extends ListenerAdapter {
 
@@ -49,17 +48,16 @@ public class CloseTicketButton extends ListenerAdapter {
 
             event.getTextChannel().getHistoryFromBeginning(1).queue(
                     messageHistory -> {
-                        Message message = messageHistory.getRetrievedHistory().get(1);
-                        Member ticketAuthor = message.getMentionedMembers().get(0);
-
+                        Message message = messageHistory.getRetrievedHistory().get(0);
+                        User ticketAuthor = message.getMentionedUsers().get(0);
                         try {
                             writeToFile(f,transcript.split("\n"),true);
                             TextChannel transcriptsChannel = event.getGuild().getTextChannelById("991294991517360200");
                             EmbedBuilder emb = new EmbedBuilder();
                             emb.setColor(Color.decode("#2f3136"));
-                            emb.setTitle("**Transcript from "+ticketAuthor.getUser().getAsTag()+"'s ticket");
                             emb.setDescription(
-                                    "TicketID: "+event.getTextChannel()+"\n"+
+                                    "**Transcript from "+ticketAuthor.getAsMention()+"'s ticket**"+"\n"+
+                                    "TicketID: "+event.getTextChannel().getName()+"\n"+
                                     "Closed at: "+getAsTimeThing(event.getTimeCreated(), "f")
                             );
                             transcriptsChannel.sendMessageEmbeds(emb.build()).addFile(f).queue();

@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GenerateTranscript {
 
@@ -20,6 +21,7 @@ public class GenerateTranscript {
         }
 
         ArrayList<Message> messages = retriever.output;
+        Collections.reverse(messages);
         StringBuilder builder = new StringBuilder();
 
         for (Message message : messages) {
