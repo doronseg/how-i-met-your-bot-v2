@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.modules.transcript;
+package me.nerdoron.himyb.modules.tickets.transcript;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;

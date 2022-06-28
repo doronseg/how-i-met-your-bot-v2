@@ -3,6 +3,7 @@ package me.nerdoron.himyb.commands;
 import me.nerdoron.himyb.commands.funcommands.EightBall;
 import me.nerdoron.himyb.commands.funcommands.ReplyCommand;
 import me.nerdoron.himyb.commands.funcommands.SayCommand;
+import me.nerdoron.himyb.commands.staffcommands.SendPannelCommand;
 import me.nerdoron.himyb.commands.usefulcommands.*;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -22,6 +23,7 @@ public class BotCommandsHandler extends ListenerAdapter {
     MytimeCommand mytimeCommand = new MytimeCommand();
     WhatTimeCommand whatTimeCommand = new WhatTimeCommand();
     EightBall eightBall = new EightBall();
+    SendPannelCommand sendPannelCommand = new SendPannelCommand();
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
@@ -67,6 +69,9 @@ public class BotCommandsHandler extends ListenerAdapter {
                 break;
             case "8ball":
                 eightBall.execute(event);
+                break;
+            case "pannels":
+                sendPannelCommand.execute(event);
                 break;
         }
     }
