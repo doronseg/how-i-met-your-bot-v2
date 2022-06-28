@@ -18,12 +18,12 @@ public class TimezoneParse {
     public String getTimezoneOf(Member member) {
         String timezone = "";
         try {
-            System.out.println("1");
             String SQL = "select timezone FROM timezones WHERE uid=?";
             PreparedStatement ps = con.prepareStatement(SQL);
             ps.setString(1, member.getId());
             ResultSet rs = ps.executeQuery();
             timezone = rs.getString(1);
+            ps.close();
         } catch (SQLException e) {
             logger.error("Error while trying to find someone's timezone in the database!", e.getCause().getMessage());
             e.printStackTrace();

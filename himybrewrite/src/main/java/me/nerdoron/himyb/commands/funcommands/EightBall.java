@@ -32,8 +32,9 @@ public class EightBall extends SlashCommand {
             event.reply("That doesn't look like a question.").setEphemeral(true).queue();
             return;
         }
-        event.reply(event.getUser().getAsMention() + " asked me: " + question).queue();
-        event.getChannel().sendMessage(responses[random.nextInt(responses.length)]).queue();
+        event.reply(event.getUser().getAsMention() + " asked me: " + question).queue((m) -> {
+            event.getChannel().sendMessage(responses[random.nextInt(responses.length)]).queue();
+        });
     }
 
 }

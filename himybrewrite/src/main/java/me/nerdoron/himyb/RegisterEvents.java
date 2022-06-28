@@ -24,6 +24,7 @@ import me.nerdoron.himyb.modules.tickets.transcript.TicketCreation;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.*;
 
@@ -39,7 +40,7 @@ public class RegisterEvents {
                 slashCommands.add(Commands.slash("ping", "Calculate te ping of the bot."));
                 slashCommands.add(Commands.slash("uptime", "Show the bot's uptime."));
                 slashCommands.add(Commands.slash("revive", "Send the chat revive message")
-                                .setDefaultPermissions(Permission.MESSAGE_MANAGE));
+                                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE)));
                 slashCommands.add(Commands.slash("suggest", "Send a suggestion")
                                 .addOption(OptionType.STRING, "type", "Select the type of suggestion", true, true)
                                 .addOption(OptionType.STRING, "suggestion", "Describe your suggestion", true));
@@ -54,7 +55,7 @@ public class RegisterEvents {
                                 .addOption(OptionType.CHANNEL, "channel", "What channel would you like to send it to?",
                                                 true)
                                 .addOption(OptionType.STRING, "message", "What would you like to say?", true)
-                                .setDefaultPermissions(Permission.MESSAGE_MANAGE);
+                                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE));
                 slashCommands.add(say);
 
                 slashCommands.add(Commands.slash("reply", "Make the bot reply to a message")
@@ -62,7 +63,7 @@ public class RegisterEvents {
                                                 "What message would you like to reply to? (ID ONLY, MAKE SURE YOU ARE IN THE SAME CHANNEL)",
                                                 true)
                                 .addOption(OptionType.STRING, "message", "What would you like to say?", true)
-                                .setDefaultPermissions(Permission.MESSAGE_MANAGE));
+                                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE)));
                 slashCommands.add(Commands.slash("help", "Displays the help menu."));
                 slashCommands.add(Commands.slash("apply", "Apply for an open staff position.")
                                 .addOption(OptionType.STRING, "position", "What position would you like to apply to?",
@@ -99,7 +100,8 @@ public class RegisterEvents {
                                 .addOption(OptionType.STRING, "question", "What's the question?",
                                                 true));
 
-                slashCommands.add(Commands.slash("pannels", "Send the ticket pannels"));
+                slashCommands.add(Commands.slash("pannels", "Send the ticket pannels")
+                                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)));
 
                 slashCommands.add(Commands.slash("selfpromo", "Submit a self promotion link"));
 

@@ -35,7 +35,7 @@ public class CloseTicketButton extends ListenerAdapter {
                         Arrays.asList(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND))
                 .queue(
                         (__) -> {
-                            event.reply("Ticket closed!").queue();
+                            event.reply("Closing ticket.").queue();
                         });
         sendTranscript(event);
 
@@ -44,26 +44,33 @@ public class CloseTicketButton extends ListenerAdapter {
     public static void sendTranscript(@NotNull ButtonInteractionEvent event) {
         new Thread(() -> {
             String transcript = GenerateTranscript.generate(event.getTextChannel());
-            File f = new File(event.getTextChannel().getName()+".txt");
+            File f = new File(event.getTextChannel().getName() + ".txt");
 
             event.getTextChannel().getHistoryFromBeginning(1).queue(
                     messageHistory -> {
                         Message message = messageHistory.getRetrievedHistory().get(0);
-                        User ticketAuthor = message.getMentionedUsers().get(0);
+                        User ticketAuthor = message.getMentions().getUsers().get(0);
                         try {
-                            writeToFile(f,transcript.split("\n"),true);
-                            TextChannel transcriptsChannel = event.getGuild().getTextChannelById("991294991517360200");
+                            writeToFile(f, transcript.split("\n"), true);
+                            TextChannel transcriptChannel = null;
+                            if (event.getChannel().getName().startsWith("ticket"))
+                                transcriptChannel = event.getGuild().getTextChannelById("991294991517360200");
+                            if (event.getChannel().getName().startsWith("admin"))
+                                transcriptChannel = event.getGuild().getTextChannelById("991376488010109008");
+
                             EmbedBuilder emb = new EmbedBuilder();
                             emb.setColor(Color.decode("#2f3136"));
                             emb.setDescription(
-                                    "**Transcript from "+ticketAuthor.getAsMention()+"'s ticket**"+"\n"+
-                                    "TicketID: "+event.getTextChannel().getName()+"\n"+
-                                    "Closed at: "+getAsTimeThing(event.getTimeCreated(), "f")
-                            );
-                            transcriptsChannel.sendMessageEmbeds(emb.build()).addFile(f).queue();
-                        } catch (IOException e) {e.printStackTrace();}
-                    }
-            );
+                                    "**Transcript from " + ticketAuthor.getAsMention() + "'s ticket**" + "\n" +
+                                            "TicketID: " + event.getTextChannel().getName() + "\n" +
+                                            "Closed at: " + getAsTimeThing(event.getTimeCreated(), "f"));
+                            transcriptChannel.sendMessageEmbeds(emb.build()).addFile(f).queue();
+                            event.getTextChannel().delete().queue();
+                            f.delete();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
 
         }).start();
     }
@@ -80,6 +87,6 @@ public class CloseTicketButton extends ListenerAdapter {
     }
 
     public static String getAsTimeThing(OffsetDateTime time, String letterAtTheEnd) {
-        return "<t:"+time.toEpochSecond()+":"+letterAtTheEnd+">";
+        return "<t:" + time.toEpochSecond() + ":" + letterAtTheEnd + ">";
     }
 }

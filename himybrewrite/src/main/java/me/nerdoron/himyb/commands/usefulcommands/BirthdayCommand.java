@@ -14,8 +14,9 @@ import java.util.List;
 
 public class BirthdayCommand extends SlashCommand {
     BirthdayChecks birthdayChecks = new BirthdayChecks();
-    ArrayList<String> months = new ArrayList<>(List.of("January", "February", "March", "April", "May", "June", "July",
-            "August", "September", "October", "November", "December"));
+    ArrayList<String> months = new ArrayList<>(
+            List.of("January", "February", "March", "April", "May", "June", "July",
+                    "August", "September", "October", "November", "December"));
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {

@@ -43,7 +43,7 @@ public class AFKMessageEvent extends ListenerAdapter {
         }
 
         // notify if afk
-        List<Member> memberList = event.getMessage().getMentionedMembers();
+        List<Member> memberList = event.getMessage().getMentions().getMembers();
 
         for (int i = 0; i < memberList.size(); i++) {
             Member target = memberList.get(i);

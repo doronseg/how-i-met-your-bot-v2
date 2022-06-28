@@ -41,9 +41,9 @@
 			<type>pom</type>
 		</dependency>
 		<dependency>
-			<groupId>com.github.xirado</groupId>
+			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>96d362e</version>
+			<version>5.0.0-alpha.13</version>
 		</dependency>
 		<dependency>
 			<groupId>me.duncte123</groupId>
