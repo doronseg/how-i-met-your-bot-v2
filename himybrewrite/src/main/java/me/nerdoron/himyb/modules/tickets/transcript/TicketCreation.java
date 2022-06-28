@@ -32,7 +32,7 @@ public class TicketCreation extends ListenerAdapter {
 
     @Override
     public void onSelectMenuInteraction(@NotNull SelectMenuInteractionEvent event) {
-        if (event.getComponent().getId().equals("ticketSelector")) return;
+        if (!event.getComponent().getId().equals("ticketSelector")) return;
 
         Member member = event.getMember();
         SelectOption selectOption = event.getSelectedOptions().get(0);
@@ -72,6 +72,8 @@ public class TicketCreation extends ListenerAdapter {
 
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
+        if (!event.getButton().getId().equals("selfpromo")) return;
+
         Member member = event.getMember();
 
         if (!(member.getRoles())
@@ -97,7 +99,11 @@ public class TicketCreation extends ListenerAdapter {
                 .setContent("Created a ticket for you, "
                         + selfPromoTicket.getAsMention())
                 .queue();
-        selfPromoTicket.sendMessage(member.getAsMention()).queue();
-        selfPromoTicket.sendMessageEmbeds(Panels.selfPromoWelcome).queue();
+
+        MessageBuilder msb = new MessageBuilder();
+        msb.setContent(member.getAsMention());
+        msb.setEmbeds(Panels.selfPromoWelcome);
+        msb.setActionRows(ActionRow.of(Button.danger("closeTicket", "Close this ticket")));
+        selfPromoTicket.sendMessage(msb.build()).queue();
     }
 }
