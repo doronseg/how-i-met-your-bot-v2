@@ -22,6 +22,9 @@ import java.util.EnumSet;
 
 public class TicketCreation extends ListenerAdapter {
     private final EnumSet<Permission> perms;
+    private final String AdminStaffID = "850458148723621888";
+    private final String SelfPromoID = "850458148723621888";
+    private final String LVL10ROLEID = "850464921040846928";
 
     public TicketCreation() {
         this.perms = EnumSet.of(Permission.MESSAGE_HISTORY, Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND);
@@ -49,7 +52,7 @@ public class TicketCreation extends ListenerAdapter {
 
         channelName += member.getUser().getName().substring(0, 4) + "-" + member.getUser().getDiscriminator();
 
-        TextChannel ticketChannel = event.getGuild().getCategoryById("850458148723621888")
+        TextChannel ticketChannel = event.getGuild().getCategoryById(AdminStaffID)
                 .createTextChannel(channelName)
                 .addPermissionOverride(event.getGuild().getPublicRole(),
                         new ArrayList<>(),
@@ -72,14 +75,14 @@ public class TicketCreation extends ListenerAdapter {
         Member member = event.getMember();
 
         if (!(member.getRoles())
-                .contains(event.getGuild().getRoleById("850464921040846928"))) {
+                .contains(event.getGuild().getRoleById(LVL10ROLEID))) {
             event.deferReply().setEphemeral(true).setContent(
                             "Sorry, only members who have reached level 10 are able to submit self promotion links. To check your rank use `=r` in <#850437596487483443>")
                     .queue();
             return;
         }
 
-        TextChannel selfPromoTicket = event.getGuild().getCategoryById("850458148723621888")
+        TextChannel selfPromoTicket = event.getGuild().getCategoryById(SelfPromoID)
                 .createTextChannel("selfpromo-"
                         + member.getUser().getName().substring(0, 4) + "-"
                         + member.getUser().getDiscriminator())
