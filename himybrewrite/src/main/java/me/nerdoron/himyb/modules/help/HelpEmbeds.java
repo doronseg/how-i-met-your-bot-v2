@@ -28,8 +28,17 @@ public class HelpEmbeds {
                                         "\n\n`/timezone set [time]` - Set your timezone. " +
                                         "\n\n`/mytime` - Shows what time it is for you." +
                                         "\n\n`/whattime` [user] - Shows what time it is for the selected user." +
-                                        "\n\n`/suggest [type] [suggestions]` - Sends a suggestion.\nSuggestion types: `server`, `bot`, `video` & `chain`.")
+                                        "\n\n`/suggest [type] [suggestions]` - Sends a suggestion.\nSuggestion types: `server`, `bot`, `video` & `chain`."
+                                        + "\n\n`/selfpromo` - Send a self promotion link (requires level 10)")
+
                         .setColor(Global.embedColor)
                         .setFooter(Global.footertext, Global.footerpfp)
                         .build();
+
+        public MessageEmbed funMenu = new EmbedBuilder().setColor(Global.embedColor)
+                        .setTitle("🦩 Fun Commands")
+                        .setDescription("A list of all commands under the `fun` category:\n\n" +
+                                        "`/8ball` - Ask the magic 8ball a question.")
+
+                        .setFooter(Global.footertext, Global.footerpfp).build();
 }

@@ -24,6 +24,7 @@ public class BotCommandsHandler extends ListenerAdapter {
     WhatTimeCommand whatTimeCommand = new WhatTimeCommand();
     EightBall eightBall = new EightBall();
     SendPannelCommand sendPannelCommand = new SendPannelCommand();
+    SelfPromoCommand selfPromoCommand = new SelfPromoCommand();
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
@@ -73,6 +74,8 @@ public class BotCommandsHandler extends ListenerAdapter {
             case "pannels":
                 sendPannelCommand.execute(event);
                 break;
+            case "selfpromo":
+                selfPromoCommand.execute(event);
         }
     }
 

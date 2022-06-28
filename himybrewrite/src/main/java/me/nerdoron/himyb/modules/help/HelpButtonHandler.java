@@ -32,6 +32,8 @@ public class HelpButtonHandler extends ListenerAdapter {
             case "useful":
                 message.editMessageEmbeds(helpEmbeds.usefulMenu).queue();
                 break;
+            case "fun":
+                message.editMessageEmbeds(helpEmbeds.funMenu).queue();
         }
     }
 }

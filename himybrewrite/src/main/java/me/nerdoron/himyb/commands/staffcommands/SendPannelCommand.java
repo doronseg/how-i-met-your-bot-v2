@@ -5,9 +5,7 @@ import me.nerdoron.himyb.modules.tickets.Panels;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
-import net.dv8tion.jda.internal.interactions.component.SelectMenuImpl;
 
 public class SendPannelCommand extends SlashCommand {
     @Override
@@ -20,8 +18,5 @@ public class SendPannelCommand extends SlashCommand {
         selectMenu.addOption("📇 Staff Ticket", "ticket_staff");
         msb.setActionRows(ActionRow.of(selectMenu.build()));
         event.getChannel().sendMessage(msb.build()).queue();
-        event.getChannel().sendMessageEmbeds(Panels.selfPromoTicket)
-            .setActionRow(Button.secondary("selfpromo", "📇 Submit a Self Promotion link"))
-            .queue();
     }
 }

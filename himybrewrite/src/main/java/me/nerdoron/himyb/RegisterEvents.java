@@ -18,6 +18,7 @@ import me.nerdoron.himyb.modules.counting.CountingChannelHandler;
 import me.nerdoron.himyb.modules.counting.CountingEditing;
 import me.nerdoron.himyb.modules.help.HelpButtonHandler;
 import me.nerdoron.himyb.modules.selfpromo.SelfPromoHandler;
+import me.nerdoron.himyb.modules.selfpromo.SubmitLinks;
 import me.nerdoron.himyb.modules.tickets.CloseTicketButton;
 import me.nerdoron.himyb.modules.tickets.transcript.TicketCreation;
 import net.dv8tion.jda.api.JDA;
@@ -100,6 +101,8 @@ public class RegisterEvents {
 
                 slashCommands.add(Commands.slash("pannels", "Send the ticket pannels"));
 
+                slashCommands.add(Commands.slash("selfpromo", "Submit a self promotion link"));
+
                 jda.updateCommands().addCommands(slashCommands).queue();
 
                 // event registration
@@ -122,6 +125,7 @@ public class RegisterEvents {
                 jda.addEventListener(new SelfPromoHandler());
                 jda.addEventListener(new TicketCreation());
                 jda.addEventListener(new CloseTicketButton());
+                jda.addEventListener(new SubmitLinks());
 
         }
 

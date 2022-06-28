@@ -13,7 +13,10 @@ public class GenerateTranscript {
         retriever.getHistory(channel);
 
         while (!retriever.isReady) {
-            try {Thread.sleep(100);} catch (InterruptedException e) {}
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+            }
         }
 
         ArrayList<Message> messages = retriever.output;
@@ -25,22 +28,23 @@ public class GenerateTranscript {
             OffsetDateTime time = message.getTimeCreated();
             String parsed = parseTime(time);
 
-            builder.append(parsed+tag+": "+content+"\n");
+            builder.append(parsed + tag + ": " + content + "\n");
         }
 
         return builder.toString();
     }
 
-    public static String numberHelper(long N){
+    public static String numberHelper(long N) {
         if (N < 10) {
-            return "0"+N;
+            return "0" + N;
         } else {
-            return ""+N;
+            return "" + N;
         }
     }
 
     public static String parseTime(OffsetDateTime time) {
-        return "["+ numberHelper(time.getHour())+":"+numberHelper(time.getMinute())+":"+numberHelper(time.getSecond())+"] ";
+        return "[" + numberHelper(time.getHour()) + ":" + numberHelper(time.getMinute()) + ":"
+                + numberHelper(time.getSecond()) + "] ";
     }
 
 }
