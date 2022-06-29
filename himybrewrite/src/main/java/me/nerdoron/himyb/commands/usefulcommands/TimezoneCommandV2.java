@@ -7,16 +7,10 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 
 public class TimezoneCommandV2 extends SlashCommand {
 
@@ -66,9 +60,6 @@ public class TimezoneCommandV2 extends SlashCommand {
                     mod = mod.plusMinutes(possibleMinute);
                     ZonedDateTime minus = mod.minusMinutes(3);
                     ZonedDateTime plus  = mod.plusMinutes(3);
-
-                    System.out.println("Checking("+diffH+":"+diffM+"): "+mod.getHour()+":"+mod.getMinute());
-
                     if (mod.getHour()==hours) {
                         if (minus.getMinute() <= minutes && plus.getMinute()>=minutes) {
                             found = true;
