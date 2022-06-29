@@ -9,7 +9,7 @@ public class HelpEmbeds {
                         .setTitle("🔮 Help Menu")
                         .setDescription(
                                         "Hello! I'm how i met your bot. You can use the buttons below to view all of my functions, but for now, here is some information about me.")
-                        .addField("Library", "[JDA 96d362e](https://github.com/DV8FromTheWorld/JDA/pull/2113)", true)
+                        .addField("Library", "[JDA 5.0.0-alpha.13](https://github.com/DV8FromTheWorld/JDA/releases/tag/v5.0.0-alpha.13)", true)
                         .addField("Prefix", "`/`", true)
                         .addField("Github", "[Click me](https://github.com/nerdoron/how-i-met-your-bot)", true)
                         .setColor(Global.embedColor)

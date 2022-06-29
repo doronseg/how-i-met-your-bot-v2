@@ -1,5 +1,6 @@
 package me.nerdoron.himyb;
 
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.nerdoron.himyb.commands.BotCommandsHandler;
 import me.nerdoron.himyb.modules.FriendsCringe;
 import me.nerdoron.himyb.modules.LeaveJoin;
@@ -17,10 +18,12 @@ import me.nerdoron.himyb.modules.chainchannel.ChainEditing;
 import me.nerdoron.himyb.modules.counting.CountingChannelHandler;
 import me.nerdoron.himyb.modules.counting.CountingEditing;
 import me.nerdoron.himyb.modules.help.HelpButtonHandler;
+import me.nerdoron.himyb.modules.jinx.JinxHandler;
 import me.nerdoron.himyb.modules.selfpromo.SelfPromoHandler;
 import me.nerdoron.himyb.modules.selfpromo.SubmitLinks;
 import me.nerdoron.himyb.modules.tickets.CloseTicketButton;
 import me.nerdoron.himyb.modules.tickets.transcript.TicketCreation;
+import me.nerdoron.himyb.modules.zitchdog.ZitchTimer;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -33,6 +36,7 @@ import java.util.ArrayList;
 public class RegisterEvents {
 
         public static void registration(JDA jda) {
+                EventWaiter waiter = new EventWaiter();
                 // command registration
                 ArrayList<CommandData> slashCommands = new ArrayList<>();
                 jda.addEventListener(new BotCommandsHandler());
@@ -105,9 +109,14 @@ public class RegisterEvents {
 
                 slashCommands.add(Commands.slash("selfpromo", "Submit a self promotion link"));
 
+                slashCommands.add(Commands.slash("removebirthday", "Removes a birthday of a user")
+                        .addOption(OptionType.MENTIONABLE, "member", "Who to remove the birthday from",true)
+                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.KICK_MEMBERS)));
+
                 jda.updateCommands().addCommands(slashCommands).queue();
 
                 // event registration
+                jda.addEventListener(waiter);
                 jda.addEventListener(new FriendsCringe());
                 jda.addEventListener(new LeaveJoin());
                 jda.addEventListener(new Sweden());
@@ -128,6 +137,8 @@ public class RegisterEvents {
                 jda.addEventListener(new TicketCreation());
                 jda.addEventListener(new CloseTicketButton());
                 jda.addEventListener(new SubmitLinks());
+                //jda.addEventListener(new JinxHandler()); Postponed
+                //new ZitchTimer(jda,waiter).execute(); Doron asked to comment it out
 
         }
 
