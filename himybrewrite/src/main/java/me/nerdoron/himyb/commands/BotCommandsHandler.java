@@ -20,7 +20,8 @@ public class BotCommandsHandler extends ListenerAdapter {
     HelpCommand helpCommand = new HelpCommand();
     ApplyCommand applyCommand = new ApplyCommand();
     BirthdayCommand birthdayCommand = new BirthdayCommand();
-    TimezoneCommand timezoneCommand = new TimezoneCommand();
+    //TimezoneCommand timezoneCommand = new TimezoneCommand();
+    TimezoneCommandV2 timezoneCommand = new TimezoneCommandV2();
     MytimeCommand mytimeCommand = new MytimeCommand();
     WhatTimeCommand whatTimeCommand = new WhatTimeCommand();
     EightBall eightBall = new EightBall();
