@@ -71,7 +71,6 @@ public class ZitchTimer {
         int low = min;
         int high = max;
         int result = r.nextInt(high-low) + low;
-        System.out.println("Generated: "+result);
         return result;
     }
 
