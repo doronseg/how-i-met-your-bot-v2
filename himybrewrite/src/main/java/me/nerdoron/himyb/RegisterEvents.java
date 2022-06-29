@@ -138,7 +138,7 @@ public class RegisterEvents {
                 jda.addEventListener(new CloseTicketButton());
                 jda.addEventListener(new SubmitLinks());
                 //jda.addEventListener(new JinxHandler()); Postponed
-                new ZitchTimer(jda,waiter).execute();
+                //new ZitchTimer(jda,waiter).execute(); Doron asked to comment it out
 
         }
 
