@@ -10,9 +10,6 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 public class RemoveBirthdayCommand extends SlashCommand {
     BirthdayChecks birthdayChecks = new BirthdayChecks();
@@ -37,7 +34,8 @@ public class RemoveBirthdayCommand extends SlashCommand {
             PreparedStatement ps = con.prepareStatement(statement);
             ps.setString(1, member.getId());
             ps.execute();
-            event.reply("The birthday of "+member.getAsMention()+ "was deleted from the database").setEphemeral(true).queue();
+            event.reply("The birthday of " + member.getAsMention() + "was deleted from the database").setEphemeral(true)
+                    .queue();
         } catch (SQLException ex) {
             event.reply("There was an error in the DB").setEphemeral(true).queue();
             ex.printStackTrace();

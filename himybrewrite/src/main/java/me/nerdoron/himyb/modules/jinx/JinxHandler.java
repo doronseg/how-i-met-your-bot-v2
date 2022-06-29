@@ -1,8 +1,6 @@
 package me.nerdoron.himyb.modules.jinx;
 
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -15,8 +13,10 @@ public class JinxHandler extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        if (!event.isFromGuild()) return;
-        //if (event.getMember().getPermissions().contains(Permission.MESSAGE_MANAGE)) return;
+        if (!event.isFromGuild())
+            return;
+        // if (event.getMember().getPermissions().contains(Permission.MESSAGE_MANAGE))
+        // return;
 
         boolean jinxHappend = false;
         Message pastMsg = null;
@@ -33,7 +33,9 @@ public class JinxHandler extends ListenerAdapter {
                 continue;
             }
 
-            if (pastInArray.getContentRaw().equalsIgnoreCase(message.getContentRaw()) && pastInArray.getChannel().getId().equals(message.getChannel().getId()) && !pastInArray.getAuthor().getId().equals(message.getAuthor().getId())) {
+            if (pastInArray.getContentRaw().equalsIgnoreCase(message.getContentRaw())
+                    && pastInArray.getChannel().getId().equals(message.getChannel().getId())
+                    && !pastInArray.getAuthor().getId().equals(message.getAuthor().getId())) {
                 // A jinx Happened
                 jinxHappend = true;
                 pastMsg = pastInArray;
@@ -41,7 +43,8 @@ public class JinxHandler extends ListenerAdapter {
                 break;
             } else {
                 pastInArray = message;
-                if (messages.size() > 100) messages.remove(0);
+                if (messages.size() > 100)
+                    messages.remove(0);
                 break;
             }
         }
