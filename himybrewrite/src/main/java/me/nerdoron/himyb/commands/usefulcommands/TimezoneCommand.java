@@ -9,8 +9,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TimezoneCommand extends SlashCommand {
+
+    private ArrayList<Integer> possibleMinutes = new ArrayList<>(Arrays.asList(0, 15, 30, 45));
+
+
     @Override
     public void execute(SlashCommandInteractionEvent event) {
 
@@ -25,9 +31,8 @@ public class TimezoneCommand extends SlashCommand {
                 ps.close();
                 event.reply("Removed your timezone from my records.").setEphemeral(true).queue();
             } catch (SQLException ex) {
-                event.deferReply().setEphemeral(true).setContent("Error! You already have your timezone set!")
+                event.deferReply().setEphemeral(true).setContent("Error! You did not have a timezone set in the bot!")
                         .queue();
-                ex.printStackTrace();
             }
         }
         if (subcmd.equals("set")) {
@@ -43,26 +48,38 @@ public class TimezoneCommand extends SlashCommand {
             int minutes = Integer.parseInt(split[1]);
 
             ZonedDateTime now = ZonedDateTime.now(ZoneOffset.UTC);
-            int nowHour = now.getHour();
-            int nowMinute = now.getMinute();
 
-            int diffH = Math.abs(nowHour - hours);
-            int diffM = Math.abs(nowMinute - minutes);
-
-            boolean negative = hours < nowHour;
-            if (negative) {
-                diffH *= -1;
+            int diffH = 0;
+            int diffM = 0;
+            boolean found = false;
+            for (diffH = -12; diffH < 12; diffH++) {
+                for (Integer possibleMinute : possibleMinutes) {
+                    diffM = possibleMinute;
+                    ZonedDateTime mod = now.plusHours(diffH);
+                    mod = mod.plusMinutes(possibleMinute);
+                    ZonedDateTime minus = mod.minusMinutes(3);
+                    ZonedDateTime plus  = mod.plusMinutes(3);
+                    if (mod.getHour()==hours) {
+                        if (minus.getMinute() <= minutes && plus.getMinute()>=minutes) {
+                            found = true;
+                        }
+                    }
+                    if (found) break;
+                }
+                if (found) break;
             }
 
-            if (diffM > 13 && diffM < 17) {
-                diffM = 15;
-            } else if (diffM > 28 && diffM < 32) {
-                diffM = 30;
-            } else if (diffM > 43 && diffM < 47) {
-                diffM = 45;
+
+            boolean negative = diffH<0;
+            if (!found) {
+                event.reply("I'm sorry no timezone was found matching your time. Make sure you typed your time correctly and your clock is not +3/-3 minutes off\n" +
+                                "If you would like, you can specify your timezone using /timezone setmanual")
+                        .setEphemeral(true).queue();
+                return;
             } else {
-                diffM = 0;
+
             }
+
 
             Connection con = Database.connect();
             String statement = "insert into timezones (uid, timezone) values(?,?)";
@@ -77,7 +94,25 @@ public class TimezoneCommand extends SlashCommand {
             } catch (SQLException ex) {
                 event.deferReply().setEphemeral(true).setContent("Error! You already have your timezone set!")
                         .queue();
-                ex.printStackTrace();
+            }
+        }
+        if (subcmd.equals("setmanual")) {
+            int diffH = event.getOption("hours").getAsInt();
+            int diffM = event.getOption("minutes").getAsInt();
+            boolean negative = diffH<0;
+            Connection con = Database.connect();
+            String statement = "insert into timezones (uid, timezone) values(?,?)";
+            try {
+                PreparedStatement ps = con.prepareStatement(statement);
+                ps.setString(1, event.getUser().getId());
+                ps.setString(2, diffH + ":" + diffM);
+                ps.execute();
+                ps.close();
+                event.reply("Your time difference of **GMT " + (negative ? "" : "+") + diffH + ":" + diffM
+                        + (diffM == 0 ? "0" : "") + "** has been set!").setEphemeral(true).queue();
+            } catch (SQLException ex) {
+                event.deferReply().setEphemeral(true).setContent("Error! You already have your timezone set!")
+                        .queue();
             }
         }
 
