@@ -89,8 +89,15 @@ public class RegisterEvents {
                 tz_set.addOption(OptionType.STRING, "time",
                                 "Type what time it is for you in 24-hour format (14:24), and I will figure out your timezone.",
                                 true);
+                SubcommandData tz_setmanual = new SubcommandData("setmanual", "Manually specify your timezone to the bot.");
+                OptionData tz_setmanual_hours = new OptionData(OptionType.INTEGER, "hours", "GMT +/- this amound of hours",true);
+                tz_setmanual_hours.setRequiredRange(-12,12);
+                OptionData tz_setmanual_minutes = new OptionData(OptionType.INTEGER, "minutes", "GMT +/- this amound of minutes",true);
+                tz_setmanual_minutes.setRequiredRange(0,59);
+                tz_setmanual.addOptions(tz_setmanual_hours,tz_setmanual_minutes);
                 timezone.addSubcommands(tz_set);
                 timezone.addSubcommands(tz_remove);
+                timezone.addSubcommands(tz_setmanual);
                 slashCommands.add(timezone);
 
                 SlashCommandData mytime = Commands.slash("mytime", "Show your time in the server");
