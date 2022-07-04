@@ -63,6 +63,7 @@ public class CloseTicketButton extends ListenerAdapter {
                             emb.setDescription(
                                     "**Transcript from " + ticketAuthor.getAsMention() + "'s ticket**" + "\n" +
                                             "TicketID: " + event.getTextChannel().getName() + "\n" +
+                                            "Closed by: "+event.getUser().getAsMention()+" `("+event.getUser().getId()+")`\n"+
                                             "Closed at: " + getAsTimeThing(event.getTimeCreated(), "f"));
                             transcriptChannel.sendMessageEmbeds(emb.build()).addFile(f).queue();
                             event.getTextChannel().delete().queue();
