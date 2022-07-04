@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands;
+package me.nerdoron.himyb.modules._bot;
 
 import me.nerdoron.himyb.commands.funcommands.EightBall;
 import me.nerdoron.himyb.commands.funcommands.ReplyCommand;
