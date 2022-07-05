@@ -1,6 +1,8 @@
 package me.nerdoron.himyb;
 
 import javax.security.auth.login.LoginException;
+
+import me.nerdoron.himyb.modules._bot.RegisterEvents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.github.cdimascio.dotenv.DotEnvException;
