@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.sql.SQLException;
@@ -26,7 +27,7 @@ public class ZitchTimer {
         this.waiter = waiter;
     }
 
-    BroCoinsSQL zitchSQL = new BroCoinsSQL();
+    BroCoinsSQL brocoinsSQL = new BroCoinsSQL();
 
     public void execute() {
         new Thread(() -> {
@@ -49,13 +50,14 @@ public class ZitchTimer {
                     User user = event.getAuthor();
                     return !user.isBot() && event.isFromGuild()
                             && event.getChannel().getId().equals(message.getChannel().getId())
-                            && event.getMessage().getContentRaw().equalsIgnoreCase("zitch dog");
+                            && event.getMessage().getContentRaw().equalsIgnoreCase("zitch dog")
+                            && brocoinsSQL.hasBrocoins(message.getMember());
                 },
                 (event) -> {
 
-                    int brocoins = zitchSQL.getBrocoins(event.getMember());
+                    int brocoins = brocoinsSQL.getBrocoins(event.getMember());
                     try {
-                        zitchSQL.setBrocoins(event.getMember(), brocoins + 1);
+                        brocoinsSQL.updateBrocoins(event.getMember(),  1);
                     } catch (SQLException e) {
                         e.printStackTrace();
                         message.editMessage("Uh oh. There has been a DB error").queue();
@@ -63,8 +65,7 @@ public class ZitchTimer {
                     }
 
                     message.editMessage("Congratulations " + event.getMember().getAsMention()
-                            + "! You got 1 Brocoin! Now you have " + (brocoins + 1)).queue();
-
+                            + "! You got 1 Brocoin! Now you have " + (brocoins + 1)+ " " + Emoji.fromCustom(Global.broCoin).getAsMention()).queue();
                 },
                 5, TimeUnit.MINUTES,
                 () -> {
