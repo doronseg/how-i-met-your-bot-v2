@@ -2,7 +2,7 @@ package me.nerdoron.himyb.modules.zitchdog;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.nerdoron.himyb.Global;
-import me.nerdoron.himyb.commands.currency.BroCoinsSQL;
+import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -53,9 +53,9 @@ public class ZitchTimer {
                 },
                 (event) -> {
 
-                    int brocoins = zitchSQL.getBrocoin(event.getMember());
+                    int brocoins = zitchSQL.getBrocoins(event.getMember());
                     try {
-                        zitchSQL.setBrocoin(event.getMember(), brocoins + 1);
+                        zitchSQL.setBrocoins(event.getMember(), brocoins + 1);
                     } catch (SQLException e) {
                         e.printStackTrace();
                         message.editMessage("Uh oh. There has been a DB error").queue();

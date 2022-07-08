@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.currency;
+package me.nerdoron.himyb.modules.brocoins;
 
 import me.nerdoron.himyb.modules.Database;
 import me.nerdoron.himyb.modules.afk.AFKChecks;
@@ -16,7 +16,7 @@ public class BroCoinsSQL {
     static PreparedStatement ps = null;
     static final Logger logger = LoggerFactory.getLogger(AFKChecks.class);
 
-    public boolean hasBrocoin(Member member) {
+    public boolean hasBrocoins(Member member) {
         String SQL = "SELECT uid FROM brocoins WHERE UID=?";
         try {
             ps = con.prepareStatement(SQL);
@@ -35,8 +35,8 @@ public class BroCoinsSQL {
         return false;
     }
 
-    public int getBrocoin(Member member) {
-        if (!hasBrocoin(member))
+    public int getBrocoins(Member member) {
+        if (!hasBrocoins(member))
             return 0;
         int brocoins = 0;
         try {
@@ -54,8 +54,8 @@ public class BroCoinsSQL {
         return brocoins;
     }
 
-    public void setBrocoin(Member member, int newAmount) throws SQLException {
-        if (hasBrocoin(member)) {
+    public void setBrocoins(Member member, int newAmount) throws SQLException {
+        if (hasBrocoins(member)) {
             String SQL = "UPDATE brocoins SET amount = ? WHERE uid = ?";
             PreparedStatement ps = con.prepareStatement(SQL);
             ps.setInt(1, newAmount);
@@ -70,5 +70,11 @@ public class BroCoinsSQL {
             ps.execute();
             ps.close();
         }
+    }
+
+    public void updateBrocoins(Member member, int amountToChange) throws SQLException {
+        int memberCoins = this.getBrocoins(member);
+        memberCoins+=amountToChange;
+        this.setBrocoins(member,memberCoins);
     }
 }
