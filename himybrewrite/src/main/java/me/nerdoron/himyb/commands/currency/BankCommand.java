@@ -66,5 +66,30 @@ public class BankCommand extends SlashCommand {
                 e.printStackTrace();
             }
         }
+
+        // check
+        if (subcmd.equals("check")) {
+            if (broCoinsSQL.hasBrocoin(member) == false) {
+                event.reply("You dont have a bank account!").setEphemeral(true).queue();
+                return;
+            }
+            if (event.getInteraction().getOptions().isEmpty()) {
+                int memberCoins = broCoinsSQL.getBrocoin(member);
+                event.reply("You have " + memberCoins + " " + Emoji.fromCustom(Global.broCoin).getAsMention() + ".")
+                        .setEphemeral(true).queue();
+                return;
+            }
+            Member memberToCheck = event.getInteraction().getOption("user").getAsMember();
+            int memberCoins = broCoinsSQL.getBrocoin(memberToCheck);
+            if (broCoinsSQL.hasBrocoin(memberToCheck) == false) {
+                event.reply(memberToCheck.getEffectiveName() + " doesn't have a bank account!").setEphemeral(true)
+                        .queue();
+                return;
+            }
+            event.reply(memberToCheck.getEffectiveName() + " has " + memberCoins + " "
+                    + Emoji.fromCustom(Global.broCoin).getAsMention() + ".")
+                    .queue();
+
+        }
     }
 }

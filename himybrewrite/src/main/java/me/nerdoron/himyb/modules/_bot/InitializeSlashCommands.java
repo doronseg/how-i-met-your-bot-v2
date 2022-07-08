@@ -105,8 +105,12 @@ public class InitializeSlashCommands {
                 amount.setMinValue(1);
                 b_transfer.addOptions(amount);
 
+                SubcommandData b_check = new SubcommandData("check", "Checks how many BroCoins you have");
+                b_check.addOption(OptionType.USER, "user", "The user you want to check.", false);
+
                 bank.addSubcommands(b_transfer);
                 bank.addSubcommands(b_create);
+                bank.addSubcommands(b_check);
                 slashCommands.add(bank);
 
                 jda.updateCommands().addCommands(slashCommands).queue();
