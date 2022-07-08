@@ -1,5 +1,6 @@
 package me.nerdoron.himyb.modules._bot;
 
+import me.nerdoron.himyb.commands.currency.BankCommand;
 import me.nerdoron.himyb.commands.funcommands.EightBall;
 import me.nerdoron.himyb.commands.funcommands.ReplyCommand;
 import me.nerdoron.himyb.commands.funcommands.SayCommand;
@@ -20,7 +21,6 @@ public class BotCommandsHandler extends ListenerAdapter {
     HelpCommand helpCommand = new HelpCommand();
     ApplyCommand applyCommand = new ApplyCommand();
     BirthdayCommand birthdayCommand = new BirthdayCommand();
-    //TimezoneCommand timezoneCommand = new TimezoneCommand();
     TimezoneCommand timezoneCommand = new TimezoneCommand();
     MytimeCommand mytimeCommand = new MytimeCommand();
     WhatTimeCommand whatTimeCommand = new WhatTimeCommand();
@@ -28,6 +28,7 @@ public class BotCommandsHandler extends ListenerAdapter {
     SendPannelCommand sendPannelCommand = new SendPannelCommand();
     SelfPromoCommand selfPromoCommand = new SelfPromoCommand();
     RemoveBirthdayCommand removeBirthdayCommand = new RemoveBirthdayCommand();
+    BankCommand bankCommand = new BankCommand();
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
@@ -81,6 +82,8 @@ public class BotCommandsHandler extends ListenerAdapter {
                 selfPromoCommand.execute(event);
             case "removebirthday":
                 removeBirthdayCommand.execute(event);
+            case "bank":
+                bankCommand.execute(event);
         }
     }
 

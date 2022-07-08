@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.modules.zitchdog;
+package me.nerdoron.himyb.commands.currency;
 
 import me.nerdoron.himyb.modules.Database;
 import me.nerdoron.himyb.modules.afk.AFKChecks;
@@ -11,12 +11,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ZitchSQL {
+public class BroCoinsSQL {
     static Connection con = Database.connect();
     static PreparedStatement ps = null;
     static final Logger logger = LoggerFactory.getLogger(AFKChecks.class);
 
-    public static boolean hasBrocoin(Member member) {
+    public boolean hasBrocoin(Member member) {
         String SQL = "SELECT uid FROM brocoins WHERE UID=?";
         try {
             ps = con.prepareStatement(SQL);
@@ -35,8 +35,9 @@ public class ZitchSQL {
         return false;
     }
 
-    public static int getBrocoin(Member member) {
-        if (!hasBrocoin(member)) return 0;
+    public int getBrocoin(Member member) {
+        if (!hasBrocoin(member))
+            return 0;
         int brocoins = 0;
         try {
             String SQL = "select amount FROM brocoins WHERE uid=?";
@@ -53,7 +54,7 @@ public class ZitchSQL {
         return brocoins;
     }
 
-    public static void setBrocoin(Member member, int newAmount) throws SQLException {
+    public void setBrocoin(Member member, int newAmount) throws SQLException {
         if (hasBrocoin(member)) {
             String SQL = "UPDATE brocoins SET amount = ? WHERE uid = ?";
             PreparedStatement ps = con.prepareStatement(SQL);
