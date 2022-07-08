@@ -21,7 +21,7 @@ public class ZitchTimer {
     private final EventWaiter waiter;
     private final String guildID = "850396197646106624";
     private final String channelID = "850437485687078932";
-    private int waitTime = generateNumber(Global.ms_1hour, Global.ms_1hour * 3);
+    private int waitTime = generateNumber(Global.ms_1minute*30, Global.ms_1hour * 3);
 
     public ZitchTimer(JDA jda, EventWaiter waiter) {
         this.jda = jda;
@@ -36,7 +36,7 @@ public class ZitchTimer {
                 Thread.sleep(waitTime);
             } catch (InterruptedException e) {
             }
-            waitTime = generateNumber(Global.ms_1hour, Global.ms_1hour * 3);
+            waitTime = generateNumber(Global.ms_1minute*30, Global.ms_1hour * 3);
             Guild guild = jda.getGuildById(guildID);
             TextChannel channel = guild.getTextChannelById(channelID);
             channel.sendMessage("\uD83D\uDC36").queue(
