@@ -12,7 +12,6 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.sql.SQLException;
-import java.time.Duration;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +20,7 @@ public class ZitchTimer {
     private final EventWaiter waiter;
     private final String guildID = "850396197646106624";
     private final String channelID = "850437485687078932";
-    private int waitTime = generateNumber(Global.ms_1minute*30, Global.ms_1hour * 3);
+    private int waitTime = generateNumber(Global.ms_1minute * 30, Global.ms_1hour * 3);
 
     public ZitchTimer(JDA jda, EventWaiter waiter) {
         this.jda = jda;
@@ -36,12 +35,14 @@ public class ZitchTimer {
                 Thread.sleep(waitTime);
             } catch (InterruptedException e) {
             }
-            waitTime = generateNumber(Global.ms_1minute*30, Global.ms_1hour * 3);
+            waitTime = generateNumber(Global.ms_1minute * 30, Global.ms_1hour * 3);
             Guild guild = jda.getGuildById(guildID);
             TextChannel channel = guild.getTextChannelById(channelID);
             channel.sendMessage("\uD83D\uDC36").queue(
                     this::eventHandler);
-            new Thread(() -> {execute();}).start();
+            new Thread(() -> {
+                execute();
+            }).start();
         }).start();
     }
 
@@ -55,16 +56,18 @@ public class ZitchTimer {
                 },
                 (event) -> {
                     if (!brocoinsSQL.hasBrocoins(event.getMember())) {
-                        message.getChannel().sendMessage(event.getMember().getAsMention()+" You don't have bank account!").queue();
+                        message.getChannel()
+                                .sendMessage(event.getMember().getAsMention() + " You don't have bank account!")
+                                .queue();
                         eventHandler(message);
                         return;
                     }
 
                     int brocoins = brocoinsSQL.getBrocoins(event.getMember());
-                    int reward = generateNumber(1,5);
+                    int reward = generateNumber(1, 5);
 
                     try {
-                        brocoinsSQL.updateBrocoins(event.getMember(),  reward);
+                        brocoinsSQL.updateBrocoins(event.getMember(), reward);
                     } catch (SQLException e) {
                         e.printStackTrace();
                         message.editMessage("Uh oh. There has been a DB error").queue();
@@ -72,7 +75,8 @@ public class ZitchTimer {
                     }
 
                     message.editMessage("Congratulations " + event.getMember().getAsMention()
-                            + "! You got "+reward+" "+(reward==1 ? "Brocoin" : "Brocoins")+"! Now you have " + (brocoins + reward)+ " " + Emoji.fromCustom(Global.broCoin).getAsMention()).queue();
+                            + "! You got " + reward + " " + (reward == 1 ? "Brocoin" : "Brocoins") + "! Now you have "
+                            + (brocoins + reward) + " " + Emoji.fromCustom(Global.broCoin).getAsMention()).queue();
                 },
                 5, TimeUnit.MINUTES,
                 () -> {
