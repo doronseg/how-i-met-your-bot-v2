@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.SlashCommand;
+import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -18,12 +19,12 @@ public class BankCommand extends SlashCommand {
 
         String subcmd = event.getSubcommandName();
         if (subcmd.equals("create")) {
-            if (broCoinsSQL.hasBrocoin(member) == true) {
+            if (broCoinsSQL.hasBrocoins(member) == true) {
                 event.reply("You already have a bank account!").setEphemeral(true).queue();
                 return;
             }
             try {
-                broCoinsSQL.setBrocoin(member, 5);
+                broCoinsSQL.setBrocoins(member, 5);
                 event.reply("Created a BroBank account! I gave you 5 " + Emoji.fromCustom(Global.broCoin).getAsMention()
                         + " to get started!").setEphemeral(true)
                         .queue();
@@ -35,11 +36,11 @@ public class BankCommand extends SlashCommand {
 
         // transfer
         if (subcmd.equals("transfer")) {
-            if (broCoinsSQL.hasBrocoin(member) == false) {
+            if (broCoinsSQL.hasBrocoins(member) == false) {
                 event.reply("You dont have a bank account!").setEphemeral(true).queue();
                 return;
             }
-            int userCoins = broCoinsSQL.getBrocoin(member);
+            int userCoins = broCoinsSQL.getBrocoins(member);
             int amountToTransfer = event.getInteraction().getOption("amount").getAsInt();
             if (userCoins < amountToTransfer) {
                 event.reply("You dont have enough BroCoins to transfer!").setEphemeral(true).queue();
@@ -47,17 +48,14 @@ public class BankCommand extends SlashCommand {
             }
 
             Member memberToTransferTo = event.getInteraction().getOption("user").getAsMember();
-            if (broCoinsSQL.hasBrocoin(memberToTransferTo) == false) {
+            if (broCoinsSQL.hasBrocoins(memberToTransferTo) == false) {
                 event.reply("That user does not have a BroBank account. Please tell them to create one.")
                         .setEphemeral(true).queue();
                 return;
             }
             try {
-                int memberToTransferCoins = broCoinsSQL.getBrocoin(memberToTransferTo);
-                int memberCoins = broCoinsSQL.getBrocoin(member);
-                int finalAmount = memberToTransferCoins + amountToTransfer;
-                broCoinsSQL.setBrocoin(memberToTransferTo, finalAmount);
-                broCoinsSQL.setBrocoin(member, memberCoins - amountToTransfer);
+                broCoinsSQL.updateBrocoins(memberToTransferTo, amountToTransfer);
+                broCoinsSQL.setBrocoins(member, -amountToTransfer);
                 event.reply("Transferred " + amountToTransfer + " " + Emoji.fromCustom(Global.broCoin).getAsMention()
                         + " to "
                         + memberToTransferTo.getAsMention()).queue();
@@ -69,19 +67,19 @@ public class BankCommand extends SlashCommand {
 
         // check
         if (subcmd.equals("check")) {
-            if (broCoinsSQL.hasBrocoin(member) == false) {
+            if (broCoinsSQL.hasBrocoins(member) == false) {
                 event.reply("You dont have a bank account!").setEphemeral(true).queue();
                 return;
             }
             if (event.getInteraction().getOptions().isEmpty()) {
-                int memberCoins = broCoinsSQL.getBrocoin(member);
+                int memberCoins = broCoinsSQL.getBrocoins(member);
                 event.reply("You have " + memberCoins + " " + Emoji.fromCustom(Global.broCoin).getAsMention() + ".")
                         .setEphemeral(true).queue();
                 return;
             }
             Member memberToCheck = event.getInteraction().getOption("user").getAsMember();
-            int memberCoins = broCoinsSQL.getBrocoin(memberToCheck);
-            if (broCoinsSQL.hasBrocoin(memberToCheck) == false) {
+            int memberCoins = broCoinsSQL.getBrocoins(memberToCheck);
+            if (broCoinsSQL.hasBrocoins(memberToCheck) == false) {
                 event.reply(memberToCheck.getEffectiveName() + " doesn't have a bank account!").setEphemeral(true)
                         .queue();
                 return;

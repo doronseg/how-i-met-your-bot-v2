@@ -2,6 +2,7 @@ package me.nerdoron.himyb;
 
 import java.awt.Color;
 
+import me.nerdoron.himyb.modules._bot.CooldownManager;
 import net.dv8tion.jda.api.entities.emoji.CustomEmoji;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 
@@ -13,4 +14,5 @@ public class Global {
     public static final int ms_1minute = 60000;
     public static final int ms_1hour = 60 * ms_1minute;
     public static CustomEmoji broCoin = Emoji.fromCustom("brocoin", 991661873126707210L, false);
+    public static final CooldownManager COOLDOWN_MANAGER = new CooldownManager();
 }
