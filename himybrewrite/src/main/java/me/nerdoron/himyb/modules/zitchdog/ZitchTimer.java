@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -40,7 +41,7 @@ public class ZitchTimer {
             TextChannel channel = guild.getTextChannelById(channelID);
             channel.sendMessage("\uD83D\uDC36").queue(
                     this::eventHandler);
-            execute();
+            new Thread(() -> {execute();}).start();
         }).start();
     }
 
@@ -50,14 +51,20 @@ public class ZitchTimer {
                     User user = event.getAuthor();
                     return !user.isBot() && event.isFromGuild()
                             && event.getChannel().getId().equals(message.getChannel().getId())
-                            && event.getMessage().getContentRaw().equalsIgnoreCase("zitch dog")
-                            && brocoinsSQL.hasBrocoins(message.getMember());
+                            && event.getMessage().getContentRaw().equalsIgnoreCase("zitch dog");
                 },
                 (event) -> {
+                    if (!brocoinsSQL.hasBrocoins(event.getMember())) {
+                        message.getChannel().sendMessage(event.getMember().getAsMention()+" You don't have bank account!").queue();
+                        eventHandler(message);
+                        return;
+                    }
 
                     int brocoins = brocoinsSQL.getBrocoins(event.getMember());
+                    int reward = generateNumber(1,5);
+
                     try {
-                        brocoinsSQL.updateBrocoins(event.getMember(),  1);
+                        brocoinsSQL.updateBrocoins(event.getMember(),  reward);
                     } catch (SQLException e) {
                         e.printStackTrace();
                         message.editMessage("Uh oh. There has been a DB error").queue();
@@ -65,11 +72,11 @@ public class ZitchTimer {
                     }
 
                     message.editMessage("Congratulations " + event.getMember().getAsMention()
-                            + "! You got 1 Brocoin! Now you have " + (brocoins + 1)+ " " + Emoji.fromCustom(Global.broCoin).getAsMention()).queue();
+                            + "! You got "+reward+" "+(reward==1 ? "Brocoin" : "Brocoins")+"! Now you have " + (brocoins + reward)+ " " + Emoji.fromCustom(Global.broCoin).getAsMention()).queue();
                 },
                 5, TimeUnit.MINUTES,
                 () -> {
-                    message.editMessage("`:(` Timed out").queue();
+                    message.delete().queue();
                 });
     }
 

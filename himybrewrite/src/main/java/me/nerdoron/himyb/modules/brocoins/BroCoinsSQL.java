@@ -3,6 +3,7 @@ package me.nerdoron.himyb.modules.brocoins;
 import me.nerdoron.himyb.modules.Database;
 import me.nerdoron.himyb.modules.afk.AFKChecks;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +18,25 @@ public class BroCoinsSQL {
     static final Logger logger = LoggerFactory.getLogger(AFKChecks.class);
 
     public boolean hasBrocoins(Member member) {
+        String SQL = "SELECT uid FROM brocoins WHERE UID=?";
+        try {
+            ps = con.prepareStatement(SQL);
+            ps.setString(1, member.getId());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                ps.close();
+                return true;
+            } else {
+                ps.close();
+                return false;
+            }
+        } catch (Exception ex) {
+            logger.error(ex.toString());
+        }
+        return false;
+    }
+
+    public boolean hasBrocoins(User member) {
         String SQL = "SELECT uid FROM brocoins WHERE UID=?";
         try {
             ps = con.prepareStatement(SQL);
