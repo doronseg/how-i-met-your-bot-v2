@@ -21,6 +21,7 @@ import me.nerdoron.himyb.modules.selfpromo.SelfPromoHandler;
 import me.nerdoron.himyb.modules.selfpromo.SubmitLinks;
 import me.nerdoron.himyb.modules.tickets.CloseTicketButton;
 import me.nerdoron.himyb.modules.tickets.transcript.TicketCreation;
+import me.nerdoron.himyb.modules.zitchdog.ZitchTimer;
 import net.dv8tion.jda.api.JDA;
 
 public class RegisterEvents {
@@ -52,8 +53,8 @@ public class RegisterEvents {
                 jda.addEventListener(new TicketCreation());
                 jda.addEventListener(new CloseTicketButton());
                 jda.addEventListener(new SubmitLinks());
+                new ZitchTimer(jda,waiter).execute();
                 // jda.addEventListener(new JinxHandler()); Postponed
-                // new ZitchTimer(jda,waiter).execute(); Doron asked to comment it out
 
         }
 
