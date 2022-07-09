@@ -2,6 +2,7 @@ package me.nerdoron.himyb.modules.zitchdog;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.nerdoron.himyb.Global;
+import me.nerdoron.himyb.commands.currency.BankCommand;
 import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
@@ -10,6 +11,8 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.time.Duration;
@@ -17,6 +20,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class ZitchTimer {
+    final Logger logger = LoggerFactory.getLogger(BankCommand.class);
     private final JDA jda;
     private final EventWaiter waiter;
     private final String guildID = "850396197646106624";
@@ -73,6 +77,8 @@ public class ZitchTimer {
 
                     message.editMessage("Congratulations " + event.getMember().getAsMention()
                             + "! You got "+reward+" "+(reward==1 ? "Brocoin" : "Brocoins")+"! Now you have " + (brocoins + reward)+ " " + Emoji.fromCustom(Global.broCoin).getAsMention()).queue();
+                    int coinsNow = brocoinsSQL.getBrocoins(event.getMember());
+                    logger.info(event.getMember() + " won ("+reward+" Coins) in ZitchDog now they have ("+coinsNow+")");
                 },
                 5, TimeUnit.MINUTES,
                 () -> {
