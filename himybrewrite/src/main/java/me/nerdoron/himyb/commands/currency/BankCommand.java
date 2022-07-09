@@ -36,26 +36,27 @@ public class BankCommand extends SlashCommand {
 
         // transfer
         if (subcmd.equals("transfer")) {
-            if (broCoinsSQL.hasBrocoins(member) == false) {
+            if (!broCoinsSQL.hasBrocoins(member)) {
                 event.reply("You dont have a bank account!").setEphemeral(true).queue();
                 return;
             }
             int userCoins = broCoinsSQL.getBrocoins(member);
             int amountToTransfer = event.getInteraction().getOption("amount").getAsInt();
+
             if (userCoins < amountToTransfer) {
                 event.reply("You dont have enough BroCoins to transfer!").setEphemeral(true).queue();
                 return;
             }
 
             Member memberToTransferTo = event.getInteraction().getOption("user").getAsMember();
-            if (broCoinsSQL.hasBrocoins(memberToTransferTo) == false) {
+            if (!broCoinsSQL.hasBrocoins(memberToTransferTo)) {
                 event.reply("That user does not have a BroBank account. Please tell them to create one.")
                         .setEphemeral(true).queue();
                 return;
             }
             try {
                 broCoinsSQL.updateBrocoins(memberToTransferTo, amountToTransfer);
-                broCoinsSQL.setBrocoins(member, -amountToTransfer);
+                broCoinsSQL.updateBrocoins(member, -amountToTransfer);
                 event.reply("Transferred " + amountToTransfer + " " + Emoji.fromCustom(Global.broCoin).getAsMention()
                         + " to "
                         + memberToTransferTo.getAsMention()).queue();
