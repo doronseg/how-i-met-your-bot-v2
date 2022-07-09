@@ -108,9 +108,14 @@ public class InitializeSlashCommands {
                 SubcommandData b_check = new SubcommandData("check", "Checks how many BroCoins you have");
                 b_check.addOption(OptionType.USER, "user", "The user you want to check.", false);
 
-                bank.addSubcommands(b_transfer);
-                bank.addSubcommands(b_create);
-                bank.addSubcommands(b_check);
+                SubcommandData b_set = new SubcommandData("set","Set the coins of a specified user");
+                b_set.addOption(OptionType.USER, "user", "The user you want to modify its coins", true);
+                amount = new OptionData(OptionType.INTEGER, "amount",
+                        "The amount of coins you want to set", true);
+                amount.setMinValue(1);
+                b_set.addOptions(amount);
+
+                bank.addSubcommands(b_create,b_check, b_transfer, b_set);
                 slashCommands.add(bank);
 
                 jda.updateCommands().addCommands(slashCommands).queue();

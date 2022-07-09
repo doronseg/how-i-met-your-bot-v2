@@ -5,12 +5,16 @@ import java.sql.SQLException;
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BankCommand extends SlashCommand {
 
+    final Logger logger = LoggerFactory.getLogger(SlashCommand.class);
     BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
 
     @Override
@@ -28,37 +32,7 @@ public class BankCommand extends SlashCommand {
                 event.reply("Created a BroBank account! I gave you 5 " + Emoji.fromCustom(Global.broCoin).getAsMention()
                         + " to get started!").setEphemeral(true)
                         .queue();
-            } catch (SQLException e) {
-                event.reply("Error!").queue();
-                e.printStackTrace();
-            }
-        }
-
-        // transfer
-        if (subcmd.equals("transfer")) {
-            if (broCoinsSQL.hasBrocoins(member) == false) {
-                event.reply("You dont have a bank account!").setEphemeral(true).queue();
-                return;
-            }
-            int userCoins = broCoinsSQL.getBrocoins(member);
-            int amountToTransfer = event.getInteraction().getOption("amount").getAsInt();
-            if (userCoins < amountToTransfer) {
-                event.reply("You dont have enough BroCoins to transfer!").setEphemeral(true).queue();
-                return;
-            }
-
-            Member memberToTransferTo = event.getInteraction().getOption("user").getAsMember();
-            if (broCoinsSQL.hasBrocoins(memberToTransferTo) == false) {
-                event.reply("That user does not have a BroBank account. Please tell them to create one.")
-                        .setEphemeral(true).queue();
-                return;
-            }
-            try {
-                broCoinsSQL.updateBrocoins(memberToTransferTo, amountToTransfer);
-                broCoinsSQL.setBrocoins(member, -amountToTransfer);
-                event.reply("Transferred " + amountToTransfer + " " + Emoji.fromCustom(Global.broCoin).getAsMention()
-                        + " to "
-                        + memberToTransferTo.getAsMention()).queue();
+                logger.info(member.getUser().getAsTag() + "("+member.getId()+") Created a bank account");
             } catch (SQLException e) {
                 event.reply("Error!").queue();
                 e.printStackTrace();
@@ -87,7 +61,67 @@ public class BankCommand extends SlashCommand {
             event.reply(memberToCheck.getEffectiveName() + " has " + memberCoins + " "
                     + Emoji.fromCustom(Global.broCoin).getAsMention() + ".")
                     .queue();
+        }
 
+        // transfer
+        if (subcmd.equals("transfer")) {
+            if (!broCoinsSQL.hasBrocoins(member)) {
+                event.reply("You dont have a bank account!").setEphemeral(true).queue();
+                return;
+            }
+            int userCoins = broCoinsSQL.getBrocoins(member);
+            int amountToTransfer = event.getInteraction().getOption("amount").getAsInt();
+
+            if (userCoins < amountToTransfer) {
+                event.reply("You dont have enough BroCoins to transfer!").setEphemeral(true).queue();
+                return;
+            }
+
+            Member memberToTransferTo = event.getInteraction().getOption("user").getAsMember();
+            if (!broCoinsSQL.hasBrocoins(memberToTransferTo)) {
+                event.reply("That user does not have a BroBank account. Please tell them to create one.")
+                        .setEphemeral(true).queue();
+                return;
+            }
+            try {
+                broCoinsSQL.updateBrocoins(memberToTransferTo, amountToTransfer);
+                broCoinsSQL.updateBrocoins(member, -amountToTransfer);
+                event.reply("Transferred " + amountToTransfer + " " + Emoji.fromCustom(Global.broCoin).getAsMention()
+                        + " to "
+                        + memberToTransferTo.getAsMention()).queue();
+
+                int memberBrocoins = broCoinsSQL.getBrocoins(member);
+                int targetBrocoins = broCoinsSQL.getBrocoins(memberToTransferTo);
+                logger.info(member.getUser().getAsTag() + "("+member.getId()+") Transfered ("+amountToTransfer+" Coins) now they have ("+memberBrocoins+" Coins) and "+memberToTransferTo.getUser().getAsTag()+"("+memberToTransferTo.getId()+") has ("+targetBrocoins+" Coins)");
+            } catch (SQLException e) {
+                event.reply("Error!").queue();
+                e.printStackTrace();
+            }
+        }
+
+        // set
+        if (subcmd.equals("set")) {
+            if (!event.getMember().getPermissions().contains(Permission.ADMINISTRATOR)) {
+                event.reply("You don't have enough permissions todo that!").setEphemeral(true).queue();
+                return;
+            }
+
+            int newAmount = event.getInteraction().getOption("amount").getAsInt();
+            Member memberToModify = event.getInteraction().getOption("user").getAsMember();
+            if (!broCoinsSQL.hasBrocoins(memberToModify)) {
+                event.reply("That user does not have a BroBank account. Please tell them to create one.")
+                        .setEphemeral(true).queue();
+                return;
+            }
+
+            try {
+                broCoinsSQL.setBrocoins(memberToModify, newAmount);
+                event.reply(memberToModify.getAsMention()+ " now has "+newAmount+ " "+Emoji.fromCustom(Global.broCoin).getAsMention()).queue();
+                logger.info(member.getUser().getAsTag() + "("+member.getId()+") has set the amount of "+ memberToModify.getUser().getAsTag()+"("+memberToModify.getId()+") to ("+newAmount+" Coins)");
+            } catch (SQLException e) {
+                event.reply("Error!").queue();
+                e.printStackTrace();
+            }
         }
     }
 }
