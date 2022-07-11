@@ -1,10 +1,13 @@
 package me.nerdoron.himyb.commands.currency;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
+import me.nerdoron.himyb.modules.brocoins.Sorter;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
@@ -122,6 +125,39 @@ public class BankCommand extends SlashCommand {
                 event.reply("Error!").queue();
                 e.printStackTrace();
             }
+        }
+
+        if (subcmd.equals("leaderboard")) {
+            Map<String, Integer> brocoins = broCoinsSQL.getBrocoins();
+            Map<String, Integer> sorted = new Sorter().sortMapMaxLow(brocoins,10);
+            int longest = 0;
+            for (Integer p : sorted.values()) {
+
+                String a = p+"";
+                if (a.length() > longest) {
+                    longest = a.length();
+                }
+            }
+
+            String users = "";
+            for (String userID : sorted.keySet()) {
+                int coins = sorted.get(userID);
+                if (coins > 0) {
+                    String textCoins = coins+"";
+                    for (int i = textCoins.length(); i < longest; i++) {
+                        textCoins=" "+textCoins;
+                    }
+                    users+="**`"+textCoins+"`** "+Global.broCoin.getAsMention()+" | "+"<@!"+userID+">"+"\n";
+                }
+            }
+
+            EmbedBuilder emb = new EmbedBuilder();
+            emb.setColor(Global.embedColor);
+            emb.setTitle("Brocoins Leaderboard");
+            emb.setDescription(users);
+
+            event.replyEmbeds(emb.build()).setEphemeral(false).queue();
+
         }
     }
 }

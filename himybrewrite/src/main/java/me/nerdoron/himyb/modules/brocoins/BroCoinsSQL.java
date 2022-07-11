@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BroCoinsSQL {
     static Connection con = Database.connect();
@@ -72,6 +74,26 @@ public class BroCoinsSQL {
             return 0;
         }
         return brocoins;
+    }
+
+    public Map<String, Integer> getBrocoins() {
+        Map<String, Integer> result = new HashMap<>();
+        try {
+            String SQL = "SELECT * from brocoins";
+            PreparedStatement ps = con.prepareStatement(SQL);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String userID = rs.getString(1);
+                int userBroCoins = rs.getInt(2);
+                result.put(userID,userBroCoins);
+            }
+            ps.close();
+        } catch (SQLException e) {
+            logger.error("Error while getting some's brocoins in the DB", e.getCause().getMessage());
+            e.printStackTrace();
+            return null;
+        }
+        return result;
     }
 
     public void setBrocoins(Member member, int newAmount) throws SQLException {
