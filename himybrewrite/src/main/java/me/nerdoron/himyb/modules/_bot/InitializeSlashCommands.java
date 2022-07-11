@@ -13,16 +13,27 @@ public class InitializeSlashCommands {
         public InitializeSlashCommands(JDA jda) {
                 ArrayList<CommandData> slashCommands = new ArrayList<>();
 
+                //Ping
                 slashCommands.add(Commands.slash("ping", "Calculate te ping of the bot."));
+
+                //Uptime
                 slashCommands.add(Commands.slash("uptime", "Show the bot's uptime."));
+
+                //Revive
                 slashCommands.add(Commands.slash("revive", "Send the chat revive message")
                                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE)));
+
+                //Suggest
                 slashCommands.add(Commands.slash("suggest", "Send a suggestion")
                                 .addOption(OptionType.STRING, "type", "Select the type of suggestion", true, true)
                                 .addOption(OptionType.STRING, "suggestion", "Describe your suggestion", true));
+
+                //Afk
                 slashCommands.add(Commands.slash("afk", "Go AFK")
                                 .addOption(OptionType.STRING, "reason", "Why are you away?", true));
 
+
+                //Say
                 SlashCommandData say = Commands.slash("say", "Make the bot say something");
                 OptionData channel = new OptionData(OptionType.CHANNEL, "channel",
                                 "Which channel would you like to say it in?", true);
@@ -34,17 +45,23 @@ public class InitializeSlashCommands {
                                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE));
                 slashCommands.add(say);
 
+                //Reply
                 slashCommands.add(Commands.slash("reply", "Make the bot reply to a message")
                                 .addOption(OptionType.STRING, "replyto",
                                                 "What message would you like to reply to? (ID ONLY, MAKE SURE YOU ARE IN THE SAME CHANNEL)",
                                                 true)
                                 .addOption(OptionType.STRING, "message", "What would you like to say?", true)
                                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE)));
+
+                //Help
                 slashCommands.add(Commands.slash("help", "Displays the help menu."));
+
+                //Apply
                 slashCommands.add(Commands.slash("apply", "Apply for an open staff position.")
                                 .addOption(OptionType.STRING, "position", "What position would you like to apply to?",
                                                 true, true));
 
+                //Birthday
                 SlashCommandData birthday = Commands.slash("birthday", "Sets your birthday.");
                 birthday.addOption(OptionType.STRING, "month", "Select the month in which you were born.", true, true);
                 OptionData day = new OptionData(OptionType.INTEGER, "day", "Select the day in which you were born.",
@@ -54,6 +71,12 @@ public class InitializeSlashCommands {
                 birthday.addOptions(day);
                 slashCommands.add(birthday);
 
+                //Remove Birthday
+                slashCommands.add(Commands.slash("removebirthday", "Removes a birthday of a user")
+                        .addOption(OptionType.MENTIONABLE, "member", "Who to remove the birthday from", true)
+                        .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.KICK_MEMBERS)));
+
+                //Timezone
                 SlashCommandData timezone = Commands.slash("timezone", "Confused about time?");
                 SubcommandData tz_remove = new SubcommandData("remove", "Removes your timezone from the database.");
                 SubcommandData tz_set = new SubcommandData("set",
@@ -75,26 +98,28 @@ public class InitializeSlashCommands {
                 timezone.addSubcommands(tz_setmanual);
                 slashCommands.add(timezone);
 
+                //MyTime
                 SlashCommandData mytime = Commands.slash("mytime", "Show your time in the server");
                 slashCommands.add(mytime);
 
+                //WhatTime
                 SlashCommandData whatTime = Commands.slash("whattime", "Show a selected user's time in the server")
                                 .addOption(OptionType.USER, "member", "Who to get the time from", true);
                 slashCommands.add(whatTime);
 
+                //8 Ball
                 slashCommands.add(Commands.slash("8ball", "Ask the magic 8ball a question..")
                                 .addOption(OptionType.STRING, "question", "What's the question?",
                                                 true));
 
+                //Panels
                 slashCommands.add(Commands.slash("pannels", "Send the ticket pannels")
                                 .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)));
 
+                //Self promo
                 slashCommands.add(Commands.slash("selfpromo", "Submit a self promotion link"));
 
-                slashCommands.add(Commands.slash("removebirthday", "Removes a birthday of a user")
-                                .addOption(OptionType.MENTIONABLE, "member", "Who to remove the birthday from", true)
-                                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.KICK_MEMBERS)));
-
+                // Bank
                 SlashCommandData bank = Commands.slash("bank", "Control your BroBank account");
                 SubcommandData b_create = new SubcommandData("create", "Create a BroBank account");
                 SubcommandData b_transfer = new SubcommandData("transfer",
@@ -115,7 +140,9 @@ public class InitializeSlashCommands {
                 amount.setMinValue(1);
                 b_set.addOptions(amount);
 
-                bank.addSubcommands(b_create,b_check, b_transfer, b_set);
+                SubcommandData b_leaderboard = new SubcommandData("leaderboard", "Shows the top 10 richest people in the server");
+
+                bank.addSubcommands(b_create,b_check, b_transfer, b_set, b_leaderboard);
                 slashCommands.add(bank);
 
                 jda.updateCommands().addCommands(slashCommands).queue();
