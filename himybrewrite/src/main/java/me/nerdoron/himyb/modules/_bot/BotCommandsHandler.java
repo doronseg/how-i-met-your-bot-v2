@@ -50,7 +50,7 @@ public class BotCommandsHandler extends ListenerAdapter {
         for (SlashCommand command : commands) {
             slashes.add(command.getSlash());
         }
-        //jda.updateCommands().addCommands(slashes).queue();
+        jda.updateCommands().addCommands(slashes).queue();
     }
 
     @Override
