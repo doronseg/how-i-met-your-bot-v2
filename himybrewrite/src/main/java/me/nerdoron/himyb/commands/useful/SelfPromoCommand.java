@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.usefulcommands;
+package me.nerdoron.himyb.commands.useful;
 
 import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules.selfpromo.SelfPromoModal;

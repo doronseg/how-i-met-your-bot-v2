@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.funcommands.gambling;
+package me.nerdoron.himyb.commands.fun.gambling;
 
 import java.sql.SQLException;
 import java.util.Random;

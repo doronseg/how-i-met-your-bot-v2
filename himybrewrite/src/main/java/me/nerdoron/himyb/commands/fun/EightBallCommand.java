@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.funcommands;
+package me.nerdoron.himyb.commands.fun;
 
 import java.util.Random;
 

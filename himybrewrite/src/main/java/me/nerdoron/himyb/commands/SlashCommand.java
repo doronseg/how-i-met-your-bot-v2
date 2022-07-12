@@ -23,4 +23,10 @@ public abstract class SlashCommand {
 
     public abstract SlashCommandData getSlash();
 
+    public String getCategory() {
+        String name = this.getClass().getPackage().getName();
+        String r = name.split("\\.")[4];
+        return r;
+    }
+
 }

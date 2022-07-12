@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.staffcommands;
+package me.nerdoron.himyb.commands.staff;
 
 import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules.Database;

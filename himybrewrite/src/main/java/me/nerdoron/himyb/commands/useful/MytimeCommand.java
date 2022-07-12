@@ -1,26 +1,23 @@
-package me.nerdoron.himyb.commands.usefulcommands;
+package me.nerdoron.himyb.commands.useful;
 
 import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules.timezones.TimezoneParse;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
-public class WhatTimeCommand extends SlashCommand {
+public class MytimeCommand extends SlashCommand {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         TimezoneParse timezoneParse = new TimezoneParse();
-        Member member = event.getOption("member").getAsMember();
         String timezone = null;
         try {
-            timezone = timezoneParse.getTimezoneOf(member);
+            timezone = timezoneParse.getTimezoneOf(event.getMember());
         } catch (Exception e) {
-            event.reply(member.getAsMention()+" didn't set their timezone in the bot!").setEphemeral(true).queue();
+            event.reply("You didn't set your timezone in the bot!").setEphemeral(true).queue();
             return;
         }
 
@@ -29,13 +26,12 @@ public class WhatTimeCommand extends SlashCommand {
         int mns = Integer.parseInt(tz[1]);
 
         ZonedDateTime time = ZonedDateTime.now(ZoneOffset.UTC).plusHours(hrs).plusMinutes(mns);
-        event.reply("Hey, "+member.getUser().getName()+"'s time is **"+time.getHour()+":"+(time.getMinute()<10?"0":"")+time.getMinute()+"**").queue();
+        event.reply("Hey, "+event.getUser().getName()+"'s time is **"+time.getHour()+":"+(time.getMinute()<10?"0":"")+time.getMinute()+"**").queue();
     }
 
     @Override
     public SlashCommandData getSlash() {
-        SlashCommandData whatTime = Commands.slash("whattime", "Show a selected user's time in the server")
-                .addOption(OptionType.USER, "member", "Who to get the time from", true);
-        return whatTime;
+        SlashCommandData mytime = Commands.slash("mytime", "Show your time in the server");
+        return mytime;
     }
 }

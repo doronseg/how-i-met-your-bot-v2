@@ -2,7 +2,7 @@ package me.nerdoron.himyb.modules.zitchdog;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.nerdoron.himyb.Global;
-import me.nerdoron.himyb.commands.currencycommands.BankCommand;
+import me.nerdoron.himyb.commands.currency.BankCommand;
 import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;

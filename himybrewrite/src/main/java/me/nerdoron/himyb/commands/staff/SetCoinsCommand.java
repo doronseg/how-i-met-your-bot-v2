@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.currencycommands;
+package me.nerdoron.himyb.commands.staff;
 
 import java.sql.SQLException;
 

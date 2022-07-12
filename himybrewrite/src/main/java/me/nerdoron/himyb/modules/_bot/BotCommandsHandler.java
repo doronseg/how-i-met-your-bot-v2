@@ -1,15 +1,16 @@
 package me.nerdoron.himyb.modules._bot;
 
+import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.SlashCommand;
-import me.nerdoron.himyb.commands.currencycommands.BankCommand;
-import me.nerdoron.himyb.commands.currencycommands.SetCoinsCommand;
-import me.nerdoron.himyb.commands.funcommands.EightBallCommand;
-import me.nerdoron.himyb.commands.funcommands.ReplyCommand;
-import me.nerdoron.himyb.commands.funcommands.SayCommand;
-import me.nerdoron.himyb.commands.funcommands.gambling.CoinFlipCommand;
-import me.nerdoron.himyb.commands.staffcommands.RemoveBirthdayCommand;
-import me.nerdoron.himyb.commands.staffcommands.SendPannelCommand;
-import me.nerdoron.himyb.commands.usefulcommands.*;
+import me.nerdoron.himyb.commands.currency.BankCommand;
+import me.nerdoron.himyb.commands.staff.SetCoinsCommand;
+import me.nerdoron.himyb.commands.fun.EightBallCommand;
+import me.nerdoron.himyb.commands.staff.ReplyCommand;
+import me.nerdoron.himyb.commands.staff.SayCommand;
+import me.nerdoron.himyb.commands.fun.gambling.CoinFlipCommand;
+import me.nerdoron.himyb.commands.staff.RemoveBirthdayCommand;
+import me.nerdoron.himyb.commands.staff.SendPannelCommand;
+import me.nerdoron.himyb.commands.useful.*;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -18,9 +19,11 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import java.util.ArrayList;
 
 public class BotCommandsHandler extends ListenerAdapter {
-    ArrayList<SlashCommand> commands = new ArrayList<>();
+    public ArrayList<SlashCommand> commands = new ArrayList<>();
 
     public BotCommandsHandler() {
+        Global.COMMANDS_HANDLER = this;
+        commands.add(new HelpCommand(this));
         commands.add(new PingCommand());
         commands.add(new UptimeCommand());
         commands.add(new ReviveCommand());
@@ -28,7 +31,6 @@ public class BotCommandsHandler extends ListenerAdapter {
         commands.add(new AFKCommand());
         commands.add(new SayCommand());
         commands.add(new ReplyCommand());
-        commands.add(new HelpCommand());
         commands.add(new ApplyCommand());
         commands.add(new BirthdayCommand());
         commands.add(new TimezoneCommand());
@@ -48,7 +50,7 @@ public class BotCommandsHandler extends ListenerAdapter {
         for (SlashCommand command : commands) {
             slashes.add(command.getSlash());
         }
-        jda.updateCommands().addCommands(slashes).queue();
+        //jda.updateCommands().addCommands(slashes).queue();
     }
 
     @Override
@@ -59,6 +61,19 @@ public class BotCommandsHandler extends ListenerAdapter {
                 command.execute(event);
                 break;
             }
+        }
+    }
+
+    public String getCategoryDetailedName(String category) {
+        switch (category) {
+            case "useful":
+                return "🛠️ Useful Commands";
+            case "fun":
+                return "🦩 Fun Commands";
+            case "currency":
+                return "🪙 Currency Commands";
+            default:
+                return null;
         }
     }
 

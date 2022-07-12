@@ -1,8 +1,12 @@
 package me.nerdoron.himyb.modules.help;
 
+import me.nerdoron.himyb.Global;
+import me.nerdoron.himyb.commands.SlashCommand;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 public class HelpButtonHandler extends ListenerAdapter {
     HelpEmbeds helpEmbeds = new HelpEmbeds();
@@ -14,7 +18,7 @@ public class HelpButtonHandler extends ListenerAdapter {
             return;
         String[] buttonSplit = buttonId.split(":");
         String uid = buttonSplit[0];
-        String buttonType = buttonSplit[1];
+        String buttonCategory = buttonSplit[1];
         Message message = event.getMessage();
 
         if (!(uid.equals(event.getUser().getId()))) {
@@ -25,19 +29,31 @@ public class HelpButtonHandler extends ListenerAdapter {
             return;
         event.deferEdit().queue();
 
-        switch (buttonType) {
-            case "main":
-                message.editMessageEmbeds(helpEmbeds.mainMenu).queue();
-                break;
-            case "useful":
-                message.editMessageEmbeds(helpEmbeds.usefulMenu).queue();
-                break;
-            case "fun":
-                message.editMessageEmbeds(helpEmbeds.funMenu).queue();
-                break;
-            case "currency":
-                message.editMessageEmbeds(helpEmbeds.currencyMenu).queue();
-                break;
+        if (buttonCategory.equals("main")) {
+            message.editMessageEmbeds(helpEmbeds.mainMenu).queue();
+            return;
         }
+
+        String embedDescription = "A list of all commands under the `"+buttonCategory+"` category\n\n";
+        for (SlashCommand command : Global.COMMANDS_HANDLER.commands) {
+            if (!command.getCategory().equals(buttonCategory)) continue;
+
+            String options = " ";
+            for (OptionData option : command.getSlash().getOptions()) {
+                options+="["+option.getName()+"] ";
+            }
+
+            String commandName = command.getSlash().getName()+options;
+            commandName = commandName.trim();
+
+            embedDescription+="`/"+commandName+"` - ";
+            embedDescription+=command.getSlash().getDescription()+"\n";
+        }
+        EmbedBuilder emb = new EmbedBuilder();
+        emb.setTitle(Global.COMMANDS_HANDLER.getCategoryDetailedName(buttonCategory));
+        emb.setDescription(embedDescription);
+        emb.setColor(Global.embedColor);
+        emb.setFooter(Global.footertext, Global.footerpfp);
+        message.editMessageEmbeds(emb.build()).queue();
     }
 }

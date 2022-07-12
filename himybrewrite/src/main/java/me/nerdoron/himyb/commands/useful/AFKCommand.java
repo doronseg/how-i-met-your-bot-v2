@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.usefulcommands;
+package me.nerdoron.himyb.commands.useful;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

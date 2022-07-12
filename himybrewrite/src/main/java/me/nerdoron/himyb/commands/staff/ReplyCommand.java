@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.funcommands;
+package me.nerdoron.himyb.commands.staff;
 
 import me.nerdoron.himyb.commands.SlashCommand;
 import net.dv8tion.jda.api.Permission;
