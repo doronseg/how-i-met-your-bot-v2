@@ -85,7 +85,7 @@ public class BroCoinsSQL {
             while (rs.next()) {
                 String userID = rs.getString(1);
                 int userBroCoins = rs.getInt(2);
-                result.put(userID,userBroCoins);
+                result.put(userID, userBroCoins);
             }
             ps.close();
         } catch (SQLException e) {
@@ -116,7 +116,7 @@ public class BroCoinsSQL {
 
     public void updateBrocoins(Member member, int amountToChange) throws SQLException {
         int memberCoins = this.getBrocoins(member);
-        memberCoins+=amountToChange;
-        this.setBrocoins(member,memberCoins);
+        memberCoins += amountToChange;
+        this.setBrocoins(member, memberCoins);
     }
 }

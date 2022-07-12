@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.currency;
+package me.nerdoron.himyb.commands.currencycommands;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -8,16 +8,17 @@ import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
 import me.nerdoron.himyb.modules.brocoins.Sorter;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.internal.interactions.CommandDataImpl;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BankCommand extends SlashCommand {
 
-    final Logger logger = LoggerFactory.getLogger(SlashCommand.class);
+    final Logger logger = LoggerFactory.getLogger(BankCommand.class);
     BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
 
     @Override
@@ -35,7 +36,7 @@ public class BankCommand extends SlashCommand {
                 event.reply("Created a BroBank account! I gave you 5 " + Emoji.fromCustom(Global.broCoin).getAsMention()
                         + " to get started!").setEphemeral(true)
                         .queue();
-                logger.info(member.getUser().getAsTag() + "("+member.getId()+") Created a bank account");
+                logger.info(member.getUser().getAsTag() + "(" + member.getId() + ") Created a bank account");
             } catch (SQLException e) {
                 event.reply("Error!").queue();
                 e.printStackTrace();
@@ -95,45 +96,24 @@ public class BankCommand extends SlashCommand {
 
                 int memberBrocoins = broCoinsSQL.getBrocoins(member);
                 int targetBrocoins = broCoinsSQL.getBrocoins(memberToTransferTo);
-                logger.info(member.getUser().getAsTag() + "("+member.getId()+") Transfered ("+amountToTransfer+" Coins) now they have ("+memberBrocoins+" Coins) and "+memberToTransferTo.getUser().getAsTag()+"("+memberToTransferTo.getId()+") has ("+targetBrocoins+" Coins)");
+                logger.info(member.getUser().getAsTag() + "(" + member.getId() + ") Transfered (" + amountToTransfer
+                        + " Coins) now they have (" + memberBrocoins + " Coins) and "
+                        + memberToTransferTo.getUser().getAsTag() + "(" + memberToTransferTo.getId() + ") has ("
+                        + targetBrocoins + " Coins)");
             } catch (SQLException e) {
                 event.reply("Error!").queue();
                 e.printStackTrace();
             }
         }
 
-        // set
-        if (subcmd.equals("set")) {
-            if (!event.getMember().getPermissions().contains(Permission.ADMINISTRATOR)) {
-                event.reply("You don't have enough permissions todo that!").setEphemeral(true).queue();
-                return;
-            }
-
-            int newAmount = event.getInteraction().getOption("amount").getAsInt();
-            Member memberToModify = event.getInteraction().getOption("user").getAsMember();
-            if (!broCoinsSQL.hasBrocoins(memberToModify)) {
-                event.reply("That user does not have a BroBank account. Please tell them to create one.")
-                        .setEphemeral(true).queue();
-                return;
-            }
-
-            try {
-                broCoinsSQL.setBrocoins(memberToModify, newAmount);
-                event.reply(memberToModify.getAsMention()+ " now has "+newAmount+ " "+Emoji.fromCustom(Global.broCoin).getAsMention()).queue();
-                logger.info(member.getUser().getAsTag() + "("+member.getId()+") has set the amount of "+ memberToModify.getUser().getAsTag()+"("+memberToModify.getId()+") to ("+newAmount+" Coins)");
-            } catch (SQLException e) {
-                event.reply("Error!").queue();
-                e.printStackTrace();
-            }
-        }
-
+        // leaderboard
         if (subcmd.equals("leaderboard")) {
             Map<String, Integer> brocoins = broCoinsSQL.getBrocoins();
-            Map<String, Integer> sorted = new Sorter().sortMapMaxLow(brocoins,10);
+            Map<String, Integer> sorted = new Sorter().sortMapMaxLow(brocoins, 10);
             int longest = 0;
             for (Integer p : sorted.values()) {
 
-                String a = p+"";
+                String a = p + "";
                 if (a.length() > longest) {
                     longest = a.length();
                 }
@@ -143,11 +123,12 @@ public class BankCommand extends SlashCommand {
             for (String userID : sorted.keySet()) {
                 int coins = sorted.get(userID);
                 if (coins > 0) {
-                    String textCoins = coins+"";
+                    String textCoins = coins + "";
                     for (int i = textCoins.length(); i < longest; i++) {
-                        textCoins=" "+textCoins;
+                        textCoins = " " + textCoins;
                     }
-                    users+="**`"+textCoins+"`** "+Global.broCoin.getAsMention()+" | "+"<@!"+userID+">"+"\n";
+                    users += "**`" + textCoins + "`** " + Global.broCoin.getAsMention() + " | " + "<@!" + userID + ">"
+                            + "\n";
                 }
             }
 
@@ -160,4 +141,5 @@ public class BankCommand extends SlashCommand {
 
         }
     }
+
 }

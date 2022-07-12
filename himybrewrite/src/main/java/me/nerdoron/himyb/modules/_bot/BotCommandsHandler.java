@@ -1,9 +1,11 @@
 package me.nerdoron.himyb.modules._bot;
 
-import me.nerdoron.himyb.commands.currency.BankCommand;
+import me.nerdoron.himyb.commands.currencycommands.BankCommand;
+import me.nerdoron.himyb.commands.currencycommands.SetCoinsCommand;
 import me.nerdoron.himyb.commands.funcommands.EightBall;
 import me.nerdoron.himyb.commands.funcommands.ReplyCommand;
 import me.nerdoron.himyb.commands.funcommands.SayCommand;
+import me.nerdoron.himyb.commands.funcommands.gambling.CoinFlip;
 import me.nerdoron.himyb.commands.staffcommands.RemoveBirthdayCommand;
 import me.nerdoron.himyb.commands.staffcommands.SendPannelCommand;
 import me.nerdoron.himyb.commands.usefulcommands.*;
@@ -29,6 +31,8 @@ public class BotCommandsHandler extends ListenerAdapter {
     SelfPromoCommand selfPromoCommand = new SelfPromoCommand();
     RemoveBirthdayCommand removeBirthdayCommand = new RemoveBirthdayCommand();
     BankCommand bankCommand = new BankCommand();
+    CoinFlip coinFlip = new CoinFlip();
+    SetCoinsCommand setCoinsCommand = new SetCoinsCommand();
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
@@ -80,10 +84,19 @@ public class BotCommandsHandler extends ListenerAdapter {
                 break;
             case "selfpromo":
                 selfPromoCommand.execute(event);
+                break;
             case "removebirthday":
                 removeBirthdayCommand.execute(event);
+                break;
             case "bank":
                 bankCommand.execute(event);
+                break;
+            case "setcoins":
+                setCoinsCommand.execute(event);
+                break;
+            case "coinflip":
+                coinFlip.execute(event);
+                break;
         }
     }
 
