@@ -4,6 +4,10 @@ import me.nerdoron.himyb.commands.SlashCommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 public class ReplyCommand extends SlashCommand {
 
@@ -20,6 +24,18 @@ public class ReplyCommand extends SlashCommand {
                 + event.getUser().getDiscriminator() + " used reply command in "
                 + event.getTextChannel().getAsMention())
                 .queue();
+    }
+
+    @Override
+    public SlashCommandData getSlash() {
+        SlashCommandData cmd = Commands.slash("reply", "Make the bot reply to a message")
+                .addOption(OptionType.STRING, "replyto",
+                        "What message would you like to reply to? (ID ONLY, MAKE SURE YOU ARE IN THE SAME CHANNEL)",
+                        true)
+                .addOption(OptionType.STRING, "message", "What would you like to say?", true)
+                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE));
+
+        return cmd;
     }
 
 }

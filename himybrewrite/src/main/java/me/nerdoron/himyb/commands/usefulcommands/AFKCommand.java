@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +51,14 @@ public class AFKCommand extends SlashCommand {
         ps.setString(1, uid);
         ps.setString(2, reason);
         ps.execute();
+    }
+
+    @Override
+    public SlashCommandData getSlash() {
+        SlashCommandData cmd = Commands.slash("afk", "Go AFK")
+                .addOption(OptionType.STRING, "reason", "Why are you away?", true);
+
+        return cmd;
     }
 
 }

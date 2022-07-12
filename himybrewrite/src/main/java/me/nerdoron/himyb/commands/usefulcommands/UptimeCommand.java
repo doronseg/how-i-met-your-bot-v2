@@ -7,6 +7,8 @@ import me.nerdoron.himyb.commands.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 public class UptimeCommand extends SlashCommand {
     public static String getUptime() {
@@ -30,6 +32,11 @@ public class UptimeCommand extends SlashCommand {
                 .build();
         event.replyEmbeds(uptime).queue();
         ;
+    }
+
+    @Override
+    public SlashCommandData getSlash() {
+        return Commands.slash("uptime", "Show the bot's uptime.");
     }
 
 }

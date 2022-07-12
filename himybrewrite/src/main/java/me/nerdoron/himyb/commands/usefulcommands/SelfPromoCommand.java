@@ -3,6 +3,8 @@ package me.nerdoron.himyb.commands.usefulcommands;
 import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules.selfpromo.SelfPromoModal;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 public class SelfPromoCommand extends SlashCommand {
 
@@ -19,6 +21,11 @@ public class SelfPromoCommand extends SlashCommand {
         }
 
         event.replyModal(selfPromoModal.modal).queue();
+    }
+
+    @Override
+    public SlashCommandData getSlash() {
+        return Commands.slash("selfpromo", "Submit a self promotion link");
     }
 
 }
