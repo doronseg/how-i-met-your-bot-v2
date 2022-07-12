@@ -14,7 +14,8 @@ public class HelpCommand extends SlashCommand {
         event.replyEmbeds(helpEmbeds.mainMenu)
                 .addActionRow(Button.secondary(uid + ":main", "🔮 Main Menu"),
                         Button.secondary(uid + ":useful", "🛠️ Useful Commands"),
-                        Button.secondary(uid + ":fun", "🦩 Fun Commands"))
+                        Button.secondary(uid + ":fun", "🦩 Fun Commands"),
+                        Button.secondary(uid + ":currency", "🪙 Currency Commands"))
                 .queue();
     }
 

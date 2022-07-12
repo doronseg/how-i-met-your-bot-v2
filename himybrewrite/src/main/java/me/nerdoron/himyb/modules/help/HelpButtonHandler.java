@@ -34,6 +34,10 @@ public class HelpButtonHandler extends ListenerAdapter {
                 break;
             case "fun":
                 message.editMessageEmbeds(helpEmbeds.funMenu).queue();
+                break;
+            case "currency":
+                message.editMessageEmbeds(helpEmbeds.currencyMenu).queue();
+                break;
         }
     }
 }

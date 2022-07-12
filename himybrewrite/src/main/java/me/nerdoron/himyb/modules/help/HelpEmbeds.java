@@ -9,7 +9,9 @@ public class HelpEmbeds {
                         .setTitle("🔮 Help Menu")
                         .setDescription(
                                         "Hello! I'm how i met your bot. You can use the buttons below to view all of my functions, but for now, here is some information about me.")
-                        .addField("Library", "[JDA 5.0.0-alpha.13](https://github.com/DV8FromTheWorld/JDA/releases/tag/v5.0.0-alpha.13)", true)
+                        .addField("Library",
+                                        "[JDA 5.0.0-alpha.13](https://github.com/DV8FromTheWorld/JDA/releases/tag/v5.0.0-alpha.13)",
+                                        true)
                         .addField("Prefix", "`/`", true)
                         .addField("Github", "[Click me](https://github.com/nerdoron/how-i-met-your-bot)", true)
                         .setColor(Global.embedColor)
@@ -40,5 +42,13 @@ public class HelpEmbeds {
                         .setDescription("A list of all commands under the `fun` category:\n\n" +
                                         "`/8ball` - Ask the magic 8ball a question.")
 
+                        .setFooter(Global.footertext, Global.footerpfp).build();
+
+        public MessageEmbed currencyMenu = new EmbedBuilder().setColor(Global.embedColor)
+                        .setTitle(Global.broCoin.getAsMention() + " Currency Commands")
+                        .setDescription("A list of all commands under the `currency` category:\n\n" +
+                                        "`/bank create` - Create a BroBank account.\n\n" +
+                                        "`/bank check [user]` - Check a bank account. `[user]` is optional.\n\n" +
+                                        "`/bank transfer [user] [amount]` - Transfer BroCoins to another user.")
                         .setFooter(Global.footertext, Global.footerpfp).build();
 }
