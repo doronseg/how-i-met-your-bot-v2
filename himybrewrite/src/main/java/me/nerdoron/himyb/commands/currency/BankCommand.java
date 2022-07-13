@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.currencycommands;
+package me.nerdoron.himyb.commands.currency;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -12,6 +12,11 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -139,6 +144,28 @@ public class BankCommand extends SlashCommand {
             event.replyEmbeds(emb.build()).setEphemeral(false).queue();
 
         }
+    }
+
+    @Override
+    public SlashCommandData getSlash() {
+        SlashCommandData bank = Commands.slash("bank", "Control your BroBank account");
+        SubcommandData b_create = new SubcommandData("create", "Create a BroBank account");
+        SubcommandData b_transfer = new SubcommandData("transfer",
+                "Transfers a set amount of coins from your bank account to another person's bank account");
+        b_transfer.addOption(OptionType.USER, "user", "The user you want to transfer to.", true);
+        OptionData transferAmount = new OptionData(OptionType.INTEGER, "amount",
+                "The amount of coins you want to transfer", true);
+        transferAmount.setMinValue(1);
+        b_transfer.addOptions(transferAmount);
+
+        SubcommandData b_check = new SubcommandData("check", "Checks how many BroCoins you have");
+        b_check.addOption(OptionType.USER, "user", "The user you want to check.", false);
+
+        SubcommandData b_leaderboard = new SubcommandData("leaderboard",
+                "Shows the top 10 richest people in the server");
+
+        bank.addSubcommands(b_create, b_check, b_transfer, b_leaderboard);
+        return bank;
     }
 
 }

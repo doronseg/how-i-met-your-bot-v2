@@ -1,5 +1,7 @@
 package me.nerdoron.himyb.commands;
 
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.internal.interactions.CommandDataImpl;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,5 +20,13 @@ public abstract class SlashCommand {
     }
 
     public abstract void execute(SlashCommandInteractionEvent event);
+
+    public abstract SlashCommandData getSlash();
+
+    public String getCategory() {
+        String name = this.getClass().getPackage().getName();
+        String r = name.split("\\.")[4];
+        return r;
+    }
 
 }

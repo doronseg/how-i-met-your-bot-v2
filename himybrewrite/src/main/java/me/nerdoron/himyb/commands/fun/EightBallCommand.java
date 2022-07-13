@@ -1,11 +1,14 @@
-package me.nerdoron.himyb.commands.funcommands;
+package me.nerdoron.himyb.commands.fun;
 
 import java.util.Random;
 
 import me.nerdoron.himyb.commands.SlashCommand;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
-public class EightBall extends SlashCommand {
+public class EightBallCommand extends SlashCommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
@@ -35,6 +38,15 @@ public class EightBall extends SlashCommand {
         event.reply(event.getUser().getAsMention() + " asked me: " + question).queue((m) -> {
             event.getChannel().sendMessage(responses[random.nextInt(responses.length)]).queue();
         });
+    }
+
+    @Override
+    public SlashCommandData getSlash() {
+        SlashCommandData cmd = Commands.slash("8ball", "Ask the magic 8ball a question..")
+                .addOption(OptionType.STRING, "question", "What's the question?",
+                        true);
+
+        return cmd;
     }
 
 }

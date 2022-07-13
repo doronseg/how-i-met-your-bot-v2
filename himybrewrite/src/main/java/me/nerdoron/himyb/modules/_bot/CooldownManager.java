@@ -12,7 +12,7 @@ public class CooldownManager {
 
     public CooldownManager() {}
 
-    public String commandID(SlashCommandInteractionEvent event) {
+    public static String commandID(SlashCommandInteractionEvent event) {
         return event.getUser().getId()+event.getName();
     }
 
@@ -41,7 +41,7 @@ public class CooldownManager {
         return parseOffsetDateTimeHumanText(this.COOLDOWNS.get(identifier));
     }
 
-    public String parseOffsetDateTimeHumanText(OffsetDateTime timeCreated) {
+    private String parseOffsetDateTimeHumanText(OffsetDateTime timeCreated) {
         OffsetDateTime now= OffsetDateTime.now();
 
         long sec = ChronoUnit.SECONDS.between(timeCreated,now)%60;
@@ -65,13 +65,13 @@ public class CooldownManager {
             send+= ", "+Math.abs(day)+" Day";
         }
         if (Hur != 0) {
-            send+= " "+Math.abs(Hur)+"h";
+            send+= " "+Math.abs(Hur)+" hours";
         }
         if (min != 0) {
-            send+= " "+Math.abs(min)+"m";
+            send+= " "+Math.abs(min)+" minutes";
         }
         if (sec != 0) {
-            send+= " "+Math.abs(sec)+"s";
+            send+= " "+Math.abs(sec)+" seconds";
         }
         return send.trim();
     }

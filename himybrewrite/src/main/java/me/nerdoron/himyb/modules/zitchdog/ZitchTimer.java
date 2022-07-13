@@ -2,7 +2,7 @@ package me.nerdoron.himyb.modules.zitchdog;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.nerdoron.himyb.Global;
-import me.nerdoron.himyb.commands.currencycommands.BankCommand;
+import me.nerdoron.himyb.commands.currency.BankCommand;
 import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
@@ -82,7 +82,7 @@ public class ZitchTimer {
                             + "! You got " + reward + " " + (reward == 1 ? "Brocoin" : "Brocoins") + "! Now you have "
                             + (brocoins + reward) + " " + Emoji.fromCustom(Global.broCoin).getAsMention()).queue();
                     int coinsNow = brocoinsSQL.getBrocoins(event.getMember());
-                    logger.info(event.getMember() + " won (" + reward + " Coins) in ZitchDog now they have (" + coinsNow
+                    logger.info(event.getMember().getUser().getAsTag()+ "(" + event.getMember().getId() + ")"  + " won (" + reward + " Coins) in ZitchDog now they have (" + coinsNow
                             + ")");
                 },
                 5, TimeUnit.MINUTES,

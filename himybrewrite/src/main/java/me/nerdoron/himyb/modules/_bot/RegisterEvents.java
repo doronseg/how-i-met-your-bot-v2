@@ -27,9 +27,10 @@ import net.dv8tion.jda.api.JDA;
 public class RegisterEvents {
 
         public static void registration(JDA jda) {
-                new InitializeSlashCommands(jda);
+                BotCommandsHandler CmcHandler = new BotCommandsHandler();
+                CmcHandler.updateCommandsOnDiscord(jda);
                 EventWaiter waiter = new EventWaiter();
-                jda.addEventListener(new BotCommandsHandler());
+                jda.addEventListener(CmcHandler);
 
                 // event registration
                 jda.addEventListener(waiter);

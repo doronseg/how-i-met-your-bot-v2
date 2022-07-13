@@ -1,9 +1,13 @@
-package me.nerdoron.himyb.commands.usefulcommands;
+package me.nerdoron.himyb.commands.useful;
 
 import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules.Database;
 import me.nerdoron.himyb.modules.birthday.BirthdayChecks;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -70,4 +74,15 @@ public class BirthdayCommand extends SlashCommand {
         }
     }
 
+    @Override
+    public SlashCommandData getSlash() {
+        SlashCommandData birthday = Commands.slash("birthday", "Sets your birthday.");
+        birthday.addOption(OptionType.STRING, "month", "Select the month in which you were born.", true, true);
+        OptionData day = new OptionData(OptionType.INTEGER, "day", "Select the day in which you were born.",
+                true);// Discord limits autocompletes to 25 options
+        day.setMinValue(1);
+        day.setMaxValue(31);
+        birthday.addOptions(day);
+        return birthday;
+    }
 }

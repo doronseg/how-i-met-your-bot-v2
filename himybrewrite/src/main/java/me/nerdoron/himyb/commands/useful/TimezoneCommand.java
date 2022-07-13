@@ -1,8 +1,13 @@
-package me.nerdoron.himyb.commands.usefulcommands;
+package me.nerdoron.himyb.commands.useful;
 
 import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules.Database;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -116,5 +121,30 @@ public class TimezoneCommand extends SlashCommand {
             }
         }
 
+    }
+
+    @Override
+    public SlashCommandData getSlash() {
+        SlashCommandData timezone = Commands.slash("timezone", "Confused about time?");
+        SubcommandData tz_remove = new SubcommandData("remove", "Removes your timezone from the database.");
+        SubcommandData tz_set = new SubcommandData("set",
+                "Set your timezone so you can share it with everyone!");
+        tz_set.addOption(OptionType.STRING, "time",
+                "Type what time it is for you in 24-hour format (14:24), and I will figure out your timezone.",
+                true);
+        SubcommandData tz_setmanual = new SubcommandData("setmanual",
+                "Manually specify your timezone to the bot.");
+        OptionData tz_setmanual_hours = new OptionData(OptionType.INTEGER, "hours",
+                "GMT +/- this amound of hours", true);
+        tz_setmanual_hours.setRequiredRange(-12, 12);
+        OptionData tz_setmanual_minutes = new OptionData(OptionType.INTEGER, "minutes",
+                "GMT +/- this amound of minutes", true);
+        tz_setmanual_minutes.setRequiredRange(0, 59);
+        tz_setmanual.addOptions(tz_setmanual_hours, tz_setmanual_minutes);
+        timezone.addSubcommands(tz_set);
+        timezone.addSubcommands(tz_remove);
+        timezone.addSubcommands(tz_setmanual);
+
+        return timezone;
     }
 }

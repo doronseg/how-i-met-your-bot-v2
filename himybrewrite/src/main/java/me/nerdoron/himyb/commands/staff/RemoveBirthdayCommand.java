@@ -1,4 +1,4 @@
-package me.nerdoron.himyb.commands.staffcommands;
+package me.nerdoron.himyb.commands.staff;
 
 import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules.Database;
@@ -6,6 +6,10 @@ import me.nerdoron.himyb.modules.birthday.BirthdayChecks;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -40,5 +44,15 @@ public class RemoveBirthdayCommand extends SlashCommand {
             event.reply("There was an error in the DB").setEphemeral(true).queue();
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public SlashCommandData getSlash() {
+        SlashCommandData cmd = Commands.slash("removebirthday", "Removes a birthday of a user")
+                .addOption(OptionType.MENTIONABLE, "member", "Who to remove the birthday from", true)
+                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.KICK_MEMBERS));
+
+
+        return cmd;
     }
 }

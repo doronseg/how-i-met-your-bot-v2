@@ -1,8 +1,11 @@
-package me.nerdoron.himyb.commands.usefulcommands;
+package me.nerdoron.himyb.commands.useful;
 
 import me.nerdoron.himyb.commands.SlashCommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 public class ReviveCommand extends SlashCommand {
 
@@ -20,5 +23,13 @@ public class ReviveCommand extends SlashCommand {
         event.getChannel()
                 .sendMessage("https://tenor.com/view/googas-wet-wet-cat-dead-chat-dead-chat-xd-gif-20820186")
                 .queue();
+    }
+
+    @Override
+    public SlashCommandData getSlash() {
+        SlashCommandData cmd = Commands.slash("revive", "Send the chat revive message")
+                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MESSAGE_MANAGE));
+
+        return cmd;
     }
 }

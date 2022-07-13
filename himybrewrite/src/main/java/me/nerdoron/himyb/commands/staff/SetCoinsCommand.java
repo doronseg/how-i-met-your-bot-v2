@@ -1,7 +1,12 @@
-package me.nerdoron.himyb.commands.currencycommands;
+package me.nerdoron.himyb.commands.staff;
 
 import java.sql.SQLException;
 
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +55,18 @@ public class SetCoinsCommand extends SlashCommand {
             event.reply("Error!").queue();
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public SlashCommandData getSlash() {
+        SlashCommandData setcoins = Commands.slash("setcoins", "Set the coins of a user.");
+        setcoins.setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR));
+        setcoins.addOption(OptionType.USER, "user", "The user you want to modify its coins", true);
+        OptionData setAmount = new OptionData(OptionType.INTEGER, "amount",
+                "The amount of coins you want to set", true);
+        setAmount.setMinValue(1);
+        setcoins.addOptions(setAmount);
+        return setcoins;
     }
 
 }
