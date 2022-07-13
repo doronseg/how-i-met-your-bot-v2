@@ -2,6 +2,7 @@ package me.nerdoron.himyb;
 
 import java.awt.Color;
 import java.util.Random;
+import java.util.Set;
 
 import me.nerdoron.himyb.modules._bot.BotCommandsHandler;
 import me.nerdoron.himyb.modules._bot.CooldownManager;
@@ -25,5 +26,16 @@ public class Global {
         int high = max+1;
         int result = r.nextInt(high - low) + low;
         return result;
+    }
+
+    public static String getNthElement(Set<String> theSet, int position) {
+        int currentCount = 0;
+        for (String element : theSet) {
+            if (currentCount == position) {
+                return element;
+            }
+            currentCount++;
+        }
+        return null;
     }
 }
