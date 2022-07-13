@@ -17,8 +17,13 @@ public class CrimeCommand extends SlashCommand {
         BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
         if (Global.COOLDOWN_MANAGER.hasCooldown(CooldownManager.commandID(event))) {
             String remaining = Global.COOLDOWN_MANAGER.parseCooldown(CooldownManager.commandID(event));
-            event.reply("Don't commit to many crimes! You can attempt a new heist in " + remaining).setEphemeral(true)
+            if (Global.COOLDOWN_MANAGER.hasTag(CooldownManager.commandID(event),"Caught")) {
+                event.reply("The cops are watching you :eyes: Try again in " + remaining).setEphemeral(true)
                     .queue();
+            } else {
+                event.reply("Don't commit to many crimes! You can attempt a new heist in " + remaining).setEphemeral(true)
+                    .queue();
+            }
             return;
         }
         int chance = Global.generateNumber(1, 5);
@@ -38,7 +43,7 @@ public class CrimeCommand extends SlashCommand {
             }
         } else {
             try {
-                Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 360 * 60);
+                Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), "Caught", 360 * 60);
                 if (fine > broCoinsSQL.getBrocoins(event.getMember())) {
                     event.reply("You attempted to " + getCrime()
                             + ", but you were caught! As a punishment, they tried to fine you  "

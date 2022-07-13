@@ -19,26 +19,49 @@ public class CooldownManager {
     public void addCooldown(String identifier, int timeInSeconds) {
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime plus = now.plusSeconds(timeInSeconds);
-        COOLDOWNS.putIfAbsent(identifier, plus);
+        COOLDOWNS.putIfAbsent("@"+identifier, plus);
+    }
+
+    public void addCooldown(String identifier, String tag, int timeInSeconds) {
+        OffsetDateTime now = OffsetDateTime.now();
+        OffsetDateTime plus = now.plusSeconds(timeInSeconds);
+        if (!COOLDOWNS.containsKey(identifier)) {
+            COOLDOWNS.putIfAbsent("@"+identifier+" #"+tag, plus);
+        }
     }
 
     public boolean hasCooldown(String identifier) {
         OffsetDateTime now = OffsetDateTime.now();
-        if (COOLDOWNS.containsKey(identifier)) {
-            OffsetDateTime cooldown = COOLDOWNS.get(identifier);
-            if (cooldown.isAfter(now)) {
-                return true;
-            } else {
-                COOLDOWNS.remove(identifier);
-                return false;
+        for (String cooldownKey : COOLDOWNS.keySet()) {
+            if (cooldownKey.contains("@"+identifier)) {
+                OffsetDateTime cooldown = COOLDOWNS.get(cooldownKey);
+                if (cooldown.isAfter(now)) {
+                    return true;
+                } else {
+                    COOLDOWNS.remove(cooldownKey);
+                    return false;
+                }
             }
-        } else {
-            return false;
         }
+        return false;
+    }
+
+    public boolean hasTag(String identifier, String tag) {
+        for (String cooldownKey : COOLDOWNS.keySet()) {
+            if (cooldownKey.contains("@"+identifier)) {
+                return cooldownKey.contains("#"+tag);
+            }
+        }
+        return false;
     }
 
     public String parseCooldown(String identifier) {
-        return parseOffsetDateTimeHumanText(this.COOLDOWNS.get(identifier));
+        for (String cooldownKey : this.COOLDOWNS.keySet()) {
+            if (cooldownKey.contains("@"+identifier)) {
+                return parseOffsetDateTimeHumanText(this.COOLDOWNS.get(cooldownKey));
+            }
+        }
+        return "";
     }
 
     private String parseOffsetDateTimeHumanText(OffsetDateTime timeCreated) {
