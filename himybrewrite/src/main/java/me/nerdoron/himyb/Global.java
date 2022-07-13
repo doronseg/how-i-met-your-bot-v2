@@ -27,15 +27,4 @@ public class Global {
         int result = r.nextInt(high - low) + low;
         return result;
     }
-
-    public static String getNthElement(Set<String> theSet, int position) {
-        int currentCount = 0;
-        for (String element : theSet) {
-            if (currentCount == position) {
-                return element;
-            }
-            currentCount++;
-        }
-        return null;
-    }
 }

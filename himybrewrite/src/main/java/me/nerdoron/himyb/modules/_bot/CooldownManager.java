@@ -24,52 +24,53 @@ public class CooldownManager {
         return "@"+event.getUser().getId()+event.getName()+"@";
     }
 
-    public void addCooldown(String identifier, int timeInSeconds) {
+    public void addCooldown(String identifier, int timeInSeconds) throws SQLException {
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime plus = now.plusSeconds(timeInSeconds);
-        COOLDOWNS.putIfAbsent(identifier, plus);
+        DB_addNewEntry(identifier,plus);
+        //COOLDOWNS.putIfAbsent(identifier, plus);
     }
 
     public void addCooldown(String identifier, String tag, int timeInSeconds) {
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime plus = now.plusSeconds(timeInSeconds);
-        if (!COOLDOWNS.containsKey(identifier)) {
-            COOLDOWNS.putIfAbsent(identifier+" #"+tag, plus);
-        }
+        COOLDOWNS.putIfAbsent(identifier+" #"+tag, plus);
     }
 
-    public boolean hasCooldown(String identifier) {
+    public boolean hasCooldown(String identifier) throws SQLException {
         OffsetDateTime now = OffsetDateTime.now();
-        for (String cooldownKey : COOLDOWNS.keySet()) {
-            if (cooldownKey.contains(identifier)) {
-                OffsetDateTime cooldown = COOLDOWNS.get(cooldownKey);
-                if (cooldown.isAfter(now)) {
-                    return true;
-                } else {
-                    COOLDOWNS.remove(cooldownKey);
-                    return false;
-                }
+        Map<String, OffsetDateTime> cooldown = DB_findIdentifier(identifier);
+
+        if (cooldown == null) {
+            return false;
+        } else {
+            String ID = get1stKey(cooldown);
+            OffsetDateTime Coffset = cooldown.get(ID);
+            if (Coffset.isAfter(now)) {
+                return true;
+            } else {
+                DB_removeEntry(identifier);
+                return false;
             }
         }
-        return false;
     }
 
-    public boolean hasTag(String identifier, String tag) {
-        for (String cooldownKey : COOLDOWNS.keySet()) {
-            if (cooldownKey.contains(identifier)) {
-                return cooldownKey.contains("#"+tag);
-            }
+    public boolean hasTag(String identifier, String tag) throws SQLException {
+        Map<String, OffsetDateTime> cooldown = DB_findIdentifier(identifier);
+        if (cooldown == null) {
+            return false;
+        } else {
+            return get1stKey(cooldown).contains("#"+tag);
         }
-        return false;
     }
 
-    public String parseCooldown(String identifier) {
-        for (String cooldownKey : this.COOLDOWNS.keySet()) {
-            if (cooldownKey.contains(identifier)) {
-                return parseOffsetDateTimeHumanText(this.COOLDOWNS.get(cooldownKey));
-            }
+    public String parseCooldown(String identifier) throws SQLException {
+        Map<String, OffsetDateTime> cooldown = DB_findIdentifier(identifier);
+        if (cooldown == null) {
+            return "";
+        } else {
+            return parseOffsetDateTimeHumanText(cooldown.get(get1stKey(cooldown)));
         }
-        return "";
     }
 
     private String parseOffsetDateTimeHumanText(OffsetDateTime timeCreated) {
@@ -107,6 +108,13 @@ public class CooldownManager {
         return send.trim();
     }
 
+    private String get1stKey(Map<String, OffsetDateTime> map) {
+        for (String key : map.keySet()) {
+            return key;
+        }
+        return null;
+    }
+
     private Map<String, OffsetDateTime> DB_findIdentifier(String identifier) throws SQLException {
         String SQL = "SELECT * FROM cooldowns WHERE uid LIKE \""+identifier+"%\"";
         ps = con.prepareStatement(SQL);
@@ -142,7 +150,7 @@ public class CooldownManager {
         if (cooldown != null) {
             String statement = "DELETE FROM birthday WHERE uid = ?";
             PreparedStatement ps = con.prepareStatement(statement);
-            ps.setString(1, Global.getNthElement(cooldown.keySet(),0));
+            ps.setString(1, get1stKey(cooldown));
             ps.execute();
         }
     }
