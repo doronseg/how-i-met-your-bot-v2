@@ -24,7 +24,7 @@ public class CoinFlipCommand extends SlashCommand {
     public void execute(SlashCommandInteractionEvent event) {
         String type = event.getOption("type").getAsString();
         int bet = event.getOption("bet").getAsInt();
-        int rand = chance();
+        int rand = Global.generateNumber(1, 2);
 
         if (rand == 1) {
             result = "Heads";
@@ -45,7 +45,7 @@ public class CoinFlipCommand extends SlashCommand {
         if (type.equals(result)) {
             // win
             try {
-                broCoinsSQL.updateBrocoins(event.getMember(), bet * 2);
+                broCoinsSQL.updateBrocoins(event.getMember(), bet);
                 event.reply(
                         event.getMember().getAsMention() + " bet " + bet + " " + Global.broCoin.getAsMention()
                                 + " on a coinflip, won, and doubled his bet!")
@@ -79,6 +79,7 @@ public class CoinFlipCommand extends SlashCommand {
         SlashCommandData coinflip = Commands.slash("coinflip", "Bet on a coin flip.");
         OptionData bet = new OptionData(OptionType.INTEGER, "bet", "How much do you want to bet?", true);
         bet.setMinValue(1);
+        bet.setMaxValue(50);
         OptionData heads_tails = new OptionData(OptionType.STRING, "type", "Heads or tails?", true);
         heads_tails.addChoice("heads", "Heads");
         heads_tails.addChoice("tails", "Tails");

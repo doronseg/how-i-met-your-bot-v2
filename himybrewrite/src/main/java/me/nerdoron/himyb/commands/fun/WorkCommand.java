@@ -38,6 +38,8 @@ public class WorkCommand extends SlashCommand {
             return;
         }
         try {
+            if (chance == 1 || chance == 99)
+                reward = reward * 3;
             broCoinsSQL.updateBrocoins(event.getMember(), reward);
             event.reply(
                     "You have worked as a " + getJob() + " and earned " + reward + " " + Global.broCoin.getAsMention())
