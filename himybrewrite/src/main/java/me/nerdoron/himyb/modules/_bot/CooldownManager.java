@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,14 +29,12 @@ public class CooldownManager {
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime plus = now.plusSeconds(timeInSeconds);
         DB_addNewEntry(identifier,plus);
-        //COOLDOWNS.putIfAbsent(identifier, plus);
     }
 
     public void addCooldown(String identifier, String tag, int timeInSeconds) {
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime plus = now.plusSeconds(timeInSeconds);
         DB_addNewEntry(identifier+" #"+tag, plus);
-        //COOLDOWNS.putIfAbsent(identifier+" #"+tag, plus);
     }
 
     public boolean hasCooldown(String identifier) {
@@ -158,7 +157,7 @@ public class CooldownManager {
         Map<String, OffsetDateTime> cooldown = DB_findIdentifier(identifier);
         if (cooldown != null) {
             try {
-                String statement = "DELETE FROM birthday WHERE uid = ?";
+                String statement = "DELETE FROM cooldowns WHERE uid = ?";
                 PreparedStatement ps = con.prepareStatement(statement);
                 ps.setString(1, get1stKey(cooldown));
                 ps.execute();
@@ -169,13 +168,13 @@ public class CooldownManager {
     }
 
     private static OffsetDateTime parseTimestringToOffset(String timestamp) {
-        java.time.format.DateTimeFormatter parser = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        java.time.format.DateTimeFormatter parser = java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME;
         java.time.LocalDateTime dt = java.time.LocalDateTime.parse(timestamp, parser);
-        ZonedDateTime zdt = ZonedDateTime.of(dt, java.time.ZoneId.of("UTC"));
+        ZonedDateTime zdt = ZonedDateTime.of(dt, java.time.ZoneId.of(ZoneId.systemDefault().getId()));
         return OffsetDateTime.from(zdt);
     }
 
     private static String parseOffsetToText(OffsetDateTime offset) {
-        return offset.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+        return offset.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     }
 }
