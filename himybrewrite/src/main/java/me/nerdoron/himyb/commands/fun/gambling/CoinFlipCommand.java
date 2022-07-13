@@ -5,15 +5,19 @@ import java.util.Random;
 
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.SlashCommand;
+import me.nerdoron.himyb.commands.currency.BankCommand;
 import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CoinFlipCommand extends SlashCommand {
 
+    final Logger logger = LoggerFactory.getLogger(CoinFlipCommand.class);
     public BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
     private String result;
 
@@ -42,6 +46,8 @@ public class CoinFlipCommand extends SlashCommand {
                         event.getMember().getAsMention() + " bet " + bet + " " + Global.broCoin.getAsMention()
                                 + " on a coinflip, won, and doubled his bet!")
                         .queue();
+                int coins = broCoinsSQL.getBrocoins(event.getMember());
+                logger.info(event.getUser().getAsTag() +"("+event.getMember().getId()+") Won a coin flip while betting "+bet+" now they have "+coins+" coins");
             } catch (SQLException e) {
                 e.printStackTrace();
                 event.reply("Error!").setEphemeral(true).queue();
@@ -53,6 +59,8 @@ public class CoinFlipCommand extends SlashCommand {
                         event.getMember().getAsMention() + " bet " + bet + " " + Global.broCoin.getAsMention()
                                 + " on a coinflip, lost, and lost his bet.")
                         .queue();
+                int coins = broCoinsSQL.getBrocoins(event.getMember());
+                logger.info(event.getUser().getAsTag() +"("+event.getMember().getId()+") Lost a coin flip while betting "+bet+" now they have "+coins+" coins");
             } catch (SQLException e) {
                 e.printStackTrace();
                 event.reply("Error!").setEphemeral(true).queue();
