@@ -82,7 +82,7 @@ public class ZitchTimer {
                             + "! You got " + reward + " " + (reward == 1 ? "Brocoin" : "Brocoins") + "! Now you have "
                             + (brocoins + reward) + " " + Emoji.fromCustom(Global.broCoin).getAsMention()).queue();
                     int coinsNow = brocoinsSQL.getBrocoins(event.getMember());
-                    logger.info(event.getMember() + " won (" + reward + " Coins) in ZitchDog now they have (" + coinsNow
+                    logger.info(event.getMember().getUser().getAsTag()+ "(" + event.getMember().getId() + ")"  + " won (" + reward + " Coins) in ZitchDog now they have (" + coinsNow
                             + ")");
                 },
                 5, TimeUnit.MINUTES,
