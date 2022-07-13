@@ -17,38 +17,4 @@ public class HelpEmbeds {
                         .setColor(Global.embedColor)
                         .setFooter(Global.footertext, Global.footerpfp)
                         .build();
-
-        public MessageEmbed usefulMenu = new EmbedBuilder()
-                        .setTitle("🛠️ Useful Commands")
-                        .setDescription("A list of all commands under the `useful` category:" +
-                                        "\n\n`/help` - Shows this menu." +
-                                        "\n\n`/uptime` - Shows the bot's uptime." +
-                                        "\n\n`/ping` - Shows the bot's ping." +
-                                        "\n\n`/afk [reason]` - Sets you as Away from Keyboard." +
-                                        "\n\n`/apply [type]` - Apply for an open position." +
-                                        "\n\n`/birthday [month] [day]` - Set your birthday." +
-                                        "\n\n`/timezone set [time]` - Set your timezone. " +
-                                        "\n\n`/mytime` - Shows what time it is for you." +
-                                        "\n\n`/whattime` [user] - Shows what time it is for the selected user." +
-                                        "\n\n`/suggest [type] [suggestions]` - Sends a suggestion.\nSuggestion types: `server`, `bot`, `video` & `chain`."
-                                        + "\n\n`/selfpromo` - Send a self promotion link (requires level 10)")
-
-                        .setColor(Global.embedColor)
-                        .setFooter(Global.footertext, Global.footerpfp)
-                        .build();
-
-        public MessageEmbed funMenu = new EmbedBuilder().setColor(Global.embedColor)
-                        .setTitle("🦩 Fun Commands")
-                        .setDescription("A list of all commands under the `fun` category:\n\n" +
-                                        "`/8ball` - Ask the magic 8ball a question.")
-
-                        .setFooter(Global.footertext, Global.footerpfp).build();
-
-        public MessageEmbed currencyMenu = new EmbedBuilder().setColor(Global.embedColor)
-                        .setTitle(Global.broCoin.getAsMention() + " Currency Commands")
-                        .setDescription("A list of all commands under the `currency` category:\n\n" +
-                                        "`/bank create` - Create a BroBank account.\n\n" +
-                                        "`/bank check [user]` - Check a bank account. `[user]` is optional.\n\n" +
-                                        "`/bank transfer [user] [amount]` - Transfer BroCoins to another user.")
-                        .setFooter(Global.footertext, Global.footerpfp).build();
 }
