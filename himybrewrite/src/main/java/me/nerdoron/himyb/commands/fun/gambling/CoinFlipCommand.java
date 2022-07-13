@@ -33,6 +33,11 @@ public class CoinFlipCommand extends SlashCommand {
             result = "Tails";
         }
 
+        if (!broCoinsSQL.hasBrocoins(event.getMember())) {
+            event.reply("You don't have a BroCoins account!").setEphemeral(true).queue();
+            return;
+        }
+
         if (bet > broCoinsSQL.getBrocoins(event.getMember())) {
             event.reply("You dont have enough BroCoins!").setEphemeral(true).queue();
             return;

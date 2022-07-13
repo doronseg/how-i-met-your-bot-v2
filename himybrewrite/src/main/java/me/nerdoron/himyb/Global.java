@@ -1,6 +1,7 @@
 package me.nerdoron.himyb;
 
 import java.awt.Color;
+import java.util.Random;
 
 import me.nerdoron.himyb.modules._bot.BotCommandsHandler;
 import me.nerdoron.himyb.modules._bot.CooldownManager;
@@ -17,4 +18,12 @@ public class Global {
     public static CustomEmoji broCoin = Emoji.fromCustom("brocoin", 991661873126707210L, false);
     public static final CooldownManager COOLDOWN_MANAGER = new CooldownManager();
     public static BotCommandsHandler COMMANDS_HANDLER = null;
+
+    public static int generateNumber(int min, int max) {
+        Random r = new Random();
+        int low = min;
+        int high = max;
+        int result = r.nextInt(high - low) + low;
+        return result;
+    }
 }
