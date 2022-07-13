@@ -36,8 +36,7 @@ public class BotCommandsHandler extends ListenerAdapter {
         commands.add(new ApplyCommand());
         commands.add(new BirthdayCommand());
         commands.add(new TimezoneCommand());
-        commands.add(new MytimeCommand());
-        commands.add(new WhatTimeCommand());
+        commands.add(new TimeCommand());
         commands.add(new EightBallCommand());
         commands.add(new SendPannelCommand());
         commands.add(new SelfPromoCommand());
