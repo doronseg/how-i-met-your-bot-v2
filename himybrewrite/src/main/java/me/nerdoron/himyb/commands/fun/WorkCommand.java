@@ -33,7 +33,7 @@ public class WorkCommand extends SlashCommand {
         int chance = Global.generateNumber(1, 100);
         if (chance == 50) {
             Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 60 * 60);
-            event.reply("You worked as a " + getJob() + ", however, your employer scammed you, and didn't pay you.")
+            event.reply("You worked " + getJob() + ", however, your employer scammed you, and didn't pay you.")
                     .queue();
             return;
         }
@@ -63,13 +63,19 @@ public class WorkCommand extends SlashCommand {
 
     public String getJob() {
         String[] jobs = new String[] {
-                "Software Engineer", "Developer", "Story teller", "Dentist", "Veterinarian", "Teacher",
-                "Financial Advisor", "Lawyer", "Accountant", "Architect",
-                "P.L.E.A.S.E", "Actor", "Police Officer", "Video Editor", "Doctor", "Astronaut",
-                "YouTuber", "Discord Admin", "Delivery Driver", "Cashier", "Meth Cooker", "Burger Flipper", "Cameraman",
-                "Waiter", "Paramedic", "Electrician", "Chef", "Farmer", "Locksmith", "Mechanic", "Baker", "Butcher",
-                "Pilot", "Sea-Captain", "Painter", "Musician", "Miner", "Dancer", "Bellhop", "Bookkeeper",
-                "Carwash Cashier", "Kindergarten Teacher", "News Reporter", "Zookeeper", "Garbageman", "Babysitter"
+                "as a Software Engineer", "as a Developer", "as a Story teller", "as a Dentist", "as a Veterinarian",
+                "as a Teacher",
+                "as a Financial Advisor", "as a Lawyer", "as a Accountant", "as a Architect",
+                "as a P.L.E.A.S.E", "as an Actor", "as a Police Officer", "as a Video Editor", "as a Doctor",
+                "as an Astronaut",
+                "as a YouTuber", "as a Discord Admin", "as a Delivery Driver", "as a Cashier", "as a Meth Cooker",
+                "as a Burger Flipper", "as a Cameraman",
+                "as a waiter", "as a Paramedic", "as a Electrician", "as a Chef", "as a Farmer", "as a Locksmith",
+                "as a Mechanic", "as a Baker", "as a Butcher",
+                "as a Pilot", "as a Sea-Captain", "as a Painter", "as a Musician", "as a Miner", "as a Dancer",
+                "as a Bellhop", "as a Bookkeeper",
+                "as a Carwash Cashier", "as a Kindergarten Teacher", "as a News Reporter", "as a Zookeeper",
+                "as a Garbageman", "as a Babysitter", "for GNB", "for the NRDC"
         };
 
         return jobs[Global.generateNumber(0, jobs.length - 1)];

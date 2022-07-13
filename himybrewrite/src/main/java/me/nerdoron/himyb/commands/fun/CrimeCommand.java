@@ -17,12 +17,13 @@ public class CrimeCommand extends SlashCommand {
         BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
         if (Global.COOLDOWN_MANAGER.hasCooldown(CooldownManager.commandID(event))) {
             String remaining = Global.COOLDOWN_MANAGER.parseCooldown(CooldownManager.commandID(event));
-            if (Global.COOLDOWN_MANAGER.hasTag(CooldownManager.commandID(event),"Caught")) {
+            if (Global.COOLDOWN_MANAGER.hasTag(CooldownManager.commandID(event), "Caught")) {
                 event.reply("The cops are watching you :eyes: Try again in " + remaining).setEphemeral(true)
-                    .queue();
+                        .queue();
             } else {
-                event.reply("Don't commit to many crimes! You can attempt a new heist in " + remaining).setEphemeral(true)
-                    .queue();
+                event.reply("Don't commit to many crimes! You can attempt a new heist in " + remaining)
+                        .setEphemeral(true)
+                        .queue();
             }
             return;
         }
@@ -65,15 +66,15 @@ public class CrimeCommand extends SlashCommand {
 
     public String getCrime() {
         String[] crimes = new String[] {
-                "Rob the Diamond Casino", "Steal a car", "Steal a bicycle", "Rob a store", "Sell weed", "Sell meth",
-                "Pickpocket someone", "Help Kira's Gambling addiction", "Help illegal imigrants cross the border",
-                "Pull a hit on a bounty", "Break into someone's house", "Hack in Hypixel",
-                "Pirate how i met your mother", "Break the Geneva Convention", "Rob a bank",
-                "Switch a fire alarm on because you couldn't help the idea of not meeting your soulmate",
-                "Steal Ted's Christmas decorations", "Steal a blue French Horn", "Take someone else's cab",
-                "Leave a suitcase at the airport", "Steal a bottle of whiskey for your bro", "Move to San Francisco",
-                "Talk to the North Koreans", "Talk to the South Koreans", "TP a Laser Tag place",
-                "Hire a \"paralegal\""
+                "rob the Diamond Casino", "steal a car", "steal a bicycle", "rob a store", "sell weed", "sell meth",
+                "pickpocket someone", "help Kira's Gambling addiction", "help illegal imigrants cross the border",
+                "pull a hit on a bounty", "break into someone's house", "hack in Hypixel",
+                "pirate how i met your mother", "break the Geneva Convention", "rob a bank",
+                "switch a fire alarm on because you couldn't help the idea of not meeting your soul-mate",
+                "steal Ted's Christmas decorations", "steal a Blue French Horn", "take someone else's cab",
+                "leave a suitcase at the airport", "steal a bottle of whiskey for your bro", "move to San Francisco",
+                "talk to the North Koreans", "talk to the South Koreans", "TP a Laser Tag place",
+                "hire a \"paralegal\""
         };
         return crimes[Global.generateNumber(0, crimes.length - 1)];
     }
