@@ -2,7 +2,6 @@ package me.nerdoron.himyb;
 
 import java.awt.Color;
 import java.util.Random;
-import java.util.Set;
 
 import me.nerdoron.himyb.modules._bot.BotCommandsHandler;
 import me.nerdoron.himyb.modules._bot.CooldownManager;

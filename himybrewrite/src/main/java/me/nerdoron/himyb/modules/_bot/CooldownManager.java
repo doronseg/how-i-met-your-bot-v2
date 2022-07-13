@@ -1,6 +1,5 @@
 package me.nerdoron.himyb.modules._bot;
 
-import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.modules.Database;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
