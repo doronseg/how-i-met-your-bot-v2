@@ -5,7 +5,6 @@ import java.util.Random;
 
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.SlashCommand;
-import me.nerdoron.himyb.commands.currency.BankCommand;
 import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -52,7 +51,8 @@ public class CoinFlipCommand extends SlashCommand {
                                 + " on a coinflip, won, and doubled his bet!")
                         .queue();
                 int coins = broCoinsSQL.getBrocoins(event.getMember());
-                logger.info(event.getUser().getAsTag() +"("+event.getMember().getId()+") Won a coin flip while betting "+bet+" now they have "+coins+" coins");
+                logger.info(event.getUser().getAsTag() + "(" + event.getMember().getId()
+                        + ") Won a coin flip while betting " + bet + " now they have " + coins + " coins");
             } catch (SQLException e) {
                 e.printStackTrace();
                 event.reply("Error!").setEphemeral(true).queue();
@@ -65,7 +65,8 @@ public class CoinFlipCommand extends SlashCommand {
                                 + " on a coinflip, lost, and lost his bet.")
                         .queue();
                 int coins = broCoinsSQL.getBrocoins(event.getMember());
-                logger.info(event.getUser().getAsTag() +"("+event.getMember().getId()+") Lost a coin flip while betting "+bet+" now they have "+coins+" coins");
+                logger.info(event.getUser().getAsTag() + "(" + event.getMember().getId()
+                        + ") Lost a coin flip while betting " + bet + " now they have " + coins + " coins");
             } catch (SQLException e) {
                 e.printStackTrace();
                 event.reply("Error!").setEphemeral(true).queue();
