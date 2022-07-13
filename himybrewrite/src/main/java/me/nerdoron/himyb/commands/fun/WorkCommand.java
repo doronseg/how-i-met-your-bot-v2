@@ -72,6 +72,6 @@ public class WorkCommand extends SlashCommand {
                 "Carwash Cashier", "Kindergarten Teacher", "News Reporter", "Zookeeper", "Garbageman", "Babysitter"
         };
 
-        return jobs[Global.generateNumber(0, jobs.length)];
+        return jobs[Global.generateNumber(0, jobs.length - 1)];
     }
 }

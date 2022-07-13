@@ -70,7 +70,7 @@ public class CrimeCommand extends SlashCommand {
                 "Talk to the North Koreans", "Talk to the South Koreans", "TP a Laser Tag place",
                 "Hire a \"paralegal\""
         };
-        return crimes[Global.generateNumber(0, crimes.length)];
+        return crimes[Global.generateNumber(0, crimes.length - 1)];
     }
 
     @Override
