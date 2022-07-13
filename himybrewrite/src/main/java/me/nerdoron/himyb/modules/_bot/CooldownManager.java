@@ -65,13 +65,13 @@ public class CooldownManager {
             send+= ", "+Math.abs(day)+" Day";
         }
         if (Hur != 0) {
-            send+= " "+Math.abs(Hur)+"hours";
+            send+= " "+Math.abs(Hur)+" hours";
         }
         if (min != 0) {
-            send+= " "+Math.abs(min)+"minutes";
+            send+= " "+Math.abs(min)+" minutes";
         }
         if (sec != 0) {
-            send+= " "+Math.abs(sec)+"seconds";
+            send+= " "+Math.abs(sec)+" seconds";
         }
         return send.trim();
     }

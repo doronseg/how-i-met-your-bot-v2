@@ -33,7 +33,7 @@ public class WorkCommand extends SlashCommand {
         int reward = Global.generateNumber(1, 3);
         try {
             broCoinsSQL.updateBrocoins(event.getMember(), reward);
-            event.reply("You have worked as a "+getJob()+" and earned "+reward).queue();
+            event.reply("You have worked as a "+getJob()+" and earned "+reward+" "+Global.broCoin.getAsMention()).queue();
         } catch (SQLException e) {
             e.printStackTrace();
             event.reply("Error ;(").queue();
@@ -42,7 +42,7 @@ public class WorkCommand extends SlashCommand {
 
         int coinsNow = broCoinsSQL.getBrocoins(event.getMember());
         Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 60*60);
-        logger.info(event.getMember().getUser().getAsTag()+ "(" + event.getMember().getId() + ")"  + " won (" + reward + " Coins) While working now they have (" + coinsNow + ")");
+        logger.info(event.getMember().getUser().getAsTag()+ "(" + event.getMember().getId() + ")"  + " won (" + reward + " Coins) While working now they have (" + coinsNow + ") coins");
     }
 
     @Override
