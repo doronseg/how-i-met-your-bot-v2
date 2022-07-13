@@ -27,7 +27,7 @@ public class CrimeCommand extends SlashCommand {
             }
             return;
         }
-        int chance = Global.generateNumber(1, 5);
+        int chance = Global.generateNumber(1, 6);
         int reward = Global.generateNumber(10, 20);
         int fine = Global.generateNumber(10, 15);
         if (chance == 3) {

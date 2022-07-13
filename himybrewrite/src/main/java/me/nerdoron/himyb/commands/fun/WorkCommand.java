@@ -42,7 +42,7 @@ public class WorkCommand extends SlashCommand {
                 reward = reward * 3;
             broCoinsSQL.updateBrocoins(event.getMember(), reward);
             event.reply(
-                    "You have worked as a " + getJob() + " and earned " + reward + " " + Global.broCoin.getAsMention())
+                    "You have worked " + getJob() + " and earned " + reward + " " + Global.broCoin.getAsMention())
                     .queue();
         } catch (SQLException e) {
             e.printStackTrace();

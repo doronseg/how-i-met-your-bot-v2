@@ -25,7 +25,12 @@ public class CoinFlipCommand extends SlashCommand {
         String type = event.getOption("type").getAsString();
         int bet = event.getOption("bet").getAsInt();
         int rand = Global.generateNumber(1, 2);
-
+        if (Global.COOLDOWN_MANAGER.hasCooldown(CooldownManager.commandID(event))) {
+            String remaining = Global.COOLDOWN_MANAGER.parseCooldown(CooldownManager.commandID(event));
+            event.reply("Don't pull a Kira and get addicted to gambling! You can do it again in " + remaining)
+                    .setEphemeral(true).queue();
+            return;
+        }
         if (rand == 1) {
             result = "Heads";
         } else {
@@ -53,7 +58,7 @@ public class CoinFlipCommand extends SlashCommand {
                 int coins = broCoinsSQL.getBrocoins(event.getMember());
                 logger.info(event.getUser().getAsTag() + "(" + event.getMember().getId()
                         + ") Won a coin flip while betting " + bet + " now they have " + coins + " coins");
-                Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 60 * 60);
+                Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 30 * 60);
 
             } catch (SQLException e) {
                 e.printStackTrace();
