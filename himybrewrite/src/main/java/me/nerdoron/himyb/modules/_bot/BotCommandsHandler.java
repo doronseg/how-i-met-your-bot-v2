@@ -44,7 +44,7 @@ public class BotCommandsHandler extends ListenerAdapter {
         commands.add(new BankCommand());
         commands.add(new CoinFlipCommand());
         commands.add(new SetCoinsCommand());
-        //commands.add(new WorkCommand());
+        commands.add(new WorkCommand());
     }
 
     public void updateCommandsOnDiscord(JDA jda) {
