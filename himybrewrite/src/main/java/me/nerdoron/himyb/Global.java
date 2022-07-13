@@ -21,7 +21,7 @@ public class Global {
 
     public static int generateNumber(int min, int max) {
         Random r = new Random();
-        int low = min;
+        int low = min-1;
         int high = max;
         int result = r.nextInt(high - low) + low;
         return result;
