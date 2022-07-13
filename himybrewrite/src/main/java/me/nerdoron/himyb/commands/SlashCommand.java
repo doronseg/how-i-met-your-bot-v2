@@ -1,7 +1,6 @@
 package me.nerdoron.himyb.commands;
 
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
-import net.dv8tion.jda.internal.interactions.CommandDataImpl;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

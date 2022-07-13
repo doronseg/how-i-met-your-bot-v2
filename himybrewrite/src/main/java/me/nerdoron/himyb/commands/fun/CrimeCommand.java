@@ -64,7 +64,7 @@ public class CrimeCommand extends SlashCommand {
                 "Pickpocket someone", "Help Kira's Gambling addiction", "Help illegal imigrants cross the border",
                 "Pull a hit on a bounty", "Break into someone's house", "Hack in Hypixel",
                 "Pirate how i met your mother", "Break the Geneva Convention", "Rob a bank",
-                "Switch a fire alarm on because you couldn't help the idea of not meeting your soulmate.",
+                "Switch a fire alarm on because you couldn't help the idea of not meeting your soulmate",
                 "Steal Ted's Christmas decorations", "Steal a blue French Horn", "Take someone else's cab",
                 "Leave a suitcase at the airport", "Steal a bottle of whiskey for your bro", "Move to San Francisco",
                 "Talk to the North Koreans", "Talk to the South Koreans", "TP a Laser Tag place",

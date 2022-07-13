@@ -1,7 +1,6 @@
 package me.nerdoron.himyb.commands.fun.gambling;
 
 import java.sql.SQLException;
-import java.util.Random;
 
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.SlashCommand;
@@ -87,11 +86,4 @@ public class CoinFlipCommand extends SlashCommand {
         coinflip.addOptions(bet, heads_tails);
         return coinflip;
     }
-
-    private int chance() {
-        Random random = new Random();
-        int num = random.nextInt(2) + 1;
-        return num;
-    }
-
 }
