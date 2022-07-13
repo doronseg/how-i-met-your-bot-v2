@@ -24,7 +24,7 @@ public class CooldownManager {
         return "@"+event.getUser().getId()+event.getName()+"@";
     }
 
-    public void addCooldown(String identifier, int timeInSeconds) throws SQLException {
+    public void addCooldown(String identifier, int timeInSeconds) {
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime plus = now.plusSeconds(timeInSeconds);
         DB_addNewEntry(identifier,plus);
@@ -34,10 +34,11 @@ public class CooldownManager {
     public void addCooldown(String identifier, String tag, int timeInSeconds) {
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime plus = now.plusSeconds(timeInSeconds);
-        COOLDOWNS.putIfAbsent(identifier+" #"+tag, plus);
+        DB_addNewEntry(identifier+" #"+tag, plus);
+        //COOLDOWNS.putIfAbsent(identifier+" #"+tag, plus);
     }
 
-    public boolean hasCooldown(String identifier) throws SQLException {
+    public boolean hasCooldown(String identifier) {
         OffsetDateTime now = OffsetDateTime.now();
         Map<String, OffsetDateTime> cooldown = DB_findIdentifier(identifier);
 
@@ -55,7 +56,7 @@ public class CooldownManager {
         }
     }
 
-    public boolean hasTag(String identifier, String tag) throws SQLException {
+    public boolean hasTag(String identifier, String tag) {
         Map<String, OffsetDateTime> cooldown = DB_findIdentifier(identifier);
         if (cooldown == null) {
             return false;
@@ -64,7 +65,7 @@ public class CooldownManager {
         }
     }
 
-    public String parseCooldown(String identifier) throws SQLException {
+    public String parseCooldown(String identifier) {
         Map<String, OffsetDateTime> cooldown = DB_findIdentifier(identifier);
         if (cooldown == null) {
             return "";
@@ -115,43 +116,55 @@ public class CooldownManager {
         return null;
     }
 
-    private Map<String, OffsetDateTime> DB_findIdentifier(String identifier) throws SQLException {
-        String SQL = "SELECT * FROM cooldowns WHERE uid LIKE \""+identifier+"%\"";
-        ps = con.prepareStatement(SQL);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            Map<String, OffsetDateTime> r = new HashMap<>();
-            String dbID = rs.getString(1);
-            String dbOffsetText = rs.getString(2);
-            r.put(dbID, parseTimestringToOffset(dbOffsetText));
-            ps.close();
-            return r;
-            //Found
-        } else {
-            ps.close();
-            //Not found;
+    private Map<String, OffsetDateTime> DB_findIdentifier(String identifier) {
+        try {
+            String SQL = "SELECT * FROM cooldowns WHERE uid LIKE \""+identifier+"%\"";
+            ps = con.prepareStatement(SQL);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Map<String, OffsetDateTime> r = new HashMap<>();
+                String dbID = rs.getString(1);
+                String dbOffsetText = rs.getString(2);
+                r.put(dbID, parseTimestringToOffset(dbOffsetText));
+                ps.close();
+                return r;
+                //Found
+            } else {
+                ps.close();
+                //Not found;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return null;
     }
 
-    private void DB_addNewEntry(String identifier, OffsetDateTime cooldownTime) throws SQLException {
+    private void DB_addNewEntry(String identifier, OffsetDateTime cooldownTime) {
         if (DB_findIdentifier(identifier) == null) {
-            String statement = "INSERT INTO cooldowns (uid, cooldown) values(?,?)";
-            PreparedStatement ps = con.prepareStatement(statement);
-            ps.setString(1, identifier);
-            ps.setString(2, parseOffsetToText(cooldownTime));
-            ps.execute();
-            ps.close();
+            try {
+                String statement = "INSERT INTO cooldowns (uid, cooldown) values(?,?)";
+                PreparedStatement ps = con.prepareStatement(statement);
+                ps.setString(1, identifier);
+                ps.setString(2, parseOffsetToText(cooldownTime));
+                ps.execute();
+                ps.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    private void DB_removeEntry(String identifier) throws SQLException {
+    private void DB_removeEntry(String identifier) {
         Map<String, OffsetDateTime> cooldown = DB_findIdentifier(identifier);
         if (cooldown != null) {
-            String statement = "DELETE FROM birthday WHERE uid = ?";
-            PreparedStatement ps = con.prepareStatement(statement);
-            ps.setString(1, get1stKey(cooldown));
-            ps.execute();
+            try {
+                String statement = "DELETE FROM birthday WHERE uid = ?";
+                PreparedStatement ps = con.prepareStatement(statement);
+                ps.setString(1, get1stKey(cooldown));
+                ps.execute();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
