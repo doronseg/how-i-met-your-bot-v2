@@ -5,6 +5,7 @@ import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules._bot.CooldownManager;
 import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +47,7 @@ public class WorkCommand extends SlashCommand {
 
     @Override
     public SlashCommandData getSlash() {
-        return null;
+        return Commands.slash("work", "Work hard and get some BroCoins as a reward");
     }
 
     public String getJob() {
