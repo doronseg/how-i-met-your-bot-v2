@@ -19,10 +19,14 @@ public class Global {
     public static final CooldownManager COOLDOWN_MANAGER = new CooldownManager();
     public static BotCommandsHandler COMMANDS_HANDLER = null;
 
+    public static final int hourinSeconds = 3600;
+    public static final int dayinSeconds = hourinSeconds * 24;
+    public static final int monthInSeconds = dayinSeconds * 30;
+
     public static int generateNumber(int min, int max) {
         Random r = new Random();
         int low = min;
-        int high = max+1;
+        int high = max + 1;
         int result = r.nextInt(high - low) + low;
         return result;
     }
