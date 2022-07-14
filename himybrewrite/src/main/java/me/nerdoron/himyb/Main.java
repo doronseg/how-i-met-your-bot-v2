@@ -18,7 +18,7 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        logger.info("Hi.");
+        logger.info("Hi - You're running the Cooldown Update/Fix");
         logger.info("Starting stage 1 - enviorment");
         try {
             setupEnviorment();
