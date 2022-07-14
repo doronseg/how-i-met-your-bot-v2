@@ -77,7 +77,7 @@ public class CooldownManager {
 
         long sec = ChronoUnit.SECONDS.between(timeCreated, now) % 60;
         long min = ChronoUnit.MINUTES.between(timeCreated, now) % 60;
-        long Hur = ChronoUnit.HOURS.between(timeCreated, now) % 24;
+        long hur = ChronoUnit.HOURS.between(timeCreated, now) % 24;
         long day = ChronoUnit.DAYS.between(timeCreated, now) % 31;
         long mth = ChronoUnit.MONTHS.between(timeCreated, now) % 12;
         long yhr = ChronoUnit.YEARS.between(timeCreated, now);
@@ -85,22 +85,22 @@ public class CooldownManager {
         String send = "";
 
         if (yhr != 0) {
-            send += "" + Math.abs(yhr) + " Year";
+            send += " " + Math.abs(yhr) + " year" + (yhr > 1 ? "s" : "");
         }
         if (mth != 0) {
-            send += ", " + Math.abs(mth) + " Month";
+            send += " " + Math.abs(mth) + " month" + (mth > 1 ? "s" : "");
         }
         if (day != 0) {
-            send += ", " + Math.abs(day) + " Day";
+            send += " " + Math.abs(day) + " day" + (day > 1 ? "s" : "");
         }
-        if (Hur != 0) {
-            send += " " + Math.abs(Hur) + " hours";
+        if (hur != 0) {
+            send += " " + Math.abs(hur) + " hour" + (hur > 1 ? "s" : "");
         }
         if (min != 0) {
-            send += " " + Math.abs(min) + " minutes";
+            send += " " + Math.abs(min) + " minute" + (min > 1 ? "s" : "");
         }
         if (sec != 0) {
-            send += " " + Math.abs(sec) + " seconds";
+            send += " " + Math.abs(sec) + " second" + (sec > 1 ? "s" : "");
         }
         return send.trim();
     }
