@@ -2,6 +2,9 @@ package me.nerdoron.himyb.commands.currency;
 
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules._bot.CooldownManager;
@@ -13,6 +16,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 public class MonthlyCommand extends SlashCommand {
 
     BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
+    final Logger logger = LoggerFactory.getLogger(MonthlyCommand.class);
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
@@ -31,6 +35,11 @@ public class MonthlyCommand extends SlashCommand {
                     "You claimed your monthly batch of coins, and got " + reward + " " + Global.broCoin.getAsMention()
                             + ".")
                     .setEphemeral(true).queue();
+            int coinsNow = broCoinsSQL.getBrocoins(event.getMember());
+            logger.info(
+                    event.getMember().getUser().getAsTag() + "(" + event.getMember().getId() + ")"
+                            + " got the monthly batch of coins, (" + reward
+                            + " Coins) now they have (" + coinsNow + ") coins");
         } catch (SQLException e) {
             event.reply("Error!").setEphemeral(true).queue();
             e.printStackTrace();
