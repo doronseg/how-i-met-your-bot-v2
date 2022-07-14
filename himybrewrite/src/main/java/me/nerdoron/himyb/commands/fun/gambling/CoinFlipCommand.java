@@ -53,7 +53,7 @@ public class CoinFlipCommand extends SlashCommand {
                 broCoinsSQL.updateBrocoins(event.getMember(), bet);
                 event.reply(
                         event.getMember().getAsMention() + " bet " + bet + " " + Global.broCoin.getAsMention()
-                                + " on a coinflip, won, and doubled his bet!")
+                                + " on a coinflip, won, and doubled their bet!")
                         .queue();
                 int coins = broCoinsSQL.getBrocoins(event.getMember());
                 logger.info(event.getUser().getAsTag() + "(" + event.getMember().getId()
@@ -69,7 +69,7 @@ public class CoinFlipCommand extends SlashCommand {
                 broCoinsSQL.updateBrocoins(event.getMember(), -(bet));
                 event.reply(
                         event.getMember().getAsMention() + " bet " + bet + " " + Global.broCoin.getAsMention()
-                                + " on a coinflip, and lost his bet.")
+                                + " on a coinflip, and lost their bet.")
                         .queue();
                 int coins = broCoinsSQL.getBrocoins(event.getMember());
                 logger.info(event.getUser().getAsTag() + "(" + event.getMember().getId()
