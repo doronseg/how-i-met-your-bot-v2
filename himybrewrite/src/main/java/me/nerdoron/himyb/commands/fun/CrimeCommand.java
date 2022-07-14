@@ -28,7 +28,7 @@ public class CrimeCommand extends SlashCommand {
             return;
         }
 
-        if (broCoinsSQL.hasBrocoins(event.getMember())) {
+        if (!broCoinsSQL.hasBrocoins(event.getMember())) {
             event.reply("You don't have a BroCoins account!").setEphemeral(true).queue();
             return;
         }

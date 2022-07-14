@@ -3,6 +3,8 @@ package me.nerdoron.himyb.commands.fun.gambling;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.SlashCommand;
+import me.nerdoron.himyb.modules._bot.CooldownManager;
+import me.nerdoron.himyb.modules.blackjack.BJcard;
 import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -39,13 +41,13 @@ public class BlackjackCommand extends SlashCommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        if (Global.COOLDOWN_MANAGER.hasCooldown(event.getCommandId())) {
-            String time = Global.COOLDOWN_MANAGER.parseCooldown(event.getCommandId());
-            event.reply("You have already played a round of blackjack. Please try again in " + time).queue();
+        if (Global.COOLDOWN_MANAGER.hasCooldown(CooldownManager.commandID(event))) {
+            String time = Global.COOLDOWN_MANAGER.parseCooldown(CooldownManager.commandID(event));
+            event.reply("You have already played a round of blackjack. Please try again in " + time).setEphemeral(true).queue();
             return;
         }
 
-        if (broCoinsSQL.hasBrocoins(event.getMember())) {
+        if (!broCoinsSQL.hasBrocoins(event.getMember())) {
             event.reply("You don't have a BroCoins account!").setEphemeral(true).queue();
             return;
         }
@@ -58,18 +60,18 @@ public class BlackjackCommand extends SlashCommand {
             return;
         }
 
-        Global.COOLDOWN_MANAGER.addCooldown(event.getCommandId(), (60 * 5) + 10);
+        Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), (60 * 5) + 10);
         event.reply("Game started").setEphemeral(true).queue();
         final TextChannel channel = event.getTextChannel();
         EmbedBuilder emb = new EmbedBuilder();
-        List<String> deck = new LinkedList<>(Collections.emptyList());
-        List<String> bot = new LinkedList<>(Collections.emptyList());
-        List<String> user = new LinkedList<>(Collections.emptyList());
+        List<BJcard> deck = new LinkedList<>(Collections.emptyList());
+        List<BJcard> bot = new LinkedList<>(Collections.emptyList());
+        List<BJcard> user = new LinkedList<>(Collections.emptyList());
         for (int i = 1; i < 13; i++) {
-            deck.add(i + "");
-            deck.add(i + "");
-            deck.add(i + "");
-            deck.add(i + "");
+            deck.add(new BJcard(i, "club"));
+            deck.add(new BJcard(i, "diamond"));
+            deck.add(new BJcard(i, "heart"));
+            deck.add(new BJcard(i, "spade"));
         }
         Collections.shuffle(deck);
         bot.add(drawCard(deck));
@@ -87,8 +89,8 @@ public class BlackjackCommand extends SlashCommand {
         return cmd;
     }
 
-    public void bj(List<String> deck, List<String> bot, List<String> user, EmbedBuilder emb, TextChannel channel,
-            boolean check, SlashCommandInteractionEvent ctx, boolean edit, Message msg, int bet) {
+    public void bj(List<BJcard> deck, List<BJcard> bot, List<BJcard> user, EmbedBuilder emb, TextChannel channel,
+                   boolean check, SlashCommandInteractionEvent ctx, boolean edit, Message msg, int bet) {
         ActionRow b = ActionRow.of(Button.secondary("...", "Game complete").asDisabled());
         emb.clearFields();
         emb.setAuthor("Game of " + ctx.getUser().getAsTag());
@@ -209,8 +211,8 @@ public class BlackjackCommand extends SlashCommand {
 
     }
 
-    public void actions(SlashCommandInteractionEvent ctx, TextChannel channel, Message msg, List<String> userC,
-            List<String> botC, List<String> deck, EmbedBuilder emb, int bet) {
+    public void actions(SlashCommandInteractionEvent ctx, TextChannel channel, Message msg, List<BJcard> userC,
+            List<BJcard> botC, List<BJcard> deck, EmbedBuilder emb, int bet) {
         waiter.waitForEvent(
                 ButtonInteractionEvent.class, (event) -> {
                     User user = event.getUser();
@@ -260,22 +262,26 @@ public class BlackjackCommand extends SlashCommand {
 
     }
 
-    public String drawCard(List<String> deck) {
-        String r = deck.get(0);
+    public BJcard drawCard(List<BJcard> deck) {
+        BJcard r = deck.get(0);
         deck.remove(0);
         return r;
     }
 
-    public int getSum(List<String> deck) {
+    public int getSum(List<BJcard> deck) {
         int i = 0;
-        for (String s : deck) {
-            i += Integer.parseInt(s);
+        for (BJcard s : deck) {
+            i += s.getNumber();
         }
         return i;
     }
 
-    public static String getAsString(List<String> args) {
-        return String.join(" ", args.subList(0, args.size()));
+    public static String getAsString(List<BJcard> args) {
+        String r = "";
+        for (BJcard card : args) {
+            r+= card.getCard()+"`"+card.getNumber()+"` ";
+        }
+        return r;
     }
 
     public void processSQL(Member member, int amountOfChange, Message msg, EmbedBuilder emb) {
