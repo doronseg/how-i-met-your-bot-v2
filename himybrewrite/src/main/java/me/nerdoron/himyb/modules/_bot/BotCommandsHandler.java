@@ -3,6 +3,8 @@ package me.nerdoron.himyb.modules._bot;
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.commands.currency.BankCommand;
+import me.nerdoron.himyb.commands.currency.DailyCommand;
+import me.nerdoron.himyb.commands.currency.MonthlyCommand;
 import me.nerdoron.himyb.commands.staff.*;
 import me.nerdoron.himyb.commands.fun.*;
 import me.nerdoron.himyb.commands.fun.gambling.CoinFlipCommand;
@@ -40,6 +42,8 @@ public class BotCommandsHandler extends ListenerAdapter {
         commands.add(new SetCoinsCommand());
         commands.add(new WorkCommand());
         commands.add(new CrimeCommand());
+        commands.add(new MonthlyCommand());
+        commands.add(new DailyCommand());
     }
 
     public void updateCommandsOnDiscord(JDA jda) {
