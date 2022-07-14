@@ -51,7 +51,7 @@ public class BlackjackCommand extends SlashCommand {
         }
 
         Global.COOLDOWN_MANAGER.addCooldown(event.getCommandId(), (60*5)+10);
-        event.reply("Game started").queue();
+        event.reply("Game started").setEphemeral(true).queue();
         final TextChannel channel = event.getTextChannel();
         EmbedBuilder emb = new EmbedBuilder();
         List<String> deck = new LinkedList<>(Collections.emptyList());
@@ -96,9 +96,9 @@ public class BlackjackCommand extends SlashCommand {
             emb.addField("Coins won", (bet*2)+" "+Global.broCoin.getAsMention(),true);
             processSQL(ctx.getMember(), bet*2, msg, emb);
             if (!edit) {
-                channel.sendMessageEmbeds(emb.build()).queue();
+                channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
             } else {
-                msg.editMessageEmbeds(emb.build()).queue();
+                msg.editMessageEmbeds(emb.build()).setActionRows(b).queue();
             }
             return;
         }
@@ -109,9 +109,9 @@ public class BlackjackCommand extends SlashCommand {
             emb.addField("Coins lost", (bet)+" "+Global.broCoin.getAsMention(),true);
             processSQL(ctx.getMember(), -bet, msg, emb);
             if (!edit) {
-                channel.sendMessageEmbeds(emb.build()).queue();
+                channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
             } else {
-                msg.editMessageEmbeds(emb.build()).queue();
+                msg.editMessageEmbeds(emb.build()).setActionRows(b).queue();
             }
             return;
         }
@@ -122,9 +122,9 @@ public class BlackjackCommand extends SlashCommand {
             emb.addField("Coins lost", (bet)+" "+Global.broCoin.getAsMention(),true);
             processSQL(ctx.getMember(), -bet, msg, emb);
             if (!edit) {
-                channel.sendMessageEmbeds(emb.build()).queue();
+                channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
             } else {
-                msg.editMessageEmbeds(emb.build()).queue();
+                msg.editMessageEmbeds(emb.build()).setActionRows(b).queue();
             }
             return;
         }
@@ -135,9 +135,9 @@ public class BlackjackCommand extends SlashCommand {
             emb.addField("Coins won", (bet*2)+" "+Global.broCoin.getAsMention(),true);
             processSQL(ctx.getMember(), bet*2, msg, emb);
             if (!edit) {
-                channel.sendMessageEmbeds(emb.build()).queue();
+                channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
             } else {
-                msg.editMessageEmbeds(emb.build()).queue();
+                msg.editMessageEmbeds(emb.build()).setActionRows(b).queue();
             }
             return;
         }
@@ -151,9 +151,9 @@ public class BlackjackCommand extends SlashCommand {
                 emb.addField("Coins lost", (bet)+" "+Global.broCoin.getAsMention(),true);
                 processSQL(ctx.getMember(), -bet, msg, emb);
                 if (!edit) {
-                    channel.sendMessageEmbeds(emb.build()).queue();
+                    channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
                 } else {
-                    msg.editMessageEmbeds(emb.build()).queue();
+                    msg.editMessageEmbeds(emb.build()).setActionRows(b).queue();
                 }
                 return;
             }
@@ -164,9 +164,9 @@ public class BlackjackCommand extends SlashCommand {
                 emb.addField("Coins won", (bet*2)+" "+Global.broCoin.getAsMention(),true);
                 processSQL(ctx.getMember(), bet*2, msg, emb);
                 if (!edit) {
-                    channel.sendMessageEmbeds(emb.build()).queue();
+                    channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
                 } else {
-                    msg.editMessageEmbeds(emb.build()).queue();
+                    msg.editMessageEmbeds(emb.build()).setActionRows(b).queue();
                 }
                 return;
             }
@@ -176,9 +176,9 @@ public class BlackjackCommand extends SlashCommand {
                 emb.addField("Coins returned", (bet)+" "+Global.broCoin.getAsMention(),true);
                 processSQL(ctx.getMember(), bet, msg, emb);
                 if (!edit) {
-                    channel.sendMessageEmbeds(emb.build()).queue();
+                    channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
                 } else {
-                    msg.editMessageEmbeds(emb.build()).queue();
+                    msg.editMessageEmbeds(emb.build()).setActionRows(b).queue();
                 }
                 return;
             }
@@ -218,12 +218,12 @@ public class BlackjackCommand extends SlashCommand {
                                 __ -> {bj(deck, botC, userC, emb, channel, false, ctx, true, msg, bet);}
                         );
                         return;
-                    } else {
+                    } else if (event.getButton().getId().equals(event.getUser().getId()+"::stand")) {
                         while (getSum(botC) < 17) {
                             botC.add(drawCard(deck));
                         }
                         event.editMessageEmbeds(emb.build()).queue(
-                                __ -> {bj(deck, botC, userC, emb, channel, false, ctx, true, msg, bet);}
+                                __ -> {bj(deck, botC, userC, emb, channel, true, ctx, true, msg, bet);}
                         );
                         return;
                     }
