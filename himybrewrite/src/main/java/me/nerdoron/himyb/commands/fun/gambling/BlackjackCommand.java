@@ -182,7 +182,6 @@ public class BlackjackCommand extends SlashCommand {
                 emb.clearFields();
                 emb.addField("Status", "**Its a draw!**", false);
                 emb.addField("Coins returned", (bet)+" "+Global.broCoin.getAsMention(),true);
-                processSQL(ctx.getMember(), bet, msg, emb);
                 if (!edit) {
                     channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
                 } else {
