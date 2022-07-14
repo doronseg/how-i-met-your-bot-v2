@@ -3,6 +3,7 @@ package me.nerdoron.himyb.commands.fun.gambling;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.SlashCommand;
+import me.nerdoron.himyb.commands.fun.WorkCommand;
 import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -17,6 +18,8 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.sql.SQLException;
@@ -29,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class BlackjackCommand extends SlashCommand {
     private final EventWaiter waiter;
     private final BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
+    final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public BlackjackCommand(EventWaiter waiter) {
         this.waiter = waiter;
@@ -286,6 +290,13 @@ public class BlackjackCommand extends SlashCommand {
             msg.editMessageEmbeds(emb.build()).setActionRows(b).queue();
             throw new RuntimeException(e);
         }
-        //Todo: Logging here if they lost or won
+        int coinsNow = broCoinsSQL.getBrocoins(member);
+        if (amountOfChange > 0) {
+            logger.info(member.getUser().getAsTag()+ "(" + member.getId() + ")"  + " won (" + amountOfChange + " Coins) in Blackjack now they have (" + coinsNow
+                    + ") coins");
+        } else {
+            logger.info(member.getUser().getAsTag()+ "(" + member.getId() + ")"  + " lost (" + amountOfChange + " Coins) in Blackjack now they have (" + coinsNow
+                    + ") coins");
+        }
     }
 }
