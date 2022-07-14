@@ -32,7 +32,7 @@ public class WorkCommand extends SlashCommand {
         int reward = Global.generateNumber(1, 10);
         int chance = Global.generateNumber(1, 100);
         if (chance == 50) {
-            Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 60 * 60);
+            Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), Global.dayinSeconds);
             event.reply("You worked " + getJob() + ", however, your employer scammed you, and didn't pay you.")
                     .queue();
             return;
@@ -51,7 +51,7 @@ public class WorkCommand extends SlashCommand {
         }
 
         int coinsNow = broCoinsSQL.getBrocoins(event.getMember());
-        Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 60 * 60);
+        Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), Global.hourinSeconds);
         logger.info(event.getMember().getUser().getAsTag() + "(" + event.getMember().getId() + ")" + " won (" + reward
                 + " Coins) While working now they have (" + coinsNow + ") coins");
     }

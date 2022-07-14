@@ -14,26 +14,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CooldownManager {
-    private final Map<String, OffsetDateTime> COOLDOWNS = new HashMap<>();
     private static final Connection con = Database.connect();
     static PreparedStatement ps = null;
 
-    public CooldownManager() {}
+    public CooldownManager() {
+    }
 
     public static String commandID(SlashCommandInteractionEvent event) {
-        return "@"+event.getUser().getId()+event.getName()+"@";
+        return "@" + event.getUser().getId() + event.getName() + "@";
     }
 
     public void addCooldown(String identifier, int timeInSeconds) {
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime plus = now.plusSeconds(timeInSeconds);
-        DB_addNewEntry(identifier,plus);
+        DB_addNewEntry(identifier, plus);
     }
 
     public void addCooldown(String identifier, String tag, int timeInSeconds) {
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime plus = now.plusSeconds(timeInSeconds);
-        DB_addNewEntry(identifier+" #"+tag, plus);
+        DB_addNewEntry(identifier + " #" + tag, plus);
     }
 
     public boolean hasCooldown(String identifier) {
@@ -59,7 +59,7 @@ public class CooldownManager {
         if (cooldown == null) {
             return false;
         } else {
-            return get1stKey(cooldown).contains("#"+tag);
+            return get1stKey(cooldown).contains("#" + tag);
         }
     }
 
@@ -73,36 +73,34 @@ public class CooldownManager {
     }
 
     private String parseOffsetDateTimeHumanText(OffsetDateTime timeCreated) {
-        OffsetDateTime now= OffsetDateTime.now();
+        OffsetDateTime now = OffsetDateTime.now();
 
-        long sec = ChronoUnit.SECONDS.between(timeCreated,now)%60;
-        long min = ChronoUnit.MINUTES.between(timeCreated,now)%60;
-        long Hur = ChronoUnit.HOURS.between(timeCreated,now)%24;
-        long day = ChronoUnit.DAYS.between(timeCreated,now)%31;
-        long mth = ChronoUnit.MONTHS.between(timeCreated,now)%12;
-        long yhr = ChronoUnit.YEARS.between(timeCreated,now);
-
-
+        long sec = ChronoUnit.SECONDS.between(timeCreated, now) % 60;
+        long min = ChronoUnit.MINUTES.between(timeCreated, now) % 60;
+        long Hur = ChronoUnit.HOURS.between(timeCreated, now) % 24;
+        long day = ChronoUnit.DAYS.between(timeCreated, now) % 31;
+        long mth = ChronoUnit.MONTHS.between(timeCreated, now) % 12;
+        long yhr = ChronoUnit.YEARS.between(timeCreated, now);
 
         String send = "";
 
         if (yhr != 0) {
-            send+= ""+Math.abs(yhr)+" Year";
+            send += "" + Math.abs(yhr) + " Year";
         }
         if (mth != 0) {
-            send+= ", "+Math.abs(mth)+" Month";
+            send += ", " + Math.abs(mth) + " Month";
         }
         if (day != 0) {
-            send+= ", "+Math.abs(day)+" Day";
+            send += ", " + Math.abs(day) + " Day";
         }
         if (Hur != 0) {
-            send+= " "+Math.abs(Hur)+" hours";
+            send += " " + Math.abs(Hur) + " hours";
         }
         if (min != 0) {
-            send+= " "+Math.abs(min)+" minutes";
+            send += " " + Math.abs(min) + " minutes";
         }
         if (sec != 0) {
-            send+= " "+Math.abs(sec)+" seconds";
+            send += " " + Math.abs(sec) + " seconds";
         }
         return send.trim();
     }
@@ -116,7 +114,7 @@ public class CooldownManager {
 
     private Map<String, OffsetDateTime> DB_findIdentifier(String identifier) {
         try {
-            String SQL = "SELECT * FROM cooldowns WHERE uid LIKE \""+identifier+"%\"";
+            String SQL = "SELECT * FROM cooldowns WHERE uid LIKE \"" + identifier + "%\"";
             ps = con.prepareStatement(SQL);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -126,10 +124,10 @@ public class CooldownManager {
                 r.put(dbID, parseTimestringToOffset(dbOffsetText));
                 ps.close();
                 return r;
-                //Found
+                // Found
             } else {
                 ps.close();
-                //Not found;
+                // Not found;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

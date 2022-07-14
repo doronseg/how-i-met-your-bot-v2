@@ -32,7 +32,7 @@ public class CrimeCommand extends SlashCommand {
         int fine = Global.generateNumber(10, 15);
         if (chance == 3) {
             try {
-                Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 120 * 60);
+                Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), Global.hourinSeconds * 2);
                 event.reply(
                         "You attempted to " + getCrime() + ", and managed to get away with it. You got " + reward + " "
                                 + Global.broCoin.getAsMention() + " as a reward.")
@@ -44,7 +44,8 @@ public class CrimeCommand extends SlashCommand {
             }
         } else {
             try {
-                Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), "Caught", 360 * 60);
+                Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), "Caught",
+                        Global.hourinSeconds * 6);
                 if (fine > broCoinsSQL.getBrocoins(event.getMember())) {
                     event.reply("You attempted to " + getCrime()
                             + ", but you were caught! As a punishment, they tried to fine you  "
