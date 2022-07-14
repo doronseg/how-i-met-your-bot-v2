@@ -1,67 +1,75 @@
 package me.nerdoron.himyb.modules._bot;
 
+import me.nerdoron.himyb.modules.Database;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-import java.time.OffsetDateTime;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CooldownManager {
     private final Map<String, OffsetDateTime> COOLDOWNS = new HashMap<>();
+    private static final Connection con = Database.connect();
+    static PreparedStatement ps = null;
 
     public CooldownManager() {}
 
     public static String commandID(SlashCommandInteractionEvent event) {
-        return event.getUser().getId()+event.getName();
+        return "@"+event.getUser().getId()+event.getName()+"@";
     }
 
     public void addCooldown(String identifier, int timeInSeconds) {
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime plus = now.plusSeconds(timeInSeconds);
-        COOLDOWNS.putIfAbsent("@"+identifier, plus);
+        DB_addNewEntry(identifier,plus);
     }
 
     public void addCooldown(String identifier, String tag, int timeInSeconds) {
         OffsetDateTime now = OffsetDateTime.now();
         OffsetDateTime plus = now.plusSeconds(timeInSeconds);
-        if (!COOLDOWNS.containsKey(identifier)) {
-            COOLDOWNS.putIfAbsent("@"+identifier+" #"+tag, plus);
-        }
+        DB_addNewEntry(identifier+" #"+tag, plus);
     }
 
     public boolean hasCooldown(String identifier) {
         OffsetDateTime now = OffsetDateTime.now();
-        for (String cooldownKey : COOLDOWNS.keySet()) {
-            if (cooldownKey.contains("@"+identifier)) {
-                OffsetDateTime cooldown = COOLDOWNS.get(cooldownKey);
-                if (cooldown.isAfter(now)) {
-                    return true;
-                } else {
-                    COOLDOWNS.remove(cooldownKey);
-                    return false;
-                }
+        Map<String, OffsetDateTime> cooldown = DB_findIdentifier(identifier);
+
+        if (cooldown == null) {
+            return false;
+        } else {
+            String ID = get1stKey(cooldown);
+            OffsetDateTime Coffset = cooldown.get(ID);
+            if (Coffset.isAfter(now)) {
+                return true;
+            } else {
+                DB_removeEntry(identifier);
+                return false;
             }
         }
-        return false;
     }
 
     public boolean hasTag(String identifier, String tag) {
-        for (String cooldownKey : COOLDOWNS.keySet()) {
-            if (cooldownKey.contains("@"+identifier)) {
-                return cooldownKey.contains("#"+tag);
-            }
+        Map<String, OffsetDateTime> cooldown = DB_findIdentifier(identifier);
+        if (cooldown == null) {
+            return false;
+        } else {
+            return get1stKey(cooldown).contains("#"+tag);
         }
-        return false;
     }
 
     public String parseCooldown(String identifier) {
-        for (String cooldownKey : this.COOLDOWNS.keySet()) {
-            if (cooldownKey.contains("@"+identifier)) {
-                return parseOffsetDateTimeHumanText(this.COOLDOWNS.get(cooldownKey));
-            }
+        Map<String, OffsetDateTime> cooldown = DB_findIdentifier(identifier);
+        if (cooldown == null) {
+            return "";
+        } else {
+            return parseOffsetDateTimeHumanText(cooldown.get(get1stKey(cooldown)));
         }
-        return "";
     }
 
     private String parseOffsetDateTimeHumanText(OffsetDateTime timeCreated) {
@@ -97,5 +105,75 @@ public class CooldownManager {
             send+= " "+Math.abs(sec)+" seconds";
         }
         return send.trim();
+    }
+
+    private String get1stKey(Map<String, OffsetDateTime> map) {
+        for (String key : map.keySet()) {
+            return key;
+        }
+        return null;
+    }
+
+    private Map<String, OffsetDateTime> DB_findIdentifier(String identifier) {
+        try {
+            String SQL = "SELECT * FROM cooldowns WHERE uid LIKE \""+identifier+"%\"";
+            ps = con.prepareStatement(SQL);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Map<String, OffsetDateTime> r = new HashMap<>();
+                String dbID = rs.getString(1);
+                String dbOffsetText = rs.getString(2);
+                r.put(dbID, parseTimestringToOffset(dbOffsetText));
+                ps.close();
+                return r;
+                //Found
+            } else {
+                ps.close();
+                //Not found;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    private void DB_addNewEntry(String identifier, OffsetDateTime cooldownTime) {
+        if (DB_findIdentifier(identifier) == null) {
+            try {
+                String statement = "INSERT INTO cooldowns (uid, cooldown) values(?,?)";
+                PreparedStatement ps = con.prepareStatement(statement);
+                ps.setString(1, identifier);
+                ps.setString(2, parseOffsetToText(cooldownTime));
+                ps.execute();
+                ps.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void DB_removeEntry(String identifier) {
+        Map<String, OffsetDateTime> cooldown = DB_findIdentifier(identifier);
+        if (cooldown != null) {
+            try {
+                String statement = "DELETE FROM cooldowns WHERE uid = ?";
+                PreparedStatement ps = con.prepareStatement(statement);
+                ps.setString(1, get1stKey(cooldown));
+                ps.execute();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private static OffsetDateTime parseTimestringToOffset(String timestamp) {
+        java.time.format.DateTimeFormatter parser = java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+        java.time.LocalDateTime dt = java.time.LocalDateTime.parse(timestamp, parser);
+        ZonedDateTime zdt = ZonedDateTime.of(dt, java.time.ZoneId.of(ZoneId.systemDefault().getId()));
+        return OffsetDateTime.from(zdt);
+    }
+
+    private static String parseOffsetToText(OffsetDateTime offset) {
+        return offset.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     }
 }
