@@ -32,7 +32,7 @@ public class WorkCommand extends SlashCommand {
         int reward = Global.generateNumber(1, 10);
         int chance = Global.generateNumber(1, 100);
         if (chance == 50) {
-            Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), Global.dayinSeconds);
+            Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), Global.hourinSeconds);
             event.reply("You worked " + getJob() + ", however, your employer scammed you, and didn't pay you.")
                     .queue();
             return;
