@@ -58,7 +58,7 @@ public class CoinFlipCommand extends SlashCommand {
                 int coins = broCoinsSQL.getBrocoins(event.getMember());
                 logger.info(event.getUser().getAsTag() + "(" + event.getMember().getId()
                         + ") Won a coin flip while betting " + bet + " now they have " + coins + " coins");
-                Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 30 * 60);
+                Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), Global.hourinSeconds / 2);
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -69,12 +69,12 @@ public class CoinFlipCommand extends SlashCommand {
                 broCoinsSQL.updateBrocoins(event.getMember(), -(bet));
                 event.reply(
                         event.getMember().getAsMention() + " bet " + bet + " " + Global.broCoin.getAsMention()
-                                + " on a coinflip, lost, and lost his bet.")
+                                + " on a coinflip, and lost his bet.")
                         .queue();
                 int coins = broCoinsSQL.getBrocoins(event.getMember());
                 logger.info(event.getUser().getAsTag() + "(" + event.getMember().getId()
                         + ") Lost a coin flip while betting " + bet + " now they have " + coins + " coins");
-                Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 60 * 60);
+                Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), Global.hourinSeconds / 2);
             } catch (SQLException e) {
                 e.printStackTrace();
                 event.reply("Error!").setEphemeral(true).queue();
