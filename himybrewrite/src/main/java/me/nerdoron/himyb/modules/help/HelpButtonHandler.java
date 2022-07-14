@@ -14,7 +14,7 @@ public class HelpButtonHandler extends ListenerAdapter {
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
         String buttonId = event.getComponentId();
-        if (!buttonId.contains(":"))
+        if (!buttonId.contains("HELP:"))
             return;
         String[] buttonSplit = buttonId.split(":");
         String uid = buttonSplit[0];
