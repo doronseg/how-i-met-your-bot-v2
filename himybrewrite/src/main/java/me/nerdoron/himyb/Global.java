@@ -15,7 +15,7 @@ public class Global {
     public static final int ms_1second = 1000;
     public static final int ms_1minute = 60000;
     public static final int ms_1hour = 60 * ms_1minute;
-    public static CustomEmoji broCoin = Emoji.fromCustom("brocoin", 991661873126707210L, false);
+    public static CustomEmoji broCoin = Emoji.fromCustom("brocoin", 997162208180064276L, false);
     public static final CooldownManager COOLDOWN_MANAGER = new CooldownManager();
     public static BotCommandsHandler COMMANDS_HANDLER = null;
 
