@@ -3,7 +3,6 @@ package me.nerdoron.himyb.commands.fun.gambling;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.SlashCommand;
-import me.nerdoron.himyb.commands.fun.WorkCommand;
 import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -42,7 +41,7 @@ public class BlackjackCommand extends SlashCommand {
     public void execute(SlashCommandInteractionEvent event) {
         if (Global.COOLDOWN_MANAGER.hasCooldown(event.getCommandId())) {
             String time = Global.COOLDOWN_MANAGER.parseCooldown(event.getCommandId());
-            event.reply("You have already played a round of blackjack. Please try again in "+time).queue();
+            event.reply("You have already played a round of blackjack. Please try again in " + time).queue();
             return;
         }
 
@@ -54,11 +53,12 @@ public class BlackjackCommand extends SlashCommand {
         int bet = event.getOption("bet").getAsInt();
         int userCoins = broCoinsSQL.getBrocoins(event.getMember());
         if (userCoins < bet) {
-            event.reply("I'm sorry but you are missing "+(bet-userCoins)+" "+Global.broCoin.getAsMention()+" to play").queue();
+            event.reply("I'm sorry but you are missing " + (bet - userCoins) + " " + Global.broCoin.getAsMention()
+                    + " to play").queue();
             return;
         }
 
-        Global.COOLDOWN_MANAGER.addCooldown(event.getCommandId(), (60*5)+10);
+        Global.COOLDOWN_MANAGER.addCooldown(event.getCommandId(), (60 * 5) + 10);
         event.reply("Game started").setEphemeral(true).queue();
         final TextChannel channel = event.getTextChannel();
         EmbedBuilder emb = new EmbedBuilder();
@@ -87,7 +87,8 @@ public class BlackjackCommand extends SlashCommand {
         return cmd;
     }
 
-    public void bj(List<String> deck, List<String> bot, List<String> user, EmbedBuilder emb, TextChannel channel, boolean check, SlashCommandInteractionEvent ctx, boolean edit, Message msg, int bet) {
+    public void bj(List<String> deck, List<String> bot, List<String> user, EmbedBuilder emb, TextChannel channel,
+            boolean check, SlashCommandInteractionEvent ctx, boolean edit, Message msg, int bet) {
         ActionRow b = ActionRow.of(Button.secondary("...", "Game complete").asDisabled());
         emb.clearFields();
         emb.setAuthor("Game of " + ctx.getUser().getAsTag());
@@ -101,8 +102,8 @@ public class BlackjackCommand extends SlashCommand {
             emb.clearFields();
             emb.setColor(Color.green);
             emb.addField("Status", "I Busted!\n**You won**", true);
-            emb.addField("Coins won", (bet*2)+" "+Global.broCoin.getAsMention(),true);
-            processSQL(ctx.getMember(), bet*2, msg, emb);
+            emb.addField("Coins won", (bet * 2) + " " + Global.broCoin.getAsMention(), true);
+            processSQL(ctx.getMember(), bet * 2, msg, emb);
             if (!edit) {
                 channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
             } else {
@@ -114,7 +115,7 @@ public class BlackjackCommand extends SlashCommand {
             emb.clearFields();
             emb.setColor(Color.red);
             emb.addField("Status", "**BLACKJACK**\nYou lost!", true);
-            emb.addField("Coins lost", (bet)+" "+Global.broCoin.getAsMention(),true);
+            emb.addField("Coins lost", (bet) + " " + Global.broCoin.getAsMention(), true);
             processSQL(ctx.getMember(), -bet, msg, emb);
             if (!edit) {
                 channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
@@ -127,7 +128,7 @@ public class BlackjackCommand extends SlashCommand {
             emb.clearFields();
             emb.setColor(Color.red);
             emb.addField("Status", "You busted\n**I won**", true);
-            emb.addField("Coins lost", (bet)+" "+Global.broCoin.getAsMention(),true);
+            emb.addField("Coins lost", (bet) + " " + Global.broCoin.getAsMention(), true);
             processSQL(ctx.getMember(), -bet, msg, emb);
             if (!edit) {
                 channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
@@ -140,8 +141,8 @@ public class BlackjackCommand extends SlashCommand {
             emb.clearFields();
             emb.setColor(Color.green);
             emb.addField("Status", "**BLACKJACK**\n**You won!**", true);
-            emb.addField("Coins won", (bet*2)+" "+Global.broCoin.getAsMention(),true);
-            processSQL(ctx.getMember(), bet*2, msg, emb);
+            emb.addField("Coins won", (bet * 2) + " " + Global.broCoin.getAsMention(), true);
+            processSQL(ctx.getMember(), bet * 2, msg, emb);
             if (!edit) {
                 channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
             } else {
@@ -150,13 +151,12 @@ public class BlackjackCommand extends SlashCommand {
             return;
         }
 
-
         if (check) {
             if (getSum(user) < getSum(bot)) {
                 emb.clearFields();
                 emb.setColor(Color.red);
                 emb.addField("Status", "**You lost!**", true);
-                emb.addField("Coins lost", (bet)+" "+Global.broCoin.getAsMention(),true);
+                emb.addField("Coins lost", (bet) + " " + Global.broCoin.getAsMention(), true);
                 processSQL(ctx.getMember(), -bet, msg, emb);
                 if (!edit) {
                     channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
@@ -169,8 +169,8 @@ public class BlackjackCommand extends SlashCommand {
                 emb.clearFields();
                 emb.setColor(Color.green);
                 emb.addField("Status", "**You won!**", true);
-                emb.addField("Coins won", (bet*2)+" "+Global.broCoin.getAsMention(),true);
-                processSQL(ctx.getMember(), bet*2, msg, emb);
+                emb.addField("Coins won", (bet * 2) + " " + Global.broCoin.getAsMention(), true);
+                processSQL(ctx.getMember(), bet * 2, msg, emb);
                 if (!edit) {
                     channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
                 } else {
@@ -181,7 +181,7 @@ public class BlackjackCommand extends SlashCommand {
             if (getSum(user) == getSum(bot)) {
                 emb.clearFields();
                 emb.addField("Status", "**Its a draw!**", false);
-                emb.addField("Coins returned", (bet)+" "+Global.broCoin.getAsMention(),true);
+                emb.addField("Coins returned", (bet) + " " + Global.broCoin.getAsMention(), true);
                 if (!edit) {
                     channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
                 } else {
@@ -192,26 +192,25 @@ public class BlackjackCommand extends SlashCommand {
         }
 
         ArrayList<Button> actions = new ArrayList<>();
-        actions.add(Button.success(ctx.getUser().getId()+"::hit", "Hit"));
-        actions.add(Button.danger(ctx.getUser().getId()+"::stand", "Stand"));
+        actions.add(Button.success(ctx.getUser().getId() + "::hit", "Hit"));
+        actions.add(Button.danger(ctx.getUser().getId() + "::stand", "Stand"));
 
         if (!edit) {
             channel.sendMessageEmbeds(emb.build()).setActionRows(ActionRow.of(actions)).queue(
                     message -> {
                         actions(ctx, channel, message, user, bot, deck, emb, bet);
-                    }
-            );
+                    });
         } else {
             msg.editMessageEmbeds(emb.build()).setActionRows(ActionRow.of(actions)).queue(
                     message -> {
                         actions(ctx, channel, message, user, bot, deck, emb, bet);
-                    }
-            );
+                    });
         }
 
     }
 
-    public void actions(SlashCommandInteractionEvent ctx, TextChannel channel, Message msg, List<String> userC, List<String> botC, List<String> deck, EmbedBuilder emb, int bet) {
+    public void actions(SlashCommandInteractionEvent ctx, TextChannel channel, Message msg, List<String> userC,
+            List<String> botC, List<String> deck, EmbedBuilder emb, int bet) {
         waiter.waitForEvent(
                 ButtonInteractionEvent.class, (event) -> {
                     User user = event.getUser();
@@ -219,19 +218,21 @@ public class BlackjackCommand extends SlashCommand {
                 },
                 (event) -> {
 
-                    if (event.getButton().getId().equals(event.getUser().getId()+"::hit")) {
+                    if (event.getButton().getId().equals(event.getUser().getId() + "::hit")) {
                         userC.add(drawCard(deck));
                         event.editMessageEmbeds(emb.build()).queue(
-                                __ -> {bj(deck, botC, userC, emb, channel, false, ctx, true, msg, bet);}
-                        );
+                                __ -> {
+                                    bj(deck, botC, userC, emb, channel, false, ctx, true, msg, bet);
+                                });
                         return;
-                    } else if (event.getButton().getId().equals(event.getUser().getId()+"::stand")) {
+                    } else if (event.getButton().getId().equals(event.getUser().getId() + "::stand")) {
                         while (getSum(botC) < 17) {
                             botC.add(drawCard(deck));
                         }
                         event.editMessageEmbeds(emb.build()).queue(
-                                __ -> {bj(deck, botC, userC, emb, channel, true, ctx, true, msg, bet);}
-                        );
+                                __ -> {
+                                    bj(deck, botC, userC, emb, channel, true, ctx, true, msg, bet);
+                                });
                         return;
                     }
 
@@ -242,8 +243,9 @@ public class BlackjackCommand extends SlashCommand {
                         broCoinsSQL.updateBrocoins(ctx.getMember(), bet);
                         EmbedBuilder emb2 = new EmbedBuilder();
                         emb2.setColor(Color.RED);
-                        emb2.setTitle(ctx.getUser().getName()+" didnt reply in time. Considered it as a loss!");
-                        emb2.setDescription(ctx.getUser().getName()+" lost their bet of "+bet+" "+Global.broCoin.getAsMention());
+                        emb2.setTitle(ctx.getUser().getName() + " didnt reply in time. Considered it as a loss!");
+                        emb2.setDescription(ctx.getUser().getName() + " lost their bet of " + bet + " "
+                                + Global.broCoin.getAsMention());
                         ActionRow b = ActionRow.of(Button.secondary("...", "Game complete").asDisabled());
                         msg.editMessageEmbeds(emb2.build()).setActionRows(b).queue();
                     } catch (Exception e) {
@@ -254,11 +256,9 @@ public class BlackjackCommand extends SlashCommand {
                         ActionRow b = ActionRow.of(Button.secondary("...", "Game completed with errors").asDisabled());
                         msg.editMessageEmbeds(emb2.build()).setActionRows(b).queue();
                     }
-                }
-        );
+                });
 
     }
-
 
     public String drawCard(List<String> deck) {
         String r = deck.get(0);
@@ -278,9 +278,9 @@ public class BlackjackCommand extends SlashCommand {
         return String.join(" ", args.subList(0, args.size()));
     }
 
-    public void processSQL(Member member, int amountOfChange,Message msg, EmbedBuilder emb) {
+    public void processSQL(Member member, int amountOfChange, Message msg, EmbedBuilder emb) {
         try {
-            broCoinsSQL.updateBrocoins(member,amountOfChange);
+            broCoinsSQL.updateBrocoins(member, amountOfChange);
         } catch (SQLException e) {
             ActionRow b = ActionRow.of(Button.secondary("...", "Game complete with errors").asDisabled());
             emb.clear();
@@ -291,10 +291,12 @@ public class BlackjackCommand extends SlashCommand {
         }
         int coinsNow = broCoinsSQL.getBrocoins(member);
         if (amountOfChange > 0) {
-            logger.info(member.getUser().getAsTag()+ "(" + member.getId() + ")"  + " won (" + amountOfChange + " Coins) in Blackjack now they have (" + coinsNow
+            logger.info(member.getUser().getAsTag() + "(" + member.getId() + ")" + " won (" + amountOfChange
+                    + " Coins) in Blackjack now they have (" + coinsNow
                     + ") coins");
         } else {
-            logger.info(member.getUser().getAsTag()+ "(" + member.getId() + ")"  + " lost (" + amountOfChange + " Coins) in Blackjack now they have (" + coinsNow
+            logger.info(member.getUser().getAsTag() + "(" + member.getId() + ")" + " lost (" + amountOfChange
+                    + " Coins) in Blackjack now they have (" + coinsNow
                     + ") coins");
         }
     }
