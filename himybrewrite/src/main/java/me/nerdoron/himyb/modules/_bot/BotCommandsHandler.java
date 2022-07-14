@@ -1,10 +1,12 @@
 package me.nerdoron.himyb.modules._bot;
 
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.commands.currency.BankCommand;
 import me.nerdoron.himyb.commands.currency.DailyCommand;
 import me.nerdoron.himyb.commands.currency.MonthlyCommand;
+import me.nerdoron.himyb.commands.fun.gambling.BlackjackCommand;
 import me.nerdoron.himyb.commands.staff.*;
 import me.nerdoron.himyb.commands.fun.*;
 import me.nerdoron.himyb.commands.fun.gambling.CoinFlipCommand;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
 public class BotCommandsHandler extends ListenerAdapter {
     public ArrayList<SlashCommand> commands = new ArrayList<>();
 
-    public BotCommandsHandler() {
+    public BotCommandsHandler(EventWaiter waiter) {
         Global.COMMANDS_HANDLER = this;
         commands.add(new HelpCommand(this));
         commands.add(new PingCommand());
@@ -44,6 +46,7 @@ public class BotCommandsHandler extends ListenerAdapter {
         commands.add(new CrimeCommand());
         commands.add(new MonthlyCommand());
         commands.add(new DailyCommand());
+        commands.add(new BlackjackCommand(waiter));
     }
 
     public void updateCommandsOnDiscord(JDA jda) {
