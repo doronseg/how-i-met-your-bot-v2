@@ -17,8 +17,8 @@ public class HelpButtonHandler extends ListenerAdapter {
         if (!buttonId.contains("HELP:"))
             return;
         String[] buttonSplit = buttonId.split(":");
-        String uid = buttonSplit[0];
-        String buttonCategory = buttonSplit[1];
+        String uid = buttonSplit[1];
+        String buttonCategory = buttonSplit[2];
         Message message = event.getMessage();
 
         if (!(uid.equals(event.getUser().getId()))) {
