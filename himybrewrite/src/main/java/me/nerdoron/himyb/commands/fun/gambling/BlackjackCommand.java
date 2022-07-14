@@ -42,7 +42,11 @@ public class BlackjackCommand extends SlashCommand {
             return;
         }
 
-        //TODO: Add check if the user has brocoins in this method and daily, monthly and probs other methods
+        if (broCoinsSQL.hasBrocoins(event.getMember())) {
+            event.reply("You don't have a BroCoins account!").setEphemeral(true).queue();
+            return;
+        }
+
         int bet = event.getOption("bet").getAsInt();
         int userCoins = broCoinsSQL.getBrocoins(event.getMember());
         if (userCoins < bet) {
