@@ -36,6 +36,15 @@ CREATE TABLE "timezones" (
 	"uid"	TEXT UNIQUE,
 	"timezone"	TEXT
 );
+#Cooldown System Table
+CREATE TABLE "cooldowns" (
+	"uid"	TEXT,
+	"cooldowns"	TEXT
+);
+CREATE TABLE "brocoins" (
+	"uid"	TEXT UNIQUE,
+	"amount"	INTEGER
+);
 
 ```
 
