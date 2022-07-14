@@ -23,7 +23,7 @@ public class HelpCommand extends SlashCommand {
         String uid = event.getUser().getId();
         ArrayList<Button> buttons = new ArrayList<>();
         ArrayList<String> categoriesAdded = new ArrayList<>();
-        buttons.add(Button.secondary(uid + ":main", "🔮 Main Menu"));
+        buttons.add(Button.secondary("HELP:"+uid + ":main", "🔮 Main Menu"));
 
         for (SlashCommand command : handler.commands) {
             String cmdCategory = command.getCategory();
@@ -31,7 +31,7 @@ public class HelpCommand extends SlashCommand {
                 String detailedName = handler.getCategoryDetailedName(cmdCategory);
                 if (detailedName != null) {
                     categoriesAdded.add(cmdCategory);
-                    buttons.add(Button.secondary(uid+":"+cmdCategory, detailedName));
+                    buttons.add(Button.secondary("HELP:"+uid+":"+cmdCategory, detailedName));
                 }
             }
         }

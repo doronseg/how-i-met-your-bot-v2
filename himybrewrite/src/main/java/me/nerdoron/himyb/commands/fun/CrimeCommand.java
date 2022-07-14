@@ -27,6 +27,12 @@ public class CrimeCommand extends SlashCommand {
             }
             return;
         }
+
+        if (broCoinsSQL.hasBrocoins(event.getMember())) {
+            event.reply("You don't have a BroCoins account!").setEphemeral(true).queue();
+            return;
+        }
+
         int chance = Global.generateNumber(1, 6);
         int reward = Global.generateNumber(10, 20);
         int fine = Global.generateNumber(10, 15);

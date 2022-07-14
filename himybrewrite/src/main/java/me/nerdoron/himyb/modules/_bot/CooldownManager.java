@@ -85,22 +85,22 @@ public class CooldownManager {
         String send = "";
 
         if (yhr != 0) {
-            send += " " + Math.abs(yhr) + " year" + (yhr > 1 ? "s" : "");
+            send += " " + Math.abs(yhr) + " year" + (yhr > 1 ? "" : "s");
         }
         if (mth != 0) {
-            send += " " + Math.abs(mth) + " month" + (mth > 1 ? "s" : "");
+            send += " " + Math.abs(mth) + " month" + (mth > 1 ? "" : "s");
         }
         if (day != 0) {
-            send += " " + Math.abs(day) + " day" + (day > 1 ? "s" : "");
+            send += " " + Math.abs(day) + " day" + (day > 1 ? "" : "s");
         }
         if (hur != 0) {
-            send += " " + Math.abs(hur) + " hour" + (hur > 1 ? "s" : "");
+            send += " " + Math.abs(hur) + " hour" + (hur > 1 ? "" : "s");
         }
         if (min != 0) {
-            send += " " + Math.abs(min) + " minute" + (min > 1 ? "s" : "");
+            send += " " + Math.abs(min) + " minute" + (min > 1 ? "" : "s");
         }
         if (sec != 0) {
-            send += " " + Math.abs(sec) + " second" + (sec > 1 ? "s" : "");
+            send += " " + Math.abs(sec) + " second" + (sec > 1 ? "" : "s");
         }
         return send.trim();
     }

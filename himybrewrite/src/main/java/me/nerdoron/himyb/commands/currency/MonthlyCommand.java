@@ -28,6 +28,12 @@ public class MonthlyCommand extends SlashCommand {
                     .queue();
             return;
         }
+
+        if (broCoinsSQL.hasBrocoins(event.getMember())) {
+            event.reply("You don't have a BroCoins account!").setEphemeral(true).queue();
+            return;
+        }
+
         try {
             broCoinsSQL.updateBrocoins(event.getMember(), reward);
             Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), Global.monthInSeconds);

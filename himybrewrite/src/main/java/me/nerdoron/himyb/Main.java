@@ -18,7 +18,8 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        logger.info("Hi - You're running the Cooldown Update/Fix");
+        String version = "Blackjack update";
+        logger.info("Hi - You're running "+version);
         logger.info("Starting stage 1 - enviorment");
         try {
             setupEnviorment();
