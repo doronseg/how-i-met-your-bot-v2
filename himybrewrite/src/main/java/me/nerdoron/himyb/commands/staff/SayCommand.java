@@ -29,6 +29,7 @@ public class SayCommand extends SlashCommand {
         String message = event.getOption("message").getAsString();
         TextChannel textChannel = event.getGuild().getTextChannelById(channel.getId());
         if (message.equals("🐶")) {
+            event.reply("stop.").setEphemeral(true).queue();
             event.getGuild().getTextChannelById("850438624024854548")
                     .sendMessage(event.getUser().getAsMention() + " tried to send a zitch dog with say command")
                     .queue();
