@@ -28,6 +28,12 @@ public class SayCommand extends SlashCommand {
         // }
         String message = event.getOption("message").getAsString();
         TextChannel textChannel = event.getGuild().getTextChannelById(channel.getId());
+        if (message.equals("🐶")) {
+            event.getGuild().getTextChannelById("850438624024854548")
+                    .sendMessage(event.getUser().getAsMention() + " tried to send a zitch dog with say command")
+                    .queue();
+            return;
+        }
         textChannel.sendMessage(message).queue();
         event.deferReply().setEphemeral(true).setContent("Sent your message.").queue();
         event.getGuild().getTextChannelById("850447694673739816").sendMessage(event.getUser().getName() + "#"
