@@ -19,7 +19,7 @@ public class Main {
 
     public static void main(String[] args) {
         String version = "Blackjack update";
-        logger.info("Hi - You're running "+version);
+        logger.info("Hi - You're running " + version);
         logger.info("Starting stage 1 - enviorment");
         try {
             setupEnviorment();
