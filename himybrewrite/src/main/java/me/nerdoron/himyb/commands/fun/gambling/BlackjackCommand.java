@@ -60,8 +60,7 @@ public class BlackjackCommand extends SlashCommand {
             return;
         }
 
-        Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 5);
-        //Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), (60 * 5) + 10);
+        Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), (60 * 5) + 10);
         event.reply("Game started").setEphemeral(true).queue();
         final TextChannel channel = event.getTextChannel();
         EmbedBuilder emb = new EmbedBuilder();
