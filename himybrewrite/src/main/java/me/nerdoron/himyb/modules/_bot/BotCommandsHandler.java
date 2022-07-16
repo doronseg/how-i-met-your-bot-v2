@@ -48,7 +48,7 @@ public class BotCommandsHandler extends ListenerAdapter {
         commands.add(new MonthlyCommand());
         commands.add(new DailyCommand());
         commands.add(new BlackjackCommand(waiter));
-        //commands.add(new SlotmachineCommand());
+        commands.add(new SlotmachineCommand());
     }
 
     public void updateCommandsOnDiscord(JDA jda) {
