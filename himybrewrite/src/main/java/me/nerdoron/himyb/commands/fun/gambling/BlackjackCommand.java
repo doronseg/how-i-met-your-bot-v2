@@ -60,7 +60,8 @@ public class BlackjackCommand extends SlashCommand {
             return;
         }
 
-        Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), (60 * 5) + 10);
+        Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 5);
+        //Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), (60 * 5) + 10);
         event.reply("Game started").setEphemeral(true).queue();
         final TextChannel channel = event.getTextChannel();
         EmbedBuilder emb = new EmbedBuilder();
@@ -270,15 +271,48 @@ public class BlackjackCommand extends SlashCommand {
 
     public int getSum(List<BJcard> deck) {
         int i = 0;
+        boolean aceFound = false;
         for (BJcard s : deck) {
+            if (s.getNumber() == 1 && !aceFound) {
+                aceFound = true;
+                i+=11;
+                continue;
+            }
             i += s.getNumber();
         }
+
+        if (aceFound && i > 21) {
+            i = 0;
+            for (BJcard s : deck) {
+                i += s.getNumber();
+            }
+        }
         return i;
+    }
+
+    public static int getAceValue(List<BJcard> deck) {
+        int i = 0;
+        boolean aceFound = false;
+        for (BJcard s : deck) {
+            if (s.getNumber() == 1 && !aceFound) {
+                aceFound = true;
+                i+=11;
+                continue;
+            }
+            i += s.getNumber();
+        }
+
+        if (i>21) return 1;
+        return 11;
     }
 
     public static String getAsString(List<BJcard> args) {
         String r = "";
         for (BJcard card : args) {
+            if (card.isAce()) {
+                r+= card.getCard()+"`"+getAceValue(args)+"` ";
+                continue;
+            }
             r+= card.getCard()+"`"+card.getNumber()+"` ";
         }
         return r;
