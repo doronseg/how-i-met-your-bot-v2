@@ -43,7 +43,8 @@ public class BlackjackCommand extends SlashCommand {
     public void execute(SlashCommandInteractionEvent event) {
         if (Global.COOLDOWN_MANAGER.hasCooldown(CooldownManager.commandID(event))) {
             String time = Global.COOLDOWN_MANAGER.parseCooldown(CooldownManager.commandID(event));
-            event.reply("You have already played a round of blackjack. Please try again in " + time).setEphemeral(true).queue();
+            event.reply("You have already played a round of blackjack. Please try again in " + time).setEphemeral(true)
+                    .queue();
             return;
         }
 
@@ -90,7 +91,7 @@ public class BlackjackCommand extends SlashCommand {
     }
 
     public void bj(List<BJcard> deck, List<BJcard> bot, List<BJcard> user, EmbedBuilder emb, TextChannel channel,
-                   boolean check, SlashCommandInteractionEvent ctx, boolean edit, Message msg, int bet) {
+            boolean check, SlashCommandInteractionEvent ctx, boolean edit, Message msg, int bet) {
         ActionRow b = ActionRow.of(Button.secondary("...", "Game complete").asDisabled());
         emb.clearFields();
         emb.setAuthor("Game of " + ctx.getUser().getAsTag());
@@ -104,8 +105,8 @@ public class BlackjackCommand extends SlashCommand {
             emb.clearFields();
             emb.setColor(Color.green);
             emb.addField("Status", "I Busted!\n**You won**", true);
-            emb.addField("Coins won", (bet * 2) + " " + Global.broCoin.getAsMention(), true);
-            processSQL(ctx.getMember(), bet * 2, msg, emb);
+            emb.addField("Coins won", (bet) + " " + Global.broCoin.getAsMention(), true);
+            processSQL(ctx.getMember(), bet, msg, emb);
             if (!edit) {
                 channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
             } else {
@@ -143,8 +144,8 @@ public class BlackjackCommand extends SlashCommand {
             emb.clearFields();
             emb.setColor(Color.green);
             emb.addField("Status", "**BLACKJACK**\n**You won!**", true);
-            emb.addField("Coins won", (bet * 2) + " " + Global.broCoin.getAsMention(), true);
-            processSQL(ctx.getMember(), bet * 2, msg, emb);
+            emb.addField("Coins won", (bet) + " " + Global.broCoin.getAsMention(), true);
+            processSQL(ctx.getMember(), bet, msg, emb);
             if (!edit) {
                 channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
             } else {
@@ -171,8 +172,8 @@ public class BlackjackCommand extends SlashCommand {
                 emb.clearFields();
                 emb.setColor(Color.green);
                 emb.addField("Status", "**You won!**", true);
-                emb.addField("Coins won", (bet * 2) + " " + Global.broCoin.getAsMention(), true);
-                processSQL(ctx.getMember(), bet * 2, msg, emb);
+                emb.addField("Coins won", (bet) + " " + Global.broCoin.getAsMention(), true);
+                processSQL(ctx.getMember(), bet, msg, emb);
                 if (!edit) {
                     channel.sendMessageEmbeds(emb.build()).setActionRows(b).queue();
                 } else {
@@ -270,49 +271,16 @@ public class BlackjackCommand extends SlashCommand {
 
     public int getSum(List<BJcard> deck) {
         int i = 0;
-        boolean aceFound = false;
         for (BJcard s : deck) {
-            if (s.getNumber() == 1 && !aceFound) {
-                aceFound = true;
-                i+=11;
-                continue;
-            }
             i += s.getNumber();
-        }
-
-        if (aceFound && i > 21) {
-            i = 0;
-            for (BJcard s : deck) {
-                i += s.getNumber();
-            }
         }
         return i;
-    }
-
-    public static int getAceValue(List<BJcard> deck) {
-        int i = 0;
-        boolean aceFound = false;
-        for (BJcard s : deck) {
-            if (s.getNumber() == 1 && !aceFound) {
-                aceFound = true;
-                i+=11;
-                continue;
-            }
-            i += s.getNumber();
-        }
-
-        if (i>21) return 1;
-        return 11;
     }
 
     public static String getAsString(List<BJcard> args) {
         String r = "";
         for (BJcard card : args) {
-            if (card.isAce()) {
-                r+= card.getCard()+"`"+getAceValue(args)+"` ";
-                continue;
-            }
-            r+= card.getCard()+"`"+card.getNumber()+"` ";
+            r += card.getCard() + "`" + card.getNumber() + "` ";
         }
         return r;
     }
