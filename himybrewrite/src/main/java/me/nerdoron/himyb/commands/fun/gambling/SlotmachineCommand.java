@@ -47,7 +47,11 @@ public class SlotmachineCommand extends SlashCommand {
         //TODO: Change cooldown to something longer or leave it like this, idk u decide doron
         Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 10);
 
-        int OddMath = (bet* targetOdd)/ desiredBet;
+        int OddMath = targetOdd;
+
+
+
+        System.out.println(OddMath);
 
         ArrayList<String> position1 = new ArrayList<>();
         ArrayList<String> position2 = new ArrayList<>();
@@ -152,12 +156,17 @@ public class SlotmachineCommand extends SlashCommand {
         Collections.shuffle(p2);
         Collections.shuffle(p3);
 
-        while ( (p1.equals(p2) && p2.equals(p3)) ||
-                (p1.equals(p3) && p3.equals(p2)) ||
-                (p3.equals(p2) && p1.equals(p2))) {
+
+
+        while ( (p1.get(0).equals(p2.get(0)) && p2.get(0).equals(p3.get(0))) ||
+                (p1.get(0).equals(p3.get(0)) && p3.get(0).equals(p2.get(0))) ||
+                (p3.get(0).equals(p2.get(0)) && p1.get(0).equals(p2.get(0)))) {
             Collections.shuffle(p1);
             Collections.shuffle(p2);
             Collections.shuffle(p3);
+            s1 = p1.get(0);
+            s2 = p2.get(0);
+            s3 = p3.get(0);
         }
         return s1+s2+s3;
     }
