@@ -14,7 +14,7 @@ public class BJcard {
     }
 
     public int getNumber() {
-        return number;
+        return Math.min(number, 10);
     }
 
     public String getCard() {
@@ -30,5 +30,9 @@ public class BJcard {
             default:
                 return "("+type+")";
         }
+    }
+
+    public boolean isAce() {
+        return number==1;
     }
 }

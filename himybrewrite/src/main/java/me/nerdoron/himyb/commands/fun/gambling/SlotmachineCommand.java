@@ -20,8 +20,8 @@ import java.util.List;
 public class SlotmachineCommand extends SlashCommand {
     BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
     String[] figures = new String[]{"⬜","\uD83D\uDFE7","\uD83D\uDFE6", "\uD83D\uDFE5", "\uD83D\uDFE9"};
-    int baseOdd = 5; //Paying the minimum amount you have 1/this chances of winning
-    int minBet = 10; //Set the same as the slash cmd option
+    int targetOdd = 15; //
+    int desiredBet = 1000; //If the members pays this amount they will get the desired bet and if they pay more than this nothing will happend
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
@@ -47,7 +47,7 @@ public class SlotmachineCommand extends SlashCommand {
         //TODO: Change cooldown to something longer or leave it like this, idk u decide doron
         Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 10);
 
-
+        int OddMath = (bet* targetOdd)/ desiredBet;
 
         ArrayList<String> position1 = new ArrayList<>();
         ArrayList<String> position2 = new ArrayList<>();
@@ -56,7 +56,7 @@ public class SlotmachineCommand extends SlashCommand {
 
         ArrayList<String> lines = new ArrayList<>();
         int rollAmount = Global.generateNumber(3,7);
-        int Odds = ((bet*baseOdd)/minBet);
+        int Odds = (Math.max(OddMath, targetOdd));
         boolean doesWin = generateLines(Odds, rollAmount, lines, position1, position2, position3);
 
         EmbedBuilder emb = new EmbedBuilder();
