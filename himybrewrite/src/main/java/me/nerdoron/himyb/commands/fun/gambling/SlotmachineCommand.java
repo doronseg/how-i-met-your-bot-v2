@@ -21,7 +21,7 @@ public class SlotmachineCommand extends SlashCommand {
     BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
     String[] figures = new String[]{"⬜","\uD83D\uDFE7","\uD83D\uDFE6", "\uD83D\uDFE5", "\uD83D\uDFE9"};
     int initialOdds = 30; //Starting odds
-    int everyX = 100;     //Every this amount of odds decrease them by 1
+    int everyX = 15;      //Every this amount of odds decrease them by 1
     int minOddss = 5;     //How low can the odds be
 
     @Override
