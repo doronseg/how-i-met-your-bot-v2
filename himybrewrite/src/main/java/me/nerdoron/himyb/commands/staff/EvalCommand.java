@@ -2,7 +2,6 @@ package me.nerdoron.himyb.commands.staff;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import groovy.lang.GroovyShell;
-import groovy.util.logging.Commons;
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules._bot.BotCommandsHandler;
@@ -41,6 +40,8 @@ public class EvalCommand extends SlashCommand {
                 "import java.util.concurrent.*\n" +
                 "import net.dv8tion.jda.api.*;\n" +
                 "import net.dv8tion.jda.api.entities.*;\n" +
+                "import net.dv8tion.jda.api.entities.channel.*;\n" +
+                "import net.dv8tion.jda.api.entities.emoji.*;\n" +
                 "import net.dv8tion.jda.api.managers.*;" +
                 "import net.dv8tion.jda.api.events.*;\n" +
                 "import net.dv8tion.jda.api.events.interaction.*;\n" +
@@ -149,6 +150,7 @@ public class EvalCommand extends SlashCommand {
                     }
             );
         } catch (Exception e) {
+            logger.warn("EVAL RESULT (ERROR): "+e.getMessage());
             emb.setColor(Color.orange);
             emb.setTitle("Eval results");
             emb.setDescription("```" + e.getMessage() + "```");
