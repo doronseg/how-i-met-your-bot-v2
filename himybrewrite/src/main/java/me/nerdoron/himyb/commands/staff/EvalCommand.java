@@ -6,6 +6,7 @@ import groovy.util.logging.Commons;
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules._bot.BotCommandsHandler;
+import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
@@ -17,6 +18,8 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.interactions.components.Modal;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +29,8 @@ public class EvalCommand extends SlashCommand {
     private final String imports;
     private final EventWaiter waiter;
     private final BotCommandsHandler manager;
+    private final BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
+    final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public EvalCommand(EventWaiter waiter,BotCommandsHandler manager) {
         this.waiter = waiter;
@@ -61,7 +66,6 @@ public class EvalCommand extends SlashCommand {
         TextInput TIcode = TextInput.create("code", "What to execute in the bot", TextInputStyle.PARAGRAPH).build();
         modal.addActionRow(TIcode);
 
-
         event.replyModal(modal.build()).queue(
                 __ -> {
                     awaitModal(event, emb, waiter, manager);
@@ -96,6 +100,7 @@ public class EvalCommand extends SlashCommand {
                     event.replyEmbeds(emb.build()).setEphemeral(true).queue(
                             interactionHook -> {
                                 eval(code, ctx, emb, interactionHook, waiter, manager);
+                                logger.warn("EVAL | "+event.getUser().getAsTag()+" IS EVALING: "+code);
                             }
                     );
 
@@ -119,6 +124,7 @@ public class EvalCommand extends SlashCommand {
             engine.setProperty("waiter", waiter);
             engine.setProperty("manager", manager);
             engine.setProperty("message", message);
+            engine.setProperty("brocoins", broCoinsSQL);
 
             String script = imports + args;
             Object out = engine.evaluate(script);
@@ -127,8 +133,10 @@ public class EvalCommand extends SlashCommand {
             emb.setTitle("Eval results");
             if (out == null) {
                 emb.setDescription("**Eval returned no errors**");
+                logger.warn("EVAL RETURNED NO ERRORS");
             } else {
                 emb.setDescription("```" + out.toString() + "```");
+                logger.warn("EVAL RESULT: "+out.toString());
             }
             EmbedBuilder finalEmb = emb;
             message.editOriginalEmbeds(emb.build()).queue(
