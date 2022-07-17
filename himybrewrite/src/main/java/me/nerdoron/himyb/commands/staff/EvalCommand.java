@@ -99,8 +99,8 @@ public class EvalCommand extends SlashCommand {
                     emb.setDescription("Processing...");
                     event.replyEmbeds(emb.build()).setEphemeral(true).queue(
                             interactionHook -> {
-                                eval(code, ctx, emb, interactionHook, waiter, manager);
                                 logger.warn("EVAL | "+event.getUser().getAsTag()+" IS EVALING: "+code);
+                                eval(code, ctx, emb, interactionHook, waiter, manager);
                             }
                     );
 
