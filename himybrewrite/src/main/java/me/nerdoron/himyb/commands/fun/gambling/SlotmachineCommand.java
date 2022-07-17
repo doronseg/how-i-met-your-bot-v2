@@ -20,8 +20,9 @@ import java.util.List;
 public class SlotmachineCommand extends SlashCommand {
     BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
     String[] figures = new String[]{"⬜","\uD83D\uDFE7","\uD83D\uDFE6", "\uD83D\uDFE5", "\uD83D\uDFE9"};
-    int targetOdd = 15; //
-    int desiredBet = 1000; //If the members pays this amount they will get the desired bet and if they pay more than this nothing will happend
+    int initialOdds = 30; //Starting odds
+    int everyX = 15;      //Every this amount of odds decrease them by 1
+    int minOddss = 5;     //How low can the odds be
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
@@ -44,10 +45,9 @@ public class SlotmachineCommand extends SlashCommand {
             return;
         }
 
-        //TODO: Change cooldown to something longer or leave it like this, idk u decide doron
-        Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 10);
+        Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 60*5);
 
-        int OddMath = (bet* targetOdd)/ desiredBet;
+        int OddMath = initialOdds-(bet/everyX);
 
         ArrayList<String> position1 = new ArrayList<>();
         ArrayList<String> position2 = new ArrayList<>();
@@ -56,7 +56,7 @@ public class SlotmachineCommand extends SlashCommand {
 
         ArrayList<String> lines = new ArrayList<>();
         int rollAmount = Global.generateNumber(3,7);
-        int Odds = (Math.max(OddMath, targetOdd));
+        int Odds = (OddMath<minOddss ? minOddss:OddMath);
         boolean doesWin = generateLines(Odds, rollAmount, lines, position1, position2, position3);
 
         EmbedBuilder emb = new EmbedBuilder();
@@ -65,7 +65,7 @@ public class SlotmachineCommand extends SlashCommand {
         emb.setDescription(parseList(lines));
         emb.addField("Member", event.getMember().getAsMention()+" "+bet+" "+Global.broCoin.getAsMention(),true);
         emb.addField("Result","`Spinning...`",true);
-        emb.setFooter("Based on bet calculated an odd of 1/"+Odds+" of winning");
+        emb.setFooter("Based on bet calculated an odd of 1/"+Odds+" of winning. The more you bet the better the chances become");
 
         event.replyEmbeds(emb.build()).queue(
                 hook -> {
@@ -88,7 +88,7 @@ public class SlotmachineCommand extends SlashCommand {
                             }
                             emb.clearFields();
                             emb.addField("Member", event.getMember().getAsMention()+" "+bet+" "+Global.broCoin.getAsMention(),true);
-                            emb.addField("Result","**WINNER**",true);
+                            emb.addField("Result","**WON "+bet*2+" "+Global.broCoin.getAsMention()+"**",true);
                             emb.setColor(Color.green);
                             hook.editOriginalEmbeds(emb.build()).queue();
                         } else {
@@ -103,7 +103,7 @@ public class SlotmachineCommand extends SlashCommand {
                             }
                             emb.clearFields();
                             emb.addField("Member", event.getMember().getAsMention()+" "+bet+" "+Global.broCoin.getAsMention(),true);
-                            emb.addField("Result","Looser",true);
+                            emb.addField("Result","Lost "+bet+" "+Global.broCoin.getAsMention(),true);
                             hook.editOriginalEmbeds(emb.build()).queue();
                         }
                     }).start();
@@ -152,12 +152,17 @@ public class SlotmachineCommand extends SlashCommand {
         Collections.shuffle(p2);
         Collections.shuffle(p3);
 
-        while ( (p1.equals(p2) && p2.equals(p3)) ||
-                (p1.equals(p3) && p3.equals(p2)) ||
-                (p3.equals(p2) && p1.equals(p2))) {
+
+
+        while ( (p1.get(0).equals(p2.get(0)) && p2.get(0).equals(p3.get(0))) ||
+                (p1.get(0).equals(p3.get(0)) && p3.get(0).equals(p2.get(0))) ||
+                (p3.get(0).equals(p2.get(0)) && p1.get(0).equals(p2.get(0)))) {
             Collections.shuffle(p1);
             Collections.shuffle(p2);
             Collections.shuffle(p3);
+            s1 = p1.get(0);
+            s2 = p2.get(0);
+            s3 = p3.get(0);
         }
         return s1+s2+s3;
     }
