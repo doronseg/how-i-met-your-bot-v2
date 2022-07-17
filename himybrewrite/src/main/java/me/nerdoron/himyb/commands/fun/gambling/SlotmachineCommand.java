@@ -49,8 +49,6 @@ public class SlotmachineCommand extends SlashCommand {
 
         int OddMath = initialOdds-(bet/everyX);
 
-        System.out.println(OddMath);
-
         ArrayList<String> position1 = new ArrayList<>();
         ArrayList<String> position2 = new ArrayList<>();
         ArrayList<String> position3 = new ArrayList<>();
@@ -67,7 +65,7 @@ public class SlotmachineCommand extends SlashCommand {
         emb.setDescription(parseList(lines));
         emb.addField("Member", event.getMember().getAsMention()+" "+bet+" "+Global.broCoin.getAsMention(),true);
         emb.addField("Result","`Spinning...`",true);
-        emb.setFooter("Based on bet calculated an odd of 1/"+Odds+" of winning");
+        emb.setFooter("Based on bet calculated an odd of 1/"+Odds+" of winning. The more you bet the better the chances become");
 
         event.replyEmbeds(emb.build()).queue(
                 hook -> {
@@ -90,7 +88,7 @@ public class SlotmachineCommand extends SlashCommand {
                             }
                             emb.clearFields();
                             emb.addField("Member", event.getMember().getAsMention()+" "+bet+" "+Global.broCoin.getAsMention(),true);
-                            emb.addField("Result","**WINNER**",true);
+                            emb.addField("Result","**WON "+bet*2+" "+Global.broCoin.getAsMention()+"**",true);
                             emb.setColor(Color.green);
                             hook.editOriginalEmbeds(emb.build()).queue();
                         } else {
@@ -105,7 +103,7 @@ public class SlotmachineCommand extends SlashCommand {
                             }
                             emb.clearFields();
                             emb.addField("Member", event.getMember().getAsMention()+" "+bet+" "+Global.broCoin.getAsMention(),true);
-                            emb.addField("Result","Looser",true);
+                            emb.addField("Result","Lost "+bet+" "+Global.broCoin.getAsMention(),true);
                             hook.editOriginalEmbeds(emb.build()).queue();
                         }
                     }).start();
