@@ -18,7 +18,7 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        String version = "Blackjack update";
+        String version = "Eval Update";
         logger.info("Hi - You're running " + version);
         logger.info("Starting stage 1 - enviorment");
         try {
