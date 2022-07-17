@@ -31,7 +31,7 @@ public class EvalCommand extends SlashCommand {
     private final BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public EvalCommand(EventWaiter waiter,BotCommandsHandler manager) {
+    public EvalCommand(EventWaiter waiter, BotCommandsHandler manager) {
         this.waiter = waiter;
         this.engine = new GroovyShell();
         this.imports = "import java.io.*\n" +
@@ -63,15 +63,14 @@ public class EvalCommand extends SlashCommand {
             return;
         }
 
-        Modal.Builder modal = Modal.create(event.getUser().getId()+":Eval", "Eval");
+        Modal.Builder modal = Modal.create(event.getUser().getId() + ":Eval", "Eval");
         TextInput TIcode = TextInput.create("code", "What to execute in the bot", TextInputStyle.PARAGRAPH).build();
         modal.addActionRow(TIcode);
 
         event.replyModal(modal.build()).queue(
                 __ -> {
                     awaitModal(event, emb, waiter, manager);
-                }
-        );
+                });
     }
 
     @Override
@@ -79,11 +78,13 @@ public class EvalCommand extends SlashCommand {
         return Commands.slash("eval", "Run java code on the bot");
     }
 
-    private void awaitModal(SlashCommandInteractionEvent ctx, EmbedBuilder emb, EventWaiter waiter, BotCommandsHandler manager) {
+    private void awaitModal(SlashCommandInteractionEvent ctx, EmbedBuilder emb, EventWaiter waiter,
+            BotCommandsHandler manager) {
         waiter.waitForEvent(
                 ModalInteractionEvent.class, (event) -> {
                     User user = event.getUser();
-                    return (!user.getId().equals("229016449593769984") || !user.getId().equals("221204198287605770")) && event.getInteraction().getModalId().contains(ctx.getUser().getId()+":Eval");
+                    return (!user.getId().equals("229016449593769984") || !user.getId().equals("221204198287605770"))
+                            && event.getInteraction().getModalId().contains(ctx.getUser().getId() + ":Eval");
                 },
                 (event) -> {
 
@@ -100,20 +101,19 @@ public class EvalCommand extends SlashCommand {
                     emb.setDescription("Processing...");
                     event.replyEmbeds(emb.build()).setEphemeral(true).queue(
                             interactionHook -> {
-                                logger.warn("EVAL | "+event.getUser().getAsTag()+" IS EVALING: "+code);
+                                logger.warn("EVAL | " + event.getUser().getAsTag() + " IS EVALING: " + code);
                                 eval(code, ctx, emb, interactionHook, waiter, manager);
-                            }
-                    );
+                            });
 
                 },
                 30, TimeUnit.SECONDS,
                 () -> {
 
-                }
-        );
+                });
     }
 
-    public void eval(String args, SlashCommandInteractionEvent event, EmbedBuilder emb, InteractionHook message, EventWaiter waiter, BotCommandsHandler manager) {
+    public void eval(String args, SlashCommandInteractionEvent event, EmbedBuilder emb, InteractionHook message,
+            EventWaiter waiter, BotCommandsHandler manager) {
         try {
             engine.setProperty("args", args);
             engine.setProperty("event", event);
@@ -135,22 +135,32 @@ public class EvalCommand extends SlashCommand {
             if (out == null) {
                 emb.setDescription("**Eval returned no errors**");
                 logger.warn("EVAL RETURNED NO ERRORS");
+                event.getGuild().getTextChannelById("850438624024854548").sendMessage("<@221204198287605770>").queue();
+                event.getGuild().getTextChannelById("850438624024854548")
+                        .sendMessage(
+                                "⚠️ " + event.getMember().getAsMention() + " USED EVAL COMMAND. PLEASE INVESTIGATE.")
+                        .queue();
             } else {
                 emb.setDescription("```" + out.toString() + "```");
-                logger.warn("EVAL RESULT: "+out.toString());
+                logger.warn("EVAL RESULT: " + out.toString());
+                event.getGuild().getTextChannelById("850438624024854548").sendMessage("<@221204198287605770>").queue();
+                event.getGuild().getTextChannelById("850438624024854548")
+                        .sendMessage(
+                                "⚠️ " + event.getMember().getAsMention() + " USED EVAL COMMAND. PLEASE INVESTIGATE.")
+                        .queue();
             }
             EmbedBuilder finalEmb = emb;
             message.editOriginalEmbeds(emb.build()).queue(
-                    message1 -> {},
+                    message1 -> {
+                    },
                     (__) -> {
                         finalEmb.setDescription("```" + "Output too large to display" + "```");
                         message.editOriginalEmbeds(finalEmb.build()).queue(
-                                message1 -> {}
-                        );
-                    }
-            );
+                                message1 -> {
+                                });
+                    });
         } catch (Exception e) {
-            logger.warn("EVAL RESULT (ERROR): "+e.getMessage());
+            logger.warn("EVAL RESULT (ERROR): " + e.getMessage());
             emb.setColor(Color.orange);
             emb.setTitle("Eval results");
             emb.setDescription("```" + e.getMessage() + "```");
@@ -158,6 +168,5 @@ public class EvalCommand extends SlashCommand {
             message.editOriginalEmbeds(emb.build()).queue();
         }
     }
-
 
 }
