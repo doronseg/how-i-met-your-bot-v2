@@ -2,7 +2,9 @@ package me.nerdoron.himyb.commands.useful;
 
 import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules.timezones.TimezoneParse;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -32,7 +34,12 @@ public class TimeCommand extends SlashCommand {
             int mns = Integer.parseInt(tz[1]);
 
             ZonedDateTime time = ZonedDateTime.now(ZoneOffset.UTC).plusHours(hrs).plusMinutes(mns);
-            event.reply("Hey, "+event.getUser().getName()+"'s time is **"+time.getHour()+":"+(time.getMinute()<10?"0":"")+time.getMinute()+"**").queue();
+
+            MessageBuilder msb = new MessageBuilder();
+            msb.setContent("Hey, "+event.getUser().getName()+"'s time is **"+time.getHour()+":"+(time.getMinute()<10?"0":"")+time.getMinute()+"**");
+            msb.denyMentions(Message.MentionType.values());
+
+            event.reply(msb.build()).queue();
         } else {
             TimezoneParse timezoneParse = new TimezoneParse();
             Member member = event.getOption("member").getAsMember();

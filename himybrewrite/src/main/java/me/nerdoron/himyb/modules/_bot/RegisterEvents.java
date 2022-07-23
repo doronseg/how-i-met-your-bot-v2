@@ -1,6 +1,7 @@
 package me.nerdoron.himyb.modules._bot;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.modules.FriendsCringe;
 import me.nerdoron.himyb.modules.LeaveJoin;
 import me.nerdoron.himyb.modules.NotifyOfChange;
@@ -20,6 +21,7 @@ import me.nerdoron.himyb.modules.help.HelpButtonHandler;
 import me.nerdoron.himyb.modules.selfpromo.SelfPromoHandler;
 import me.nerdoron.himyb.modules.selfpromo.SubmitLinks;
 import me.nerdoron.himyb.modules.tickets.CloseTicketButton;
+import me.nerdoron.himyb.modules.tickets.TicketFileMonitor;
 import me.nerdoron.himyb.modules.tickets.transcript.TicketCreation;
 import me.nerdoron.himyb.modules.zitchdog.ZitchTimer;
 import net.dv8tion.jda.api.JDA;
@@ -29,6 +31,8 @@ public class RegisterEvents {
         public static void registration(JDA jda) {
                 EventWaiter waiter = new EventWaiter();
                 BotCommandsHandler CmcHandler = new BotCommandsHandler(waiter);
+                TicketFileMonitor ticketFileMonitor = new TicketFileMonitor();
+                Global.TICKET_FILE_MONITOR = ticketFileMonitor;
                 CmcHandler.updateCommandsOnDiscord(jda);
                 jda.addEventListener(CmcHandler);
 
@@ -54,6 +58,7 @@ public class RegisterEvents {
                 jda.addEventListener(new TicketCreation());
                 jda.addEventListener(new CloseTicketButton());
                 jda.addEventListener(new SubmitLinks());
+                jda.addEventListener(ticketFileMonitor);
                 new ZitchTimer(jda,waiter).execute();
                 // jda.addEventListener(new JinxHandler()); Postponed
 

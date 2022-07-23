@@ -8,7 +8,9 @@ import me.nerdoron.himyb.commands.SlashCommand;
 import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
 import me.nerdoron.himyb.modules.brocoins.Sorter;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
@@ -66,9 +68,13 @@ public class BankCommand extends SlashCommand {
                         .queue();
                 return;
             }
-            event.reply(memberToCheck.getEffectiveName() + " has " + memberCoins + " "
-                    + Emoji.fromCustom(Global.broCoin).getAsMention() + ".")
-                    .queue();
+
+            MessageBuilder msb = new MessageBuilder();
+            msb.setContent(memberToCheck.getEffectiveName() + " has " + memberCoins + " "
+                    + Emoji.fromCustom(Global.broCoin).getAsMention() + ".");
+            msb.denyMentions(Message.MentionType.values());
+
+            event.reply(msb.build()).queue();
         }
 
         // transfer
