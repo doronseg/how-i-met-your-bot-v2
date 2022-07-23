@@ -1,5 +1,6 @@
 package me.nerdoron.himyb.modules.tickets.transcript;
 
+import me.nerdoron.himyb.Global;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -29,6 +30,19 @@ public class GenerateTranscript {
             String content = message.getContentRaw();
             OffsetDateTime time = message.getTimeCreated();
             String parsed = parseTime(time);
+
+            ArrayList<Message> linkedMsg = Global.TICKET_FILE_MONITOR.linker.get(message.getId());
+            if (linkedMsg != null) {
+                builder.append(parsed + tag + ": ");
+                String files = "";
+                for (Message msg : linkedMsg) {
+                    String url = msg.getAttachments().get(0).getProxyUrl();
+                    files += "⛓️["+url+"] ";
+                }
+                files = files.trim();
+                builder.append(files+" "+content+"\n");
+                continue;
+            }
 
             builder.append(parsed + tag + ": " + content + "\n");
         }
