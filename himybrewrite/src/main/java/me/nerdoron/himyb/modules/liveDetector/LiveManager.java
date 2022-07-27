@@ -15,7 +15,7 @@ import java.time.OffsetDateTime;
 public class LiveManager extends ListenerAdapter {
     private JDA jda;
     private String guildID = "850396197646106624";
-    private String guildChannel = "901497362160169010";
+    private String guildChannel = "850796695372955738";
     private final int timeBetweenMSGS_Sec = Global.hourinSeconds * 3;
     private final int checkInterval_MS = Global.ms_1minute;
     final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -24,7 +24,7 @@ public class LiveManager extends ListenerAdapter {
         this.jda = jda;
         // Let discord load b4 starting the loop
         try {
-            Thread.sleep(15000);
+            Thread.sleep(900000);
         } catch (InterruptedException e) {
         }
         ;
@@ -43,7 +43,6 @@ public class LiveManager extends ListenerAdapter {
     }
 
     public void execute() {
-        logger.info("Checking if Oscar is live...");
         TextChannel channel = null;
         String latestMessageId = null;
         try {
@@ -67,7 +66,6 @@ public class LiveManager extends ListenerAdapter {
         boolean finalLive = live;
 
         if (!live) {
-            logger.info("Oscar is not live.");
             return;
         }
         logger.info("Oscar is live!");
