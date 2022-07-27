@@ -14,23 +14,30 @@ import java.time.OffsetDateTime;
 
 public class LiveManager extends ListenerAdapter {
     private JDA jda;
-    private String guildID = "991446766169903165";
-    private String guildChannel = "1000792192060764221";
-    private final int timeBetweenMSGS_Sec = Global.hourinSeconds*3;
+    private String guildID = "850396197646106624";
+    private String guildChannel = "901497362160169010";
+    private final int timeBetweenMSGS_Sec = Global.hourinSeconds * 3;
     private final int checkInterval_MS = Global.ms_1minute;
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public LiveManager(JDA jda) {
         this.jda = jda;
         // Let discord load b4 starting the loop
-        try {Thread.sleep(15000);} catch (InterruptedException e) {};
+        try {
+            Thread.sleep(15000);
+        } catch (InterruptedException e) {
+        }
+        ;
         loop();
     }
 
     public void loop() {
         new Thread(() -> {
             execute();
-            try {Thread.sleep(checkInterval_MS);} catch (InterruptedException e) {}
+            try {
+                Thread.sleep(checkInterval_MS);
+            } catch (InterruptedException e) {
+            }
             loop();
         }).start();
     }
@@ -69,7 +76,7 @@ public class LiveManager extends ListenerAdapter {
                 message -> {
                     OffsetDateTime timeCreated = message.getTimeCreated();
                     OffsetDateTime now = OffsetDateTime.now();
-                    boolean canSendMessage = (timeCreated.toEpochSecond()+ timeBetweenMSGS_Sec) < now.toEpochSecond();
+                    boolean canSendMessage = (timeCreated.toEpochSecond() + timeBetweenMSGS_Sec) < now.toEpochSecond();
                     if (canSendMessage) {
                         if (finalLive) {
                             sendLiveMessage(finalChannel);
@@ -77,20 +84,19 @@ public class LiveManager extends ListenerAdapter {
                     }
                 },
                 (__) -> {
-                    //No msg found in channel (rare case)
+                    // No msg found in channel (rare case)
                     if (finalLive) {
                         sendLiveMessage(finalChannel);
                     }
-                }
-        );
+                });
     }
 
     public void sendLiveMessage(TextChannel channel) {
         logger.info("Sending message.");
-        //Note: Using the API I can also get the stream title that oscar have set
-        String send = "@MENTION\n";
-        send+=" :red_circle: __**Oscar is live on YouNow!**__ :red_circle:\n";
-        send+=" https://www.younow.com/OscarStinson";
+        // Note: Using the API I can also get the stream title that oscar have set
+        String send = "<@&868751837405265950>\n";
+        send += " :red_circle: __**Oscar is live on YouNow!**__ :red_circle:\n";
+        send += " https://www.younow.com/OscarStinson";
         channel.sendMessage(send).queue();
     }
 
@@ -103,6 +109,6 @@ public class LiveManager extends ListenerAdapter {
 
         int errorCode = responce.getInt("errorCode");
 
-        return (errorCode==0)&&(!responce.getString("stateCopy").equals("OscarStinson is about to go live"));
+        return (errorCode == 0) && (!responce.getString("stateCopy").equals("OscarStinson is about to go live"));
     }
 }
