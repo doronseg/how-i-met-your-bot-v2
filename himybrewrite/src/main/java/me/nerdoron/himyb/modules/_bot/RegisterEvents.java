@@ -18,6 +18,7 @@ import me.nerdoron.himyb.modules.chainchannel.ChainEditing;
 import me.nerdoron.himyb.modules.counting.CountingChannelHandler;
 import me.nerdoron.himyb.modules.counting.CountingEditing;
 import me.nerdoron.himyb.modules.help.HelpButtonHandler;
+import me.nerdoron.himyb.modules.liveDetector.LiveManager;
 import me.nerdoron.himyb.modules.selfpromo.SelfPromoHandler;
 import me.nerdoron.himyb.modules.selfpromo.SubmitLinks;
 import me.nerdoron.himyb.modules.tickets.CloseTicketButton;
@@ -60,6 +61,8 @@ public class RegisterEvents {
                 jda.addEventListener(new SubmitLinks());
                 jda.addEventListener(ticketFileMonitor);
                 new ZitchTimer(jda,waiter).execute();
+                //jda.addEventListener(new LiveManager());
+                new LiveManager(jda);
                 // jda.addEventListener(new JinxHandler()); Postponed
 
         }
