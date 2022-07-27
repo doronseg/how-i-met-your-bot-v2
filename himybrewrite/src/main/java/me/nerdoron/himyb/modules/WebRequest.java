@@ -16,8 +16,8 @@ public class WebRequest {
     }
 
     public Request.Builder newRequest(String url) {
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(url).newBuilder();
-        String purl = urlBuilder.build().toString();
+        // HttpUrl.Builder urlBuilder = HttpUrl.parse(url).newBuilder();
+        // String purl = urlBuilder.build().toString();
 
         Request.Builder request = new Request.Builder()
                 .url(url);
@@ -54,8 +54,8 @@ public class WebRequest {
             inputStream = response.body().byteStream();
 
             byte[] buff = new byte[1024 * 4];
-            //long downloaded = 0;
-            //long target = response.body().contentLength();
+            // long downloaded = 0;
+            // long target = response.body().contentLength();
             File file = new File(name);
             OutputStream output = new FileOutputStream(file);
 
@@ -65,7 +65,7 @@ public class WebRequest {
                     break;
                 }
                 output.write(buff, 0, readed);
-                //downloaded += readed;
+                // downloaded += readed;
             }
 
             output.flush();
@@ -75,7 +75,10 @@ public class WebRequest {
             return null;
         } finally {
             if (inputStream != null) {
-                try {inputStream.close();} catch (Exception e) {}
+                try {
+                    inputStream.close();
+                } catch (Exception e) {
+                }
             }
         }
     }
