@@ -164,7 +164,6 @@ public class EvalCommand extends SlashCommand {
             emb.setColor(Color.orange);
             emb.setTitle("Eval results");
             emb.setDescription("```" + e.getMessage() + "```");
-            EmbedBuilder finalEmb1 = emb;
             message.editOriginalEmbeds(emb.build()).queue();
         }
     }
