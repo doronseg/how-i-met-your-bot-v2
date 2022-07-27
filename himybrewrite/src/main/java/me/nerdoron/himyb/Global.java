@@ -13,7 +13,7 @@ public class Global {
     public static final CooldownManager COOLDOWN_MANAGER = new CooldownManager();
     public static BotCommandsHandler COMMANDS_HANDLER = null;
     public static TicketFileMonitor TICKET_FILE_MONITOR = null;
-    public static final String ticketFileMonitorChannel = "CHANGE WITH THE ID OF THE CHANNEL";
+    public static final String ticketFileMonitorChannel = "1001811762070421534";
 
     public static Color embedColor = Color.decode("#2f3136");
     public static String footertext = "how i met your bot | Developed by nerdoron & Goseale";
