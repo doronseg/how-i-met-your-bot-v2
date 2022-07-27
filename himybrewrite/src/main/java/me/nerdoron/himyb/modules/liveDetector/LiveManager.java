@@ -24,7 +24,7 @@ public class LiveManager extends ListenerAdapter {
         this.jda = jda;
         // Let discord load b4 starting the loop
         try {
-            Thread.sleep(900000);
+            Thread.sleep(300000);
         } catch (InterruptedException e) {
         }
         ;
