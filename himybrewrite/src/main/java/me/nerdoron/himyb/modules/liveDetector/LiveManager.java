@@ -50,6 +50,7 @@ public class LiveManager extends ListenerAdapter {
             latestMessageId = channel.getLatestMessageId();
         } catch (Exception e) {
             logger.error("LiveManager attempted to fetch data from the discord channel but failed");
+            e.printStackTrace();
             return;
         }
 
