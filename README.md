@@ -1,3 +1,4 @@
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X7E2ECO)
 # how i met your bot v2
 
 This repository is for how i met your bot from [how i met your discord](https://discord.gg/himym). 
