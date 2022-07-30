@@ -6,7 +6,6 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.NewsChannel;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -77,7 +76,8 @@ public class LiveManager extends ListenerAdapter {
                         logger.info("Oscar is live!");
                         OffsetDateTime timeCreated = message.getTimeCreated();
                         OffsetDateTime now = OffsetDateTime.now();
-                        boolean canSendMessage = (timeCreated.toEpochSecond() + timeBetweenMSGS_Sec) < now.toEpochSecond();
+                        boolean canSendMessage = (timeCreated.toEpochSecond() + timeBetweenMSGS_Sec) < now
+                                .toEpochSecond();
                         if (canSendMessage) {
                             if (live) {
                                 sendLiveMessage(finalChannel);
@@ -86,8 +86,7 @@ public class LiveManager extends ListenerAdapter {
                     },
                     (__) -> {
                         __.printStackTrace();
-                    }
-            );
+                    });
         } catch (Exception e) {
             logger.error("LiveManager attempted to fetch data from the discord channel but failed");
             e.printStackTrace();
@@ -108,8 +107,7 @@ public class LiveManager extends ListenerAdapter {
                 (__) -> {
                     __.printStackTrace();
                     logger.error("Failed to publish the message. Please check my permissions");
-                }
-        );
+                });
     }
 
     public boolean isLive() throws IOException {
