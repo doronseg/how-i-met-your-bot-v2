@@ -3,7 +3,9 @@ package me.nerdoron.himyb.modules.liveDetector;
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.modules.WebRequest;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.GuildChannel;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.NewsChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.json.JSONObject;
@@ -44,13 +46,15 @@ public class LiveManager extends ListenerAdapter {
     }
 
     public void execute() {
-        TextChannel channel = null;
-        String latestMessageId = null;
+        GuildChannel channel = null;
         try {
-            channel = jda.getGuildById(guildID).getTextChannelById(guildChannel);
-
-            TextChannel finalChannel = channel;
-            channel.getHistory().retrievePast(1).queue(
+            for (GuildChannel channel1 : jda.getGuildById(guildID).getChannels()) {
+                if (channel1.getId().equals(guildChannel)) {
+                    channel = channel1;
+                }
+            }
+            NewsChannel finalChannel = ((NewsChannel) channel);
+            finalChannel.getHistory().retrievePast(1).queue(
                     history -> {
                         boolean live = false;
                         try {
@@ -69,11 +73,7 @@ public class LiveManager extends ListenerAdapter {
                             }
                             return;
                         }
-
-
                         Message message = history.get(0);
-
-
                         logger.info("Oscar is live!");
                         OffsetDateTime timeCreated = message.getTimeCreated();
                         OffsetDateTime now = OffsetDateTime.now();
@@ -88,8 +88,6 @@ public class LiveManager extends ListenerAdapter {
                         __.printStackTrace();
                     }
             );
-
-            latestMessageId = channel.getLatestMessageId();
         } catch (Exception e) {
             logger.error("LiveManager attempted to fetch data from the discord channel but failed");
             e.printStackTrace();
@@ -97,13 +95,21 @@ public class LiveManager extends ListenerAdapter {
         }
     }
 
-    public void sendLiveMessage(TextChannel channel) {
+    public void sendLiveMessage(NewsChannel channel) {
         logger.info("Sending message.");
         // Note: Using the API I can also get the stream title that oscar have set
         String send = "<@&868751837405265950>\n";
         send += " :red_circle: __**Oscar is live on YouNow!**__ :red_circle:\n";
         send += " https://www.younow.com/OscarStinson";
-        channel.sendMessage(send).queue();
+        channel.sendMessage(send).queue(
+                message -> {
+                    message.crosspost().queue();
+                },
+                (__) -> {
+                    __.printStackTrace();
+                    logger.error("Failed to publish the message. Please check my permissions");
+                }
+        );
     }
 
     public boolean isLive() throws IOException {
@@ -112,9 +118,7 @@ public class LiveManager extends ListenerAdapter {
         request.get();
         request.sendRequest();
         JSONObject responce = request.getJSONObjectResponce();
-
         int errorCode = responce.getInt("errorCode");
-
         return (errorCode == 0) && (!responce.getString("stateCopy").equals("OscarStinson is about to go live"));
     }
 }
