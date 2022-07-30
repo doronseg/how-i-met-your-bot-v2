@@ -119,6 +119,6 @@ public class LiveManager extends ListenerAdapter {
         request.sendRequest();
         JSONObject responce = request.getJSONObjectResponce();
         int errorCode = responce.getInt("errorCode");
-        return true;
+        return (errorCode == 0) && (!responce.getString("stateCopy").equals("OscarStinson is about to go live"));
     }
 }
