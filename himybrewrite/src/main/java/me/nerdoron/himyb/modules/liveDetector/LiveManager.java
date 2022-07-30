@@ -3,6 +3,7 @@ package me.nerdoron.himyb.modules.liveDetector;
 import me.nerdoron.himyb.Global;
 import me.nerdoron.himyb.modules.WebRequest;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.json.JSONObject;
@@ -17,14 +18,14 @@ public class LiveManager extends ListenerAdapter {
     private String guildID = "850396197646106624";
     private String guildChannel = "850796695372955738";
     private final int timeBetweenMSGS_Sec = Global.hourinSeconds * 3;
-    private final int checkInterval_MS = Global.ms_1minute;
+    private final int checkInterval_MS = Global.ms_1minute * 5;
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public LiveManager(JDA jda) {
         this.jda = jda;
         // Let discord load b4 starting the loop
         try {
-            Thread.sleep(300000);
+            Thread.sleep(30000);
         } catch (InterruptedException e) {
         }
         ;
@@ -47,47 +48,53 @@ public class LiveManager extends ListenerAdapter {
         String latestMessageId = null;
         try {
             channel = jda.getGuildById(guildID).getTextChannelById(guildChannel);
+
+            TextChannel finalChannel = channel;
+            channel.getHistory().retrievePast(1).queue(
+                    history -> {
+                        boolean live = false;
+                        try {
+                            live = isLive();
+                        } catch (IOException e) {
+                            logger.error("An error was thrown while checking if Oscar was live");
+                            throw new RuntimeException(e);
+                        }
+                        if (!live) {
+                            return;
+                        }
+
+                        if (history.isEmpty()) {
+                            if (live) {
+                                sendLiveMessage(finalChannel);
+                            }
+                            return;
+                        }
+
+
+                        Message message = history.get(0);
+
+
+                        logger.info("Oscar is live!");
+                        OffsetDateTime timeCreated = message.getTimeCreated();
+                        OffsetDateTime now = OffsetDateTime.now();
+                        boolean canSendMessage = (timeCreated.toEpochSecond() + timeBetweenMSGS_Sec) < now.toEpochSecond();
+                        if (canSendMessage) {
+                            if (live) {
+                                sendLiveMessage(finalChannel);
+                            }
+                        }
+                    },
+                    (__) -> {
+                        __.printStackTrace();
+                    }
+            );
+
             latestMessageId = channel.getLatestMessageId();
         } catch (Exception e) {
             logger.error("LiveManager attempted to fetch data from the discord channel but failed");
             e.printStackTrace();
             return;
         }
-
-        boolean live = false;
-
-        try {
-            live = isLive();
-        } catch (IOException e) {
-            logger.error("An error was thrown while checking if Oscar was live");
-            throw new RuntimeException(e);
-        }
-
-        TextChannel finalChannel = channel;
-        boolean finalLive = live;
-
-        if (!live) {
-            return;
-        }
-        logger.info("Oscar is live!");
-
-        channel.retrieveMessageById(latestMessageId).queue(
-                message -> {
-                    OffsetDateTime timeCreated = message.getTimeCreated();
-                    OffsetDateTime now = OffsetDateTime.now();
-                    boolean canSendMessage = (timeCreated.toEpochSecond() + timeBetweenMSGS_Sec) < now.toEpochSecond();
-                    if (canSendMessage) {
-                        if (finalLive) {
-                            sendLiveMessage(finalChannel);
-                        }
-                    }
-                },
-                (__) -> {
-                    // No msg found in channel (rare case)
-                    if (finalLive) {
-                        sendLiveMessage(finalChannel);
-                    }
-                });
     }
 
     public void sendLiveMessage(TextChannel channel) {
