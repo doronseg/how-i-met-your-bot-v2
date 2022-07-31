@@ -102,7 +102,7 @@ public class YoutubeManager {
         }
 
         JSONObject videoData = JSONresponse.getJSONArray("items").getJSONObject(0);
-        String ytVideoID = videoData.getJSONObject("id").getString("VideoId");
+        String ytVideoID = videoData.getJSONObject("id").getString("videoId");
         videoData = videoData.getJSONObject("snippet");
 
         String ytVideoTitle = videoData.getString("title");
