@@ -24,6 +24,7 @@ import me.nerdoron.himyb.modules.selfpromo.SubmitLinks;
 import me.nerdoron.himyb.modules.tickets.CloseTicketButton;
 import me.nerdoron.himyb.modules.tickets.TicketFileMonitor;
 import me.nerdoron.himyb.modules.tickets.transcript.TicketCreation;
+import me.nerdoron.himyb.modules.youtube.YoutubeManager;
 import me.nerdoron.himyb.modules.zitchdog.ZitchTimer;
 import net.dv8tion.jda.api.JDA;
 
@@ -63,6 +64,7 @@ public class RegisterEvents {
                 new ZitchTimer(jda,waiter).execute();
                 //jda.addEventListener(new LiveManager());
                 new LiveManager(jda);
+                new YoutubeManager(jda);
                 // jda.addEventListener(new JinxHandler()); Postponed
 
         }

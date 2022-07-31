@@ -3,6 +3,7 @@ package me.nerdoron.himyb;
 import java.awt.Color;
 import java.util.Random;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import me.nerdoron.himyb.modules._bot.BotCommandsHandler;
 import me.nerdoron.himyb.modules._bot.CooldownManager;
 import me.nerdoron.himyb.modules.tickets.TicketFileMonitor;
@@ -10,6 +11,7 @@ import net.dv8tion.jda.api.entities.emoji.CustomEmoji;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 
 public class Global {
+    public static Dotenv DOTENV = null;
     public static final CooldownManager COOLDOWN_MANAGER = new CooldownManager();
     public static BotCommandsHandler COMMANDS_HANDLER = null;
     public static TicketFileMonitor TICKET_FILE_MONITOR = null;
