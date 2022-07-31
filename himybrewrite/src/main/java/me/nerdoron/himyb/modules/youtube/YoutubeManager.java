@@ -5,7 +5,6 @@ import me.nerdoron.himyb.modules.Database;
 import me.nerdoron.himyb.modules.WebRequest;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.GuildChannel;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.NewsChannel;
 import okhttp3.Response;
 import org.json.JSONObject;
