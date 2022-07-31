@@ -64,7 +64,7 @@ public class YoutubeManager {
                         }
                     }
                     channel.sendMessage("@Mention\n" +
-                            ":mega: __Oscar uploaded a new video!__ :mega:\n" +
+                            ":mega: __**Oscar uploaded a new video!**__ :mega:\n" +
                             "**"+latestVideo.getTitle()+"**\n"
                             +"https://www.youtube.com/watch?v="+latestVideo.getVideoID()).queue(
                             message -> {
