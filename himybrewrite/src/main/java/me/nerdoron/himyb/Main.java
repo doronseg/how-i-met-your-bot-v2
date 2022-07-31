@@ -31,6 +31,7 @@ public class Main {
 
     private static void setupEnviorment() throws DotEnvException {
         Dotenv dotenv = Dotenv.load();
+        Global.DOTENV = dotenv;
         logger.info("Stage 1 complete");
         logger.info("Stage 2: bot login");
         try {
