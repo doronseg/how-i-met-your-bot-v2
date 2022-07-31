@@ -25,12 +25,13 @@ public class LiveManager extends ListenerAdapter {
     public LiveManager(JDA jda) {
         this.jda = jda;
         // Let discord load b4 starting the loop
-        try {
-            Thread.sleep(30000);
-        } catch (InterruptedException e) {
-        }
-        ;
-        loop();
+        new Thread(() -> {
+            try {
+                Thread.sleep(30000);
+            } catch (InterruptedException e) {
+            }
+            loop();
+        }).start();
     }
 
     public void loop() {
