@@ -19,7 +19,7 @@ public class LiveManager extends ListenerAdapter {
     private String guildID = "850396197646106624";
     private String guildChannel = "850796695372955738";
     private final int timeBetweenMSGS_Sec = Global.hourinSeconds * 3;
-    private final int checkInterval_MS = Global.ms_1minute * 5;
+    private final int checkInterval_MS = Global.ms_1minute * 2;
     final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public LiveManager(JDA jda) {
