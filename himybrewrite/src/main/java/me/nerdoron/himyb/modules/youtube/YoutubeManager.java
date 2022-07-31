@@ -63,7 +63,9 @@ public class YoutubeManager {
                             return;
                         }
                     }
-                    channel.sendMessage("@Mention Oscar uploaded a new video!\n**"+latestVideo.getTitle()+"**\n"
+                    channel.sendMessage("@Mention\n" +
+                            ":mega: __Oscar uploaded a new video!__ :mega:\n" +
+                            "**"+latestVideo.getTitle()+"**\n"
                             +"https://www.youtube.com/watch?v="+latestVideo.getVideoID()).queue(
                             message -> {
                                 message.crosspost().queue(
