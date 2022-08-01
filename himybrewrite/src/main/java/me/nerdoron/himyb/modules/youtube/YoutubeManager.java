@@ -43,8 +43,8 @@ public class YoutubeManager {
 
     public void loop() {
         new Thread(() -> {
-            execute(ytChannelID_Oscar,"Oscar");
-            execute(ytChannelID_OscarPlus,"Oscar+");
+            execute(ytChannelID_Oscar, "Oscar Stinson");
+            execute(ytChannelID_OscarPlus, "Oscar Stinson+");
             try {
                 Thread.sleep(checkInterval_MS);
             } catch (InterruptedException e) {
@@ -66,26 +66,27 @@ public class YoutubeManager {
         NewsChannel channel = ((NewsChannel) gchannel);
 
         if (!latestVideoDB.equals(latestVideo.getVideoID())) {
-            updateDB(channelID,latestVideo.getVideoID());
-            channel.sendMessage("@Mention\n" +
-                    ":mega: __**"+channelName+" uploaded a new video!**__ :mega:\n" +
-                    "**"+latestVideo.getTitle()+"**\n"
-                    +"https://www.youtube.com/watch?v="+latestVideo.getVideoID()).queue(
-                    message -> {
-                        message.crosspost().queue(
-                                (__) -> {}, (___) -> {
-                                    ___.printStackTrace();
-                                    logger.error("Unable to publish message. Please check my permissions");
-                                }
-                        );
-                    }
-            );
+            updateDB(channelID, latestVideo.getVideoID());
+            channel.sendMessage("<@&959910598198579230>\n" +
+                    ":mega: __**" + channelName
+                    + " uploaded a new video!**__ :mega:, so you better click the link and watch it :gun:\n" +
+                    "**" + latestVideo.getTitle() + "**\n"
+                    + "https://www.youtube.com/watch?v=" + latestVideo.getVideoID()).queue(
+                            message -> {
+                                message.crosspost().queue(
+                                        (__) -> {
+                                        }, (___) -> {
+                                            ___.printStackTrace();
+                                            logger.error("Unable to publish message. Please check my permissions");
+                                        });
+                            });
         }
     }
 
     public static youtubeVideo getLatestVideoYT(String ytChannelID) {
         WebRequest webRequest = new WebRequest();
-        webRequest.newRequest("https://www.googleapis.com/youtube/v3/search?key="+ytKey+"&channelId="+ytChannelID+"&part=snippet,id&order=date&maxResults="+results);
+        webRequest.newRequest("https://www.googleapis.com/youtube/v3/search?key=" + ytKey + "&channelId=" + ytChannelID
+                + "&part=snippet,id&order=date&maxResults=" + results);
         webRequest.get();
         Response response = null;
         try {
@@ -114,8 +115,9 @@ public class YoutubeManager {
         String ytVideoDescription = videoData.getString("description");
         String ytVideoThumbnail = videoData.getJSONObject("thumbnails").getJSONObject("high").getString("url");
 
-        return new youtubeVideo(ytVideoTitle,ytVideoDescription,ytVideoID,ytVideoThumbnail);
+        return new youtubeVideo(ytVideoTitle, ytVideoDescription, ytVideoID, ytVideoThumbnail);
     }
+
     public static String getLatestVideoDB(String channelID) {
         String r = "";
         try {
@@ -141,7 +143,8 @@ public class YoutubeManager {
             ps.execute();
             ps.close();
         } catch (SQLException e) {
-            logger.error("Error while trying updating the DB with the latest video of "+channelID, e.getCause().getMessage());
+            logger.error("Error while trying updating the DB with the latest video of " + channelID,
+                    e.getCause().getMessage());
             throw new RuntimeException(e);
         }
     }
