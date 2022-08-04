@@ -24,8 +24,8 @@ public class YoutubeManager {
     private static final String ytChannelID_Oscar = "UCqj-7XzxhgL14RKORG1UIrw";
     private static final String ytChannelID_OscarPlus = "UC3dr7tOM3v0ulzz-DSfJTIg";
     private final int checkInterval_MS = Global.ms_1minute * 18;
-    private final String guildID = "991446766169903165";
-    private final String guildChannel = "1002977864502759424";
+    private final String guildID = "850396197646106624";
+    private final String guildChannel = "850436948350992424";
     private static final int results = 1;
     private final JDA jda;
 
