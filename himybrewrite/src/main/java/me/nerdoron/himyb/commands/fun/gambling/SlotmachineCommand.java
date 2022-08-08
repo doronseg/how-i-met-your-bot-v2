@@ -10,6 +10,8 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.sql.SQLException;
@@ -18,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class SlotmachineCommand extends SlashCommand {
+    final Logger logger = LoggerFactory.getLogger(Global.className(this.getClass()));
     BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
     String[] figures = new String[]{"⬜","\uD83D\uDFE7","\uD83D\uDFE6", "\uD83D\uDFE5", "\uD83D\uDFE9"};
     int initialOdds = 30; //Starting odds
@@ -91,6 +94,10 @@ public class SlotmachineCommand extends SlashCommand {
                             emb.addField("Result","**WON "+bet*2+" "+Global.broCoin.getAsMention()+"**",true);
                             emb.setColor(Color.green);
                             hook.editOriginalEmbeds(emb.build()).queue();
+                            int coinsNow = broCoinsSQL.getBrocoins(event.getMember());
+                            logger.info(event.getUser().getAsTag() + "(" + event.getUser().getId() + ")" + " won (" + bet*2
+                                    + " Coins) in Slotmachine now they have (" + coinsNow
+                                    + ") coins");
                         } else {
                             try {
                                 broCoinsSQL.updateBrocoins(event.getMember(), -bet);
@@ -105,6 +112,10 @@ public class SlotmachineCommand extends SlashCommand {
                             emb.addField("Member", event.getMember().getAsMention()+" "+bet+" "+Global.broCoin.getAsMention(),true);
                             emb.addField("Result","Lost "+bet+" "+Global.broCoin.getAsMention(),true);
                             hook.editOriginalEmbeds(emb.build()).queue();
+                            int coinsNow = broCoinsSQL.getBrocoins(event.getMember());
+                            logger.info(event.getUser().getAsTag() + "(" + event.getUser().getId() + ")" + " lost (" + bet*2
+                                    + " Coins) in Slotmachine now they have (" + coinsNow
+                                    + ") coins");
                         }
                     }).start();
                 }

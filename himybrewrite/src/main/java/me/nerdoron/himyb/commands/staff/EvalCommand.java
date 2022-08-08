@@ -29,7 +29,7 @@ public class EvalCommand extends SlashCommand {
     private final EventWaiter waiter;
     private final BotCommandsHandler manager;
     private final BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
-    final Logger logger = LoggerFactory.getLogger(this.getClass());
+    final Logger logger = LoggerFactory.getLogger(Global.className(this.getClass()));
 
     public EvalCommand(EventWaiter waiter, BotCommandsHandler manager) {
         this.waiter = waiter;

@@ -36,4 +36,21 @@ public class Global {
         int result = r.nextInt(high - low) + low;
         return result;
     }
+
+    public static String className(Class<?> clazz) {
+        if (clazz.getName().contains("commands")) {
+            String[] dots = clazz.getName().split("\\.");
+            return "Command > "+dots[dots.length-1];
+        }
+        if (clazz.getName().contains("modules")) {
+            String[] dots = clazz.getName().split("\\.");
+            return "Module > "+dots[dots.length-1];
+        }
+        if (clazz.getName().contains("himyb.Main")) {
+            String[] dots = clazz.getName().split("\\.");
+            return "HIMYB > "+dots[dots.length-1];
+        }
+
+        return clazz.getName();
+    }
 }

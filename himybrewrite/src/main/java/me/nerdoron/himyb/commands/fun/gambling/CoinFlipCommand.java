@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 public class CoinFlipCommand extends SlashCommand {
 
-    final Logger logger = LoggerFactory.getLogger(CoinFlipCommand.class);
+    final Logger logger = LoggerFactory.getLogger(Global.className(this.getClass()));
     public BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
     private String result;
 

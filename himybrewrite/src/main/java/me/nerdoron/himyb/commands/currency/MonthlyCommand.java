@@ -16,7 +16,7 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 public class MonthlyCommand extends SlashCommand {
 
     BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
-    final Logger logger = LoggerFactory.getLogger(MonthlyCommand.class);
+    final Logger logger = LoggerFactory.getLogger(Global.className(this.getClass()));
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {

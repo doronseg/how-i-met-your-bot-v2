@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.SQLException;
 
 public class WorkCommand extends SlashCommand {
-    final Logger logger = LoggerFactory.getLogger(WorkCommand.class);
+    final Logger logger = LoggerFactory.getLogger(Global.className(this.getClass()));
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {

@@ -18,7 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class YoutubeManager {
-    private static final Logger logger = LoggerFactory.getLogger(YoutubeManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(Global.className(YoutubeManager.class));
     private static final Connection con = Database.connect();
     private static final String ytKey = Global.DOTENV.get("YTAPI");
     private static final String ytChannelID_Oscar = "UCqj-7XzxhgL14RKORG1UIrw";

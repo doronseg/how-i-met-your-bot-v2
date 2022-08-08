@@ -15,10 +15,10 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class Main {
 
-    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+    private static final Logger logger = LoggerFactory.getLogger(Global.className(Main.class));
 
     public static void main(String[] args) {
-        String version = "Eval Update";
+        String version = "Logging Update (7/8/22)";
         logger.info("Hi - You're running " + version);
         logger.info("Starting stage 1 - enviorment");
         try {

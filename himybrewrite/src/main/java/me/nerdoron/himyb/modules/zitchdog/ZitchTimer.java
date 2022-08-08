@@ -18,7 +18,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class ZitchTimer {
-    final Logger logger = LoggerFactory.getLogger(ZitchTimer.class);
+    final Logger logger = LoggerFactory.getLogger(Global.className(this.getClass()));
     private final JDA jda;
     private final EventWaiter waiter;
     private final String guildID = "850396197646106624";

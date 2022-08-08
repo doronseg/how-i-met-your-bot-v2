@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 public class BankCommand extends SlashCommand {
 
-    final Logger logger = LoggerFactory.getLogger(BankCommand.class);
+    final Logger logger = LoggerFactory.getLogger(Global.className(this.getClass()));
     BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
 
     @Override
