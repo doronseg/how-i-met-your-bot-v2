@@ -9,8 +9,12 @@ import me.nerdoron.himyb.modules.brocoins.BroCoinsSQL;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CrimeCommand extends SlashCommand {
+
+    final Logger logger = LoggerFactory.getLogger(Global.className(this.getClass()));
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {

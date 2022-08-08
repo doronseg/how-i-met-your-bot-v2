@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 public class BlackjackCommand extends SlashCommand {
     private final EventWaiter waiter;
     private final BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
-    final Logger logger = LoggerFactory.getLogger(this.getClass());
+    final Logger logger = LoggerFactory.getLogger(Global.className(this.getClass()));
 
     public BlackjackCommand(EventWaiter waiter) {
         this.waiter = waiter;
