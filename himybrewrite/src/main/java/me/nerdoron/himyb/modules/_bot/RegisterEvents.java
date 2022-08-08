@@ -64,7 +64,7 @@ public class RegisterEvents {
                 new ZitchTimer(jda,waiter).execute();
                 //jda.addEventListener(new LiveManager());
                 new LiveManager(jda);
-                new YoutubeManager(jda);
+                //new YoutubeManager(jda);
                 // jda.addEventListener(new JinxHandler()); Postponed
 
         }
