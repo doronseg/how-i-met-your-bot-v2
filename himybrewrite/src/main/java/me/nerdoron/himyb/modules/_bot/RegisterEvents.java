@@ -43,7 +43,7 @@ public class RegisterEvents {
                 jda.addEventListener(new FriendsCringe());
                 jda.addEventListener(new LeaveJoin());
                 jda.addEventListener(new Sweden());
-                jda.addEventListener(new YoutubeNotifications());
+                // jda.addEventListener(new YoutubeNotifications());
                 jda.addEventListener(new CountingChannelHandler());
                 jda.addEventListener(new CountingEditing());
                 jda.addEventListener(new ChainChannelHandler());
@@ -61,10 +61,10 @@ public class RegisterEvents {
                 jda.addEventListener(new CloseTicketButton());
                 jda.addEventListener(new SubmitLinks());
                 jda.addEventListener(ticketFileMonitor);
-                new ZitchTimer(jda,waiter).execute();
-                //jda.addEventListener(new LiveManager());
+                new ZitchTimer(jda, waiter).execute();
+                // jda.addEventListener(new LiveManager());
                 new LiveManager(jda);
-                //new YoutubeManager(jda);
+                // new YoutubeManager(jda);
                 // jda.addEventListener(new JinxHandler()); Postponed
 
         }

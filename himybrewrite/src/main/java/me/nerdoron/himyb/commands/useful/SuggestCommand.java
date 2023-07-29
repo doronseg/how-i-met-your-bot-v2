@@ -66,19 +66,9 @@ public class SuggestCommand extends SlashCommand {
                         .setContent("Suggestion sent! Remember that sending troll suggestions might result in a strike")
                         .queue();
                 break;
-            case "chain":
-                TextChannel chainsuggestions = event.getGuild().getTextChannelById("884195377883013200");
-                chainsuggestions.sendMessageEmbeds(suggestionEmbed).queue((message) -> {
-                    message.addReaction(checkEmoji).queue();
-                    message.addReaction(xEmoji).queue();
-                });
-                event.deferReply().setEphemeral(true)
-                        .setContent("Suggestion sent! Remember that sending troll suggestions might result in a strike")
-                        .queue();
-                break;
             default:
                 event.deferReply().setEphemeral(true)
-                        .setContent("Unknown type. Available types: `server`, `video`, `bot` & `chain`.").queue();
+                        .setContent("Unknown type. Available types: `server`, `video`, `bot`").queue();
                 break;
         }
     }
