@@ -13,8 +13,6 @@ import me.nerdoron.himyb.modules.applications.ApplyAutoComplete;
 import me.nerdoron.himyb.modules.applications.EventManagerApplicationHandler;
 import me.nerdoron.himyb.modules.birthday.BirthdayAutoComplete;
 import me.nerdoron.himyb.modules.birthday.BirthdayFunction;
-import me.nerdoron.himyb.modules.chainchannel.ChainChannelHandler;
-import me.nerdoron.himyb.modules.chainchannel.ChainEditing;
 import me.nerdoron.himyb.modules.counting.CountingChannelHandler;
 import me.nerdoron.himyb.modules.counting.CountingEditing;
 import me.nerdoron.himyb.modules.help.HelpButtonHandler;
@@ -46,8 +44,6 @@ public class RegisterEvents {
                 // jda.addEventListener(new YoutubeNotifications());
                 jda.addEventListener(new CountingChannelHandler());
                 jda.addEventListener(new CountingEditing());
-                jda.addEventListener(new ChainChannelHandler());
-                jda.addEventListener(new ChainEditing());
                 jda.addEventListener(new SuggestCommandAutoComplete());
                 jda.addEventListener(new NotifyOfChange());
                 jda.addEventListener(new AFKMessageEvent());
