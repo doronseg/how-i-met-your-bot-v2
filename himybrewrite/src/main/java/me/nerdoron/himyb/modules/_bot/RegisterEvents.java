@@ -2,6 +2,7 @@ package me.nerdoron.himyb.modules._bot;
 
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.nerdoron.himyb.Global;
+import me.nerdoron.himyb.commands.currency.shop.ShopButtonHandler;
 import me.nerdoron.himyb.modules.FriendsCringe;
 import me.nerdoron.himyb.modules.LeaveJoin;
 import me.nerdoron.himyb.modules.NotifyOfChange;
@@ -56,6 +57,7 @@ public class RegisterEvents {
                 jda.addEventListener(new TicketCreation());
                 jda.addEventListener(new CloseTicketButton());
                 jda.addEventListener(new SubmitLinks());
+                jda.addEventListener(new ShopButtonHandler());
                 jda.addEventListener(ticketFileMonitor);
                 new ZitchTimer(jda, waiter).execute();
                 // jda.addEventListener(new LiveManager());
