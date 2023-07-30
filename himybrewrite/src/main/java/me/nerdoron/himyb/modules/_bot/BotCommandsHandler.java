@@ -12,6 +12,7 @@ import me.nerdoron.himyb.commands.fun.gambling.SlotmachineCommand;
 import me.nerdoron.himyb.commands.staff.*;
 import me.nerdoron.himyb.commands.fun.*;
 import me.nerdoron.himyb.commands.fun.gambling.CoinFlipCommand;
+import me.nerdoron.himyb.commands.fun.gambling.RussianRouletteCommand;
 import me.nerdoron.himyb.commands.useful.*;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -51,6 +52,7 @@ public class BotCommandsHandler extends ListenerAdapter {
         commands.add(new BlackjackCommand(waiter));
         commands.add(new SlotmachineCommand());
         commands.add(new ShopCommand());
+        commands.add(new RussianRouletteCommand());
         commands.add(new EvalCommand(waiter, this));
     }
 

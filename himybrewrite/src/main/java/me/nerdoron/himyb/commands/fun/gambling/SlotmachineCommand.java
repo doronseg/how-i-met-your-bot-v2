@@ -31,7 +31,7 @@ public class SlotmachineCommand extends SlashCommand {
     public void execute(SlashCommandInteractionEvent event) {
         if (Global.COOLDOWN_MANAGER.hasCooldown(CooldownManager.commandID(event))) {
             String time = Global.COOLDOWN_MANAGER.parseCooldown(CooldownManager.commandID(event));
-            event.reply("You have already betted on the slot machine. Please try again in " + time).setEphemeral(true)
+            event.reply("You have already bet on the slot machine. Please try again in " + time).setEphemeral(true)
                     .queue();
             return;
         }
