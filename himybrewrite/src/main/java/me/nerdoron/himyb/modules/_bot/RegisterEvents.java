@@ -63,7 +63,6 @@ public class RegisterEvents {
                 // jda.addEventListener(new LiveManager());
                 new LiveManager(jda);
                 // new YoutubeManager(jda);
-                // jda.addEventListener(new JinxHandler()); Postponed
 
         }
 

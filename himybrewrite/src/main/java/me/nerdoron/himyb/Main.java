@@ -18,7 +18,7 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Global.className(Main.class));
 
     public static void main(String[] args) {
-        String version = "Logging Update (7/8/22)";
+        String version = "Shop Update (1/8/23)";
         logger.info("Hi - You're running " + version);
         logger.info("Starting stage 1 - enviorment");
         try {

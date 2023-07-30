@@ -22,16 +22,17 @@ import java.util.List;
 public class SlotmachineCommand extends SlashCommand {
     final Logger logger = LoggerFactory.getLogger(Global.className(this.getClass()));
     BroCoinsSQL broCoinsSQL = new BroCoinsSQL();
-    String[] figures = new String[]{"⬜","\uD83D\uDFE7","\uD83D\uDFE6", "\uD83D\uDFE5", "\uD83D\uDFE9"};
-    int initialOdds = 30; //Starting odds
-    int everyX = 15;      //Every this amount of odds decrease them by 1
-    int minOddss = 5;     //How low can the odds be
+    String[] figures = new String[] { "⬜", "\uD83D\uDFE7", "\uD83D\uDFE6", "\uD83D\uDFE5", "\uD83D\uDFE9" };
+    int initialOdds = 30; // Starting odds
+    int everyX = 15; // Every this amount of odds decrease them by 1
+    int minOddss = 5; // How low can the odds be
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         if (Global.COOLDOWN_MANAGER.hasCooldown(CooldownManager.commandID(event))) {
             String time = Global.COOLDOWN_MANAGER.parseCooldown(CooldownManager.commandID(event));
-            event.reply("You have already betted on the slot machine. Please try again in " + time).setEphemeral(true).queue();
+            event.reply("You have already betted on the slot machine. Please try again in " + time).setEphemeral(true)
+                    .queue();
             return;
         }
 
@@ -48,40 +49,45 @@ public class SlotmachineCommand extends SlashCommand {
             return;
         }
 
-        Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 60*5);
+        Global.COOLDOWN_MANAGER.addCooldown(CooldownManager.commandID(event), 60 * 5);
 
-        int OddMath = initialOdds-(bet/everyX);
+        int OddMath = initialOdds - (bet / everyX);
 
         ArrayList<String> position1 = new ArrayList<>();
         ArrayList<String> position2 = new ArrayList<>();
         ArrayList<String> position3 = new ArrayList<>();
-        resetWheels(position1,position2,position3);
+        resetWheels(position1, position2, position3);
 
         ArrayList<String> lines = new ArrayList<>();
-        int rollAmount = Global.generateNumber(3,7);
-        int Odds = (OddMath<minOddss ? minOddss:OddMath);
+        int rollAmount = Global.generateNumber(3, 7);
+        int Odds = (OddMath < minOddss ? minOddss : OddMath);
         boolean doesWin = generateLines(Odds, rollAmount, lines, position1, position2, position3);
 
         EmbedBuilder emb = new EmbedBuilder();
         emb.setTitle("Slot machine");
         emb.setColor(Global.embedColor);
         emb.setDescription(parseList(lines));
-        emb.addField("Member", event.getMember().getAsMention()+" "+bet+" "+Global.broCoin.getAsMention(),true);
-        emb.addField("Result","`Spinning...`",true);
-        emb.setFooter("Based on bet calculated an odd of 1/"+Odds+" of winning. The more you bet the better the chances become");
+        emb.addField("Member", event.getMember().getAsMention() + " " + bet + " " + Global.broCoin.getAsMention(),
+                true);
+        emb.addField("Result", "`Spinning...`", true);
+        emb.setFooter("Based on bet calculated an odd of 1/" + Odds
+                + " of winning. The more you bet the better the chances become");
 
         event.replyEmbeds(emb.build()).queue(
                 hook -> {
                     new Thread(() -> {
-                        for (int i = 0; i < rollAmount+1; i++) {
-                            try {Thread.sleep(1000);} catch (InterruptedException e) {}
+                        for (int i = 0; i < rollAmount + 1; i++) {
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                            }
                             lines.remove(0);
                             emb.setDescription(parseList(lines));
                             hook.editOriginalEmbeds(emb.build()).queue();
                         }
                         if (doesWin) {
                             try {
-                                broCoinsSQL.updateBrocoins(event.getMember(), bet*2);
+                                broCoinsSQL.updateBrocoins(event.getMember(), bet * 2);
                             } catch (SQLException e) {
                                 emb.clear();
                                 emb.setColor(Global.embedColor);
@@ -90,12 +96,16 @@ public class SlotmachineCommand extends SlashCommand {
                                 return;
                             }
                             emb.clearFields();
-                            emb.addField("Member", event.getMember().getAsMention()+" "+bet+" "+Global.broCoin.getAsMention(),true);
-                            emb.addField("Result","**WON "+bet*2+" "+Global.broCoin.getAsMention()+"**",true);
+                            emb.addField("Member",
+                                    event.getMember().getAsMention() + " " + bet + " " + Global.broCoin.getAsMention(),
+                                    true);
+                            emb.addField("Result", "**WON " + bet * 2 + " " + Global.broCoin.getAsMention() + "**",
+                                    true);
                             emb.setColor(Color.green);
                             hook.editOriginalEmbeds(emb.build()).queue();
                             int coinsNow = broCoinsSQL.getBrocoins(event.getMember());
-                            logger.info(event.getUser().getAsTag() + "(" + event.getUser().getId() + ")" + " won (" + bet*2
+                            logger.info(event.getUser().getAsTag() + "(" + event.getUser().getId() + ")" + " won ("
+                                    + bet * 2
                                     + " Coins) in Slotmachine now they have (" + coinsNow
                                     + ") coins");
                         } else {
@@ -109,17 +119,19 @@ public class SlotmachineCommand extends SlashCommand {
                                 return;
                             }
                             emb.clearFields();
-                            emb.addField("Member", event.getMember().getAsMention()+" "+bet+" "+Global.broCoin.getAsMention(),true);
-                            emb.addField("Result","Lost "+bet+" "+Global.broCoin.getAsMention(),true);
+                            emb.addField("Member",
+                                    event.getMember().getAsMention() + " " + bet + " " + Global.broCoin.getAsMention(),
+                                    true);
+                            emb.addField("Result", "Lost " + bet + " " + Global.broCoin.getAsMention(), true);
                             hook.editOriginalEmbeds(emb.build()).queue();
                             int coinsNow = broCoinsSQL.getBrocoins(event.getMember());
-                            logger.info(event.getUser().getAsTag() + "(" + event.getUser().getId() + ")" + " lost (" + bet*2
+                            logger.info(event.getUser().getAsTag() + "(" + event.getUser().getId() + ")" + " lost ("
+                                    + bet * 2
                                     + " Coins) in Slotmachine now they have (" + coinsNow
                                     + ") coins");
                         }
                     }).start();
-                }
-        );
+                });
 
     }
 
@@ -132,22 +144,23 @@ public class SlotmachineCommand extends SlashCommand {
         return cmd;
     }
 
-    private boolean generateLines(int oddsOfWinning, int rollAmount, ArrayList<String> lines, ArrayList<String> position1, ArrayList<String> position2, ArrayList<String> position3) {
-        int rng = Global.generateNumber(1,oddsOfWinning);
+    private boolean generateLines(int oddsOfWinning, int rollAmount, ArrayList<String> lines,
+            ArrayList<String> position1, ArrayList<String> position2, ArrayList<String> position3) {
+        int rng = Global.generateNumber(1, oddsOfWinning);
         boolean shouldWin = (rng == 1);
 
         for (int i = 0; i < 3; i++) {
-            lines.add(generateLoosing(position1,position2,position3));
+            lines.add(generateLoosing(position1, position2, position3));
         }
         if (shouldWin) {
             for (int i = 0; i < rollAmount - 1; i++) {
-                lines.add(generateLoosing(position1,position2,position3));
+                lines.add(generateLoosing(position1, position2, position3));
             }
             lines.add(generateWinning(position1));
-            lines.add(generateLoosing(position1,position2,position3));
+            lines.add(generateLoosing(position1, position2, position3));
         } else {
-            for (int i = 0; i < rollAmount+1; i++) {
-                lines.add(generateLoosing(position1,position2,position3));
+            for (int i = 0; i < rollAmount + 1; i++) {
+                lines.add(generateLoosing(position1, position2, position3));
             }
         }
 
@@ -163,9 +176,7 @@ public class SlotmachineCommand extends SlashCommand {
         Collections.shuffle(p2);
         Collections.shuffle(p3);
 
-
-
-        while ( (p1.get(0).equals(p2.get(0)) && p2.get(0).equals(p3.get(0))) ||
+        while ((p1.get(0).equals(p2.get(0)) && p2.get(0).equals(p3.get(0))) ||
                 (p1.get(0).equals(p3.get(0)) && p3.get(0).equals(p2.get(0))) ||
                 (p3.get(0).equals(p2.get(0)) && p1.get(0).equals(p2.get(0)))) {
             Collections.shuffle(p1);
@@ -175,13 +186,13 @@ public class SlotmachineCommand extends SlashCommand {
             s2 = p2.get(0);
             s3 = p3.get(0);
         }
-        return s1+s2+s3;
+        return s1 + s2 + s3;
     }
 
     private String generateWinning(ArrayList<String> p1) {
         Collections.shuffle(p1);
         String selected = p1.get(0);
-        return selected+selected+selected;
+        return selected + selected + selected;
     }
 
     private void resetWheels(ArrayList<String> p1, ArrayList<String> p2, ArrayList<String> p3) {
@@ -193,7 +204,7 @@ public class SlotmachineCommand extends SlashCommand {
     private String parseList(ArrayList<String> list) {
         String r = "";
         for (int i = 0; i < 3; i++) {
-            r+=list.get(i)+(i==1 ? "⬅️":"")+"\n";
+            r += list.get(i) + (i == 1 ? "⬅️" : "") + "\n";
         }
         return r;
     }
