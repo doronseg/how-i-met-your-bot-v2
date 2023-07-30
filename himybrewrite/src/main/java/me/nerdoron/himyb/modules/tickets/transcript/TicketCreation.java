@@ -40,8 +40,7 @@ public class TicketCreation extends ListenerAdapter {
                         case "ticket_admin":
                                 channelName = "admin-";
                                 greetingEmbed = Panels.adminWelcome;
-                                channelName += member.getUser().getName().substring(0, 4) + "-"
-                                                + member.getUser().getDiscriminator();
+                                channelName += member.getUser().getName();
                                 TextChannel ticketChannel = event.getGuild().getCategoryById(AdminStaffID)
                                                 .createTextChannel(channelName)
                                                 .addPermissionOverride(event.getGuild().getPublicRole(),
@@ -63,8 +62,7 @@ public class TicketCreation extends ListenerAdapter {
                                 channelName = "ticket-";
                                 greetingEmbed = Panels.generalWelcome;
 
-                                channelName += member.getUser().getName().substring(0, 4) + "-"
-                                                + member.getUser().getDiscriminator();
+                                channelName += member.getUser().getName();
                                 TextChannel staffTicketChannel = event.getGuild().getCategoryById(AdminStaffID)
                                                 .createTextChannel(channelName)
                                                 .addPermissionOverride(event.getGuild().getPublicRole(),

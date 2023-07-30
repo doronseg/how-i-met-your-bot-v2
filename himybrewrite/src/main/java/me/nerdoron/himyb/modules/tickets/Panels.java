@@ -12,23 +12,22 @@ public class Panels {
                                         + "will be longer, so please use the other ticket system if it's not important*\n\n"
                                         +
                                         "Select staff to contact the staff team of the server")
-                        .setFooter("how i met your bot | Developed by nerdoron",
-                                        "https://media.discordapp.net/attachments/850432082738937896/901742492347691028/discord_bot_pfp.jpg")
+                        .setFooter(Global.footertext, Global.footerpfp)
+
                         .setColor(Global.embedColor)
                         .build();
 
         public static MessageEmbed adminWelcome = new EmbedBuilder().setTitle("📇 Admin Ticket ").setDescription(
                         "Hello, the administration team will be with you as soon as they can. In the meantime. please let us know what you need.\nTo close this ticket, use the button")
                         .setColor(Global.embedColor)
-                        .setFooter("how i met your bot | Developed by nerdoron",
-                                        "https://media.discordapp.net/attachments/850432082738937896/901742492347691028/discord_bot_pfp.jpg")
+                        .setFooter(Global.footertext, Global.footerpfp)
+
                         .build();
 
         public static MessageEmbed generalWelcome = new EmbedBuilder().setTitle("📇 Staff Ticket ").setDescription(
                         "Hello, the staff team will be with you as soon as they can. In the meantime. please let us know what you need.\nTo close this ticket, use the button")
                         .setColor(Global.embedColor)
-                        .setFooter("how i met your bot | Developed by nerdoron",
-                                        "https://media.discordapp.net/attachments/850432082738937896/901742492347691028/discord_bot_pfp.jpg")
+                        .setFooter(Global.footertext, Global.footerpfp)
                         .build();
 
 }
